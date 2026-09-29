@@ -2,6 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import bcrypt from "bcryptjs";
 import { prisma } from "../src/lib/db";
+import { addDays, todayDateOnly } from "../src/lib/date-utils";
 import {
   CHARDHAM_PACKAGE_ID,
   FARM_PROPERTY_ID,
@@ -160,13 +161,8 @@ async function seedFarmHomeStay() {
     },
   });
 
-  const today = new Date();
-  const days = Array.from({ length: 30 }, (_, i) => {
-    const d = new Date(today);
-    d.setDate(d.getDate() + i);
-    d.setHours(0, 0, 0, 0);
-    return d;
-  });
+  const today = todayDateOnly();
+  const days = Array.from({ length: 30 }, (_, i) => addDays(today, i));
 
   for (const room of [deluxe, cottage]) {
     for (const date of days) {
