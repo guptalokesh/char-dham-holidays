@@ -2,6 +2,7 @@ import { afterAll, beforeEach, describe, expect, it } from "vitest";
 import { prisma } from "@/lib/db";
 import {
   createTrek,
+  getTrekById,
   getTrekBySlug,
   listTreks,
   setTrekItinerary,
@@ -81,6 +82,17 @@ describe("trek module", () => {
 
     it("returns null for an unknown slug", async () => {
       expect(await getTrekBySlug("does-not-exist")).toBeNull();
+    });
+  });
+
+  describe("getTrekById", () => {
+    it("returns the trek by id", async () => {
+      const trek = await createTrek({ name: "Devrana Trek", description: "d" });
+      expect((await getTrekById(trek.id))?.name).toBe("Devrana Trek");
+    });
+
+    it("returns null for an unknown id", async () => {
+      expect(await getTrekById("does-not-exist")).toBeNull();
     });
   });
 

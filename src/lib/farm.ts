@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/db";
 import { FARM_PROPERTY_ID } from "@/lib/constants";
-import { getNightsBetween, parseDateOnly } from "@/lib/date-utils";
+import { addDays, formatDateOnly, getNightsBetween, parseDateOnly, todayDateOnly } from "@/lib/date-utils";
 import { getWebsiteSettings } from "@/lib/settings";
 import { buildFarmHomeStayWhatsAppMessage, buildWhatsAppUrl } from "@/lib/whatsapp";
 import {
@@ -84,6 +84,36 @@ export async function setRoomAvailability(input: RoomAvailabilityBulkInput) {
     where: { roomId: data.roomId, date: { in: data.dates.map(parseDateOnly) } },
     orderBy: { date: "asc" },
   });
+}
+
+export interface RoomAvailabilityGridRow {
+  id: string;
+  name: string;
+  active: boolean;
+  days: { date: string; status: "AVAILABLE" | "BOOKED" | "UNAVAILABLE" }[];
+}
+
+export async function getRoomAvailabilityGrid(days = 14): Promise<RoomAvailabilityGridRow[]> {
+  const rooms = await prisma.room.findMany({ orderBy: { price: "asc" } });
+  const today = todayDateOnly();
+  const dates = Array.from({ length: days }, (_, i) => addDays(today, i));
+
+  const records = await prisma.roomAvailability.findMany({
+    where: { roomId: { in: rooms.map((r) => r.id) }, date: { in: dates } },
+  });
+  const byRoomAndDate = new Map(
+    records.map((r) => [`${r.roomId}:${formatDateOnly(r.date)}`, r.status])
+  );
+
+  return rooms.map((room) => ({
+    id: room.id,
+    name: room.name,
+    active: room.active,
+    days: dates.map((date) => {
+      const key = `${room.id}:${formatDateOnly(date)}`;
+      return { date: formatDateOnly(date), status: byRoomAndDate.get(key) ?? "AVAILABLE" };
+    }),
+  }));
 }
 
 export async function searchAvailableRooms(input: FarmSearchInput) {

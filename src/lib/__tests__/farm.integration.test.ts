@@ -3,12 +3,14 @@ import { prisma } from "@/lib/db";
 import {
   createRoom,
   getFarmProperty,
+  getRoomAvailabilityGrid,
   searchAvailableRooms,
   setRoomAvailability,
   submitFarmBookingRequest,
   updateFarmProperty,
   updateRoom,
 } from "@/lib/farm";
+import { formatDateOnly, todayDateOnly } from "@/lib/date-utils";
 import { updateWebsiteSettings } from "@/lib/settings";
 import { FARM_PROPERTY_ID } from "@/lib/constants";
 
@@ -176,6 +178,22 @@ describe("farm home stay module", () => {
       await expect(
         searchAvailableRooms({ checkIn: futureDate(-1), checkOut: futureDate(2), guests: 1 })
       ).rejects.toThrow();
+    });
+  });
+
+  describe("getRoomAvailabilityGrid", () => {
+    it("defaults every day to AVAILABLE and reflects an explicit BOOKED override", async () => {
+      const room = await makeRoom();
+      await setRoomAvailability({ roomId: room.id, dates: [futureDate(2)], status: "BOOKED" });
+
+      const grid = await getRoomAvailabilityGrid(5);
+      const row = grid.find((r) => r.id === room.id)!;
+
+      expect(row.days[0].date).toBe(formatDateOnly(todayDateOnly()));
+      const bookedDay = row.days.find((d) => d.date === futureDate(2));
+      expect(bookedDay?.status).toBe("BOOKED");
+      const otherDay = row.days.find((d) => d.date === futureDate(1));
+      expect(otherDay?.status).toBe("AVAILABLE");
     });
   });
 

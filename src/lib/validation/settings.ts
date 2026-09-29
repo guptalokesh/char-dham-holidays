@@ -52,6 +52,9 @@ export const websiteSettingsUpdateSchema = z.object({
   secondaryColor: hexColorField(),
   trekkingAccentColor: hexColorField(),
 
+  logoMediaId: z.string().nullable().optional(),
+  faviconMediaId: z.string().nullable().optional(),
+
   heroHeading: plainText(200),
   heroDescription: plainText(500),
   chardhamCtaLabel: plainText(60),

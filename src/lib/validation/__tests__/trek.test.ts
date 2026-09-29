@@ -52,7 +52,7 @@ describe("trekRequestSchema", () => {
   };
 
   it("accepts a valid request without requirements", () => {
-    const { requirements, ...rest } = valid;
+    const { requirements: _requirements, ...rest } = valid;
     expect(trekRequestSchema.safeParse(rest).success).toBe(true);
   });
 

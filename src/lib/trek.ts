@@ -64,6 +64,13 @@ export async function getTrekBySlug(slug: string) {
   });
 }
 
+export async function getTrekById(id: string) {
+  return prisma.trek.findUnique({
+    where: { id },
+    include: { images: true, itineraryMedia: true },
+  });
+}
+
 export async function setTrekItinerary(trekId: string, mediaId: string | null) {
   if (mediaId !== null) {
     const media = await prisma.media.findUnique({ where: { id: mediaId } });
