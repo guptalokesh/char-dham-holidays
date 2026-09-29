@@ -20,26 +20,32 @@ const PRIMARY_CTA_LABEL = "Check Availability";
 
 export function Header({ settings }: { settings: HeaderSettings }) {
   return (
-    <header className="border-b border-zinc-200 bg-white">
-      <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-6 py-4">
-        <Link href="/" className="flex items-center gap-2">
+    <header className="sticky top-0 z-40 border-b border-stone-200/80 bg-[#fdfbf7]/90 backdrop-blur-md">
+      <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-6 py-3.5">
+        <Link href="/" className="flex items-center gap-2.5">
           {settings.logoMedia ? (
             <Image
               src={settings.logoMedia.url}
               alt={settings.businessName}
               width={140}
               height={48}
-              className="h-10 w-auto object-contain"
+              className="h-11 w-auto object-contain"
               priority
             />
           ) : (
-            <span className="font-semibold">{settings.businessName}</span>
+            <span className="text-lg font-semibold tracking-tight text-stone-900">
+              {settings.businessName}
+            </span>
           )}
         </Link>
 
-        <nav className="hidden gap-6 text-sm font-medium sm:flex">
+        <nav className="hidden gap-8 text-[15px] font-medium text-stone-600 sm:flex">
           {NAV_LINKS.map((link) => (
-            <Link key={link.href} href={link.href} className="text-zinc-700 hover:text-zinc-950">
+            <Link
+              key={link.href}
+              href={link.href}
+              className="relative py-1 transition-colors after:absolute after:inset-x-0 after:-bottom-px after:h-0.5 after:origin-left after:scale-x-0 after:bg-amber-600 after:transition-transform hover:text-stone-950 hover:after:scale-x-100"
+            >
               {link.label}
             </Link>
           ))}
@@ -48,7 +54,7 @@ export function Header({ settings }: { settings: HeaderSettings }) {
         <div className="hidden sm:block">
           <Link
             href="/contact"
-            className="rounded bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-800"
+            className="rounded-full bg-stone-900 px-5 py-2.5 text-sm font-medium text-white shadow-sm transition-all hover:bg-stone-800 hover:shadow-md"
           >
             {PRIMARY_CTA_LABEL}
           </Link>

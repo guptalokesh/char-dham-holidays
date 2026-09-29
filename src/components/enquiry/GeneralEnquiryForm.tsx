@@ -85,7 +85,7 @@ export function GeneralEnquiryForm({
           required
           value={name}
           onChange={(e) => setName(e.target.value)}
-          className="w-full rounded border border-zinc-300 px-3 py-2"
+          className="form-input"
         />
       </div>
 
@@ -99,7 +99,7 @@ export function GeneralEnquiryForm({
           required
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
-          className="w-full rounded border border-zinc-300 px-3 py-2"
+          className="form-input"
         />
       </div>
 
@@ -113,7 +113,7 @@ export function GeneralEnquiryForm({
           required
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="w-full rounded border border-zinc-300 px-3 py-2"
+          className="form-input"
         />
       </div>
 
@@ -125,7 +125,7 @@ export function GeneralEnquiryForm({
           id="enquiry-service"
           value={serviceIndex}
           onChange={(e) => setServiceIndex(e.target.value)}
-          className="w-full rounded border border-zinc-300 px-3 py-2"
+          className="form-input"
         >
           {serviceOptions.map((option, index) => (
             <option key={`${option.service}-${option.trekId ?? index}`} value={index}>
@@ -145,7 +145,7 @@ export function GeneralEnquiryForm({
           rows={4}
           value={message}
           onChange={(e) => setMessage(e.target.value)}
-          className="w-full rounded border border-zinc-300 px-3 py-2"
+          className="form-input"
         />
       </div>
 
@@ -165,7 +165,7 @@ export function GeneralEnquiryForm({
       <button
         type="submit"
         disabled={submitting}
-        className="w-full rounded bg-zinc-900 px-4 py-2 text-white disabled:opacity-50"
+        className="btn bg-stone-900 hover:bg-stone-800"
       >
         {submitting ? "Sending..." : "Send Enquiry"}
       </button>

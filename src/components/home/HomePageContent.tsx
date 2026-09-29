@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { formatInr } from "@/lib/format";
 import { WhatsAppCta } from "@/components/layout/WhatsAppCta";
@@ -11,6 +12,63 @@ export interface HomePageContentProps {
   whatsappNumber: string | null;
   whatsappCtaText: string;
   contactCtaText: string;
+  chardhamImageUrl?: string | null;
+  trekImageUrl?: string | null;
+  farmImageUrl?: string | null;
+}
+
+function OfferingCard({
+  href,
+  imageUrl,
+  imageAlt,
+  eyebrow,
+  eyebrowClassName,
+  title,
+  titleClassName,
+  description,
+  priceLabel,
+  priceClassName,
+}: {
+  href: string;
+  imageUrl?: string | null;
+  imageAlt: string;
+  eyebrow: string;
+  eyebrowClassName: string;
+  title: string;
+  titleClassName: string;
+  description: string;
+  priceLabel: string;
+  priceClassName: string;
+}) {
+  return (
+    <Link
+      href={href}
+      className="group overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+    >
+      <div className="relative aspect-[4/3] overflow-hidden bg-stone-100">
+        {imageUrl && (
+          <Image
+            src={imageUrl}
+            alt={imageAlt}
+            fill
+            sizes="(max-width: 640px) 100vw, 33vw"
+            className="object-cover transition-transform duration-500 group-hover:scale-105"
+          />
+        )}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/0 to-black/0" />
+        <span
+          className={`absolute left-4 top-4 rounded-full px-3 py-1 text-xs font-semibold tracking-wide uppercase ${eyebrowClassName}`}
+        >
+          {eyebrow}
+        </span>
+      </div>
+      <div className="p-6">
+        <h3 className={`text-xl font-semibold ${titleClassName}`}>{title}</h3>
+        <p className="mt-2 text-sm text-stone-600">{description}</p>
+        <p className={`mt-4 font-medium ${priceClassName}`}>{priceLabel}</p>
+      </div>
+    </Link>
+  );
 }
 
 export function HomePageContent({
@@ -22,78 +80,117 @@ export function HomePageContent({
   whatsappNumber,
   whatsappCtaText,
   contactCtaText,
+  chardhamImageUrl,
+  trekImageUrl,
+  farmImageUrl,
 }: HomePageContentProps) {
   return (
     <main>
-      <section className="mx-auto max-w-4xl px-6 py-16 text-center">
-        <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">
-          {heroHeading}
-        </h1>
-        <p className="mt-4 text-lg text-zinc-600">{heroDescription}</p>
-        <div className="mt-8 flex flex-wrap justify-center gap-4">
-          <Link
-            href="/chardham"
-            className="rounded bg-amber-700 px-6 py-3 font-medium text-white hover:bg-amber-800"
-          >
-            {chardhamCtaLabel}
-          </Link>
-          <Link
-            href="/trekking"
-            className="rounded bg-emerald-800 px-6 py-3 font-medium text-white hover:bg-emerald-900"
-          >
-            {trekkingCtaLabel}
-          </Link>
+      <section className="relative flex min-h-[85vh] items-center justify-center overflow-hidden bg-stone-900">
+        <Image
+          src="/hero-himalaya.jpg"
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover opacity-70"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/70" />
+        <div className="relative mx-auto max-w-4xl px-6 py-24 text-center">
+          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-amber-300">
+            Uttarakhand · Himalayas
+          </p>
+          <h1 className="mt-4 text-5xl font-semibold tracking-tight text-white drop-shadow-sm sm:text-6xl">
+            {heroHeading}
+          </h1>
+          <p className="mx-auto mt-5 max-w-2xl text-lg text-stone-200">
+            {heroDescription}
+          </p>
+          <div className="mt-10 flex flex-wrap justify-center gap-4">
+            <Link
+              href="/chardham"
+              className="rounded-full bg-amber-500 px-7 py-3.5 font-semibold text-stone-900 shadow-lg shadow-amber-900/30 transition-all hover:-translate-y-0.5 hover:bg-amber-400 hover:shadow-xl"
+            >
+              {chardhamCtaLabel}
+            </Link>
+            <Link
+              href="/trekking"
+              className="rounded-full border-2 border-white/70 px-7 py-3.5 font-semibold text-white backdrop-blur-sm transition-all hover:-translate-y-0.5 hover:bg-white hover:text-stone-900"
+            >
+              {trekkingCtaLabel}
+            </Link>
+          </div>
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-6 py-12">
-        <h2 className="text-center text-2xl font-semibold">
-          Three Ways to Experience Uttarakhand
-        </h2>
-        <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-3">
-          <Link
+      <section className="mx-auto max-w-6xl px-6 py-20">
+        <div className="text-center">
+          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-amber-700">
+            Three journeys, one destination
+          </p>
+          <h2 className="mt-3 text-3xl font-semibold tracking-tight text-stone-900 sm:text-4xl">
+            Three Ways to Experience Uttarakhand
+          </h2>
+        </div>
+
+        <div className="mt-12 grid grid-cols-1 gap-8 sm:grid-cols-3">
+          <OfferingCard
             href="/chardham"
-            className="rounded-lg border border-zinc-200 p-6 hover:shadow-md"
-          >
-            <h3 className="text-lg font-semibold">Chardham Yatra by Helicopter</h3>
-            <p className="mt-2 text-sm text-zinc-600">Stay, food and travel included.</p>
-            <p className="mt-3 font-medium text-amber-800">
-              {formatInr(chardhamPrice)} <span className="text-sm text-zinc-500">/ person</span>
-            </p>
-          </Link>
-          <Link
+            imageUrl={chardhamImageUrl}
+            imageAlt="Chardham Yatra by Helicopter"
+            eyebrow="Spiritual"
+            eyebrowClassName="bg-amber-500 text-stone-900"
+            title="Chardham Yatra by Helicopter"
+            titleClassName="text-stone-900"
+            description="Stay, food and travel included."
+            priceLabel={`${formatInr(chardhamPrice)} / person`}
+            priceClassName="text-amber-700"
+          />
+          <OfferingCard
             href="/trekking"
-            className="rounded-lg border border-emerald-100 p-6 hover:shadow-md"
-          >
-            <h3 className="text-lg font-semibold text-emerald-900">Trekking</h3>
-            <p className="mt-2 text-sm text-zinc-600">
-              Customised treks built around your group.
-            </p>
-            <p className="mt-3 font-medium text-emerald-800">Customised service</p>
-          </Link>
-          <Link
+            imageUrl={trekImageUrl}
+            imageAlt="Trekking in Uttarakhand"
+            eyebrow="Adventure"
+            eyebrowClassName="bg-emerald-600 text-white"
+            title="Trekking"
+            titleClassName="text-emerald-900"
+            description="Customised treks built around your group."
+            priceLabel="Customised service"
+            priceClassName="text-emerald-800"
+          />
+          <OfferingCard
             href="/farm-home-stay"
-            className="rounded-lg border border-green-100 p-6 hover:shadow-md"
-          >
-            <h3 className="text-lg font-semibold text-green-900">Farm Home Stay</h3>
-            <p className="mt-2 text-sm text-zinc-600">
-              Nature-focused accommodation in Uttarakhand.
-            </p>
-          </Link>
+            imageUrl={farmImageUrl}
+            imageAlt="Farm Home Stay"
+            eyebrow="Peaceful"
+            eyebrowClassName="bg-green-700 text-white"
+            title="Farm Home Stay"
+            titleClassName="text-green-900"
+            description="Nature-focused accommodation in Uttarakhand."
+            priceLabel="Check availability"
+            priceClassName="text-green-800"
+          />
         </div>
       </section>
 
-      <section className="mx-auto max-w-4xl px-6 py-12 text-center">
-        <h2 className="text-2xl font-semibold">Ready to plan your Uttarakhand journey?</h2>
-        <div className="mt-6 flex flex-wrap justify-center gap-4">
+      <section className="bg-gradient-to-br from-stone-900 to-stone-800 px-6 py-20 text-center text-white">
+        <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
+          Ready to plan your Uttarakhand journey?
+        </h2>
+        <p className="mx-auto mt-3 max-w-xl text-stone-300">
+          Reach out and our team will help you plan the trip, confirm
+          availability and share every detail directly.
+        </p>
+        <div className="mt-8 flex flex-wrap justify-center gap-4">
           <WhatsAppCta
             phone={whatsappNumber}
             message="Hello, I would like to plan my Uttarakhand journey."
             label={whatsappCtaText}
+            className="inline-block rounded-full bg-green-600 px-7 py-3.5 font-semibold text-white shadow-lg shadow-green-900/40 transition-all hover:-translate-y-0.5 hover:bg-green-500"
           />
           <Link
             href="/contact"
-            className="inline-block rounded border border-zinc-300 px-4 py-2 hover:bg-zinc-50"
+            className="inline-block rounded-full border-2 border-white/70 px-7 py-3.5 font-semibold text-white transition-all hover:-translate-y-0.5 hover:bg-white hover:text-stone-900"
           >
             {contactCtaText}
           </Link>

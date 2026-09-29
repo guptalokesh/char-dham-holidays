@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { parseDateOnly, todayDateOnly } from "@/lib/date-utils";
 
 export const PHONE_REGEX = /^\+?[0-9 ()-]{7,20}$/;
 
@@ -13,10 +14,7 @@ export const phoneSchema = z
   .regex(PHONE_REGEX, "Enter a valid phone number");
 
 function isPastDate(value: string): boolean {
-  const date = new Date(value);
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  return date.getTime() < today.getTime();
+  return parseDateOnly(value).getTime() < todayDateOnly().getTime();
 }
 
 export const futureDateSchema = z

@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { emptyToNull, nameSchema, phoneSchema } from "@/lib/validation/shared";
+import { parseDateOnly, todayDateOnly } from "@/lib/date-utils";
 
 const optionalText = (maxLength: number) =>
   z.preprocess(emptyToNull, z.string().trim().max(maxLength).nullable().optional());
@@ -34,10 +35,7 @@ export const roomUpdateSchema = z.object({
 export type RoomUpdateInput = z.infer<typeof roomUpdateSchema>;
 
 function isPastCalendarDate(value: string): boolean {
-  const date = new Date(value);
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  return date.getTime() < today.getTime();
+  return parseDateOnly(value).getTime() < todayDateOnly().getTime();
 }
 
 const dateStringSchema = z

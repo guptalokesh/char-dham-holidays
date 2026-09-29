@@ -84,7 +84,7 @@ export function ChardhamAvailabilityForm() {
           required
           value={name}
           onChange={(e) => setName(e.target.value)}
-          className="w-full rounded border border-zinc-300 px-3 py-2"
+          className="form-input"
         />
       </div>
 
@@ -99,7 +99,7 @@ export function ChardhamAvailabilityForm() {
           required
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
-          className="w-full rounded border border-zinc-300 px-3 py-2"
+          className="form-input"
         />
       </div>
 
@@ -115,7 +115,7 @@ export function ChardhamAvailabilityForm() {
           min={todayIsoDate()}
           value={preferredDate}
           onChange={(e) => setPreferredDate(e.target.value)}
-          className="w-full rounded border border-zinc-300 px-3 py-2"
+          className="form-input"
         />
       </div>
 
@@ -132,7 +132,7 @@ export function ChardhamAvailabilityForm() {
           required
           value={travellers}
           onChange={(e) => setTravellers(e.target.value)}
-          className="w-full rounded border border-zinc-300 px-3 py-2"
+          className="form-input"
         />
       </div>
 
@@ -152,7 +152,7 @@ export function ChardhamAvailabilityForm() {
       <button
         type="submit"
         disabled={submitting}
-        className="w-full rounded bg-zinc-900 px-4 py-2 text-white disabled:opacity-50"
+        className="btn bg-stone-900 hover:bg-stone-800"
       >
         {submitting ? "Sending..." : "Check Availability"}
       </button>

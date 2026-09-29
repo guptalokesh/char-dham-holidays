@@ -14,10 +14,10 @@ export default async function TermsPage() {
   const contactEmail = settings.enquiryEmail ?? settings.primaryEmail;
 
   return (
-    <main className="mx-auto max-w-3xl px-6 py-12">
-      <h1 className="text-3xl font-semibold tracking-tight">Terms</h1>
+    <main className="mx-auto max-w-3xl px-6 py-16">
+      <h1 className="text-3xl font-semibold tracking-tight text-stone-900 sm:text-4xl">Terms</h1>
 
-      <section className="mt-8 space-y-4 text-zinc-700">
+      <section className="mt-8 space-y-4 text-stone-700">
         <h2 className="text-lg font-semibold">How booking works</h2>
         <p>
           This website lets you discover our Chardham Yatra by Helicopter,

@@ -14,14 +14,14 @@ export default async function PrivacyPolicyPage() {
   const contactEmail = settings.enquiryEmail ?? settings.primaryEmail;
 
   return (
-    <main className="mx-auto max-w-3xl px-6 py-12">
-      <h1 className="text-3xl font-semibold tracking-tight">Privacy Policy</h1>
-      <p className="mt-2 text-sm text-zinc-500">
+    <main className="mx-auto max-w-3xl px-6 py-16">
+      <h1 className="text-3xl font-semibold tracking-tight text-stone-900 sm:text-4xl">Privacy Policy</h1>
+      <p className="mt-2 text-sm text-stone-500">
         This policy explains how {settings.businessName} handles information
         submitted through this website.
       </p>
 
-      <section className="mt-8 space-y-4 text-zinc-700">
+      <section className="mt-8 space-y-4 text-stone-700">
         <h2 className="text-lg font-semibold">Information we collect</h2>
         <p>
           When you submit an enquiry, availability check or booking request

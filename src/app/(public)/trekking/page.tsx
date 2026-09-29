@@ -17,18 +17,22 @@ export default async function TrekkingPage() {
   const treks = await listTreks();
 
   return (
-    <main className="mx-auto max-w-5xl px-6 py-12">
-      <h1 className="text-3xl font-semibold tracking-tight text-emerald-900">
-        Trekking, built around your group.
-      </h1>
-      <p className="mt-2 max-w-2xl text-zinc-600">
-        Every trek is a customised service — share your group size and preferred
-        dates and we&apos;ll confirm availability, pricing and itinerary directly
-        with you.
-      </p>
+    <main className="bg-gradient-to-b from-emerald-50/60 to-transparent">
+      <div className="mx-auto max-w-5xl px-6 py-16">
+        <p className="text-sm font-semibold uppercase tracking-[0.2em] text-emerald-700">
+          Adventure
+        </p>
+        <h1 className="mt-3 text-3xl font-semibold tracking-tight text-emerald-950 sm:text-4xl">
+          Trekking, built around your group.
+        </h1>
+        <p className="mt-3 max-w-2xl text-stone-600">
+          Every trek is a customised service — share your group size and preferred
+          dates and we&apos;ll confirm availability, pricing and itinerary directly
+          with you.
+        </p>
 
       {treks.length === 0 ? (
-        <p className="mt-8 text-zinc-500">No treks are available right now.</p>
+        <p className="mt-8 text-stone-500">No treks are available right now.</p>
       ) : (
         <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {treks.map((trek, index) => (
@@ -36,6 +40,7 @@ export default async function TrekkingPage() {
           ))}
         </div>
       )}
+      </div>
     </main>
   );
 }

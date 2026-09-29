@@ -130,7 +130,7 @@ export function FarmAvailabilitySearch() {
             min={todayIsoDate()}
             value={checkIn}
             onChange={(e) => setCheckIn(e.target.value)}
-            className="w-full rounded border border-zinc-300 px-3 py-2"
+            className="form-input"
           />
         </div>
         <div className="space-y-1">
@@ -144,7 +144,7 @@ export function FarmAvailabilitySearch() {
             min={todayIsoDate()}
             value={checkOut}
             onChange={(e) => setCheckOut(e.target.value)}
-            className="w-full rounded border border-zinc-300 px-3 py-2"
+            className="form-input"
           />
         </div>
         <div className="space-y-1">
@@ -159,14 +159,14 @@ export function FarmAvailabilitySearch() {
             required
             value={guests}
             onChange={(e) => setGuests(e.target.value)}
-            className="w-full rounded border border-zinc-300 px-3 py-2"
+            className="form-input"
           />
         </div>
         <div className="flex items-end">
           <button
             type="submit"
             disabled={searching}
-            className="w-full rounded bg-green-800 px-4 py-2 text-white disabled:opacity-50"
+            className="btn bg-green-700 hover:bg-green-800"
           >
             {searching ? "Searching..." : "Search"}
           </button>
@@ -221,7 +221,7 @@ export function FarmAvailabilitySearch() {
                         required
                         value={name}
                         onChange={(e) => setName(e.target.value)}
-                        className="w-full rounded border border-zinc-300 px-3 py-2"
+                        className="form-input"
                       />
                     </div>
                     <div className="space-y-1">
@@ -234,7 +234,7 @@ export function FarmAvailabilitySearch() {
                         required
                         value={phone}
                         onChange={(e) => setPhone(e.target.value)}
-                        className="w-full rounded border border-zinc-300 px-3 py-2"
+                        className="form-input"
                       />
                     </div>
                     {bookingError && (
@@ -245,7 +245,7 @@ export function FarmAvailabilitySearch() {
                     <button
                       type="submit"
                       disabled={submitting}
-                      className="w-full rounded bg-green-800 px-4 py-2 text-white disabled:opacity-50"
+                      className="btn bg-green-700 hover:bg-green-800"
                     >
                       {submitting ? "Sending..." : "Request Booking"}
                     </button>
@@ -258,7 +258,7 @@ export function FarmAvailabilitySearch() {
                     setBookingRoomId(room.id);
                     setBookingError(null);
                   }}
-                  className="mt-3 w-full rounded border border-green-800 px-4 py-2 text-green-800"
+                  className="mt-3 w-full rounded-full border-2 border-green-700 px-5 py-2.5 font-semibold text-green-700 transition-colors hover:bg-green-700 hover:text-white"
                 >
                   Book Now
                 </button>

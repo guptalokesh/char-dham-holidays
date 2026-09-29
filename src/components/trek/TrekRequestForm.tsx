@@ -85,7 +85,7 @@ export function TrekRequestForm({ trekSlug }: { trekSlug: string }) {
           required
           value={name}
           onChange={(e) => setName(e.target.value)}
-          className="w-full rounded border border-zinc-300 px-3 py-2"
+          className="form-input"
         />
       </div>
 
@@ -99,7 +99,7 @@ export function TrekRequestForm({ trekSlug }: { trekSlug: string }) {
           required
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
-          className="w-full rounded border border-zinc-300 px-3 py-2"
+          className="form-input"
         />
       </div>
 
@@ -115,7 +115,7 @@ export function TrekRequestForm({ trekSlug }: { trekSlug: string }) {
           required
           value={people}
           onChange={(e) => setPeople(e.target.value)}
-          className="w-full rounded border border-zinc-300 px-3 py-2"
+          className="form-input"
         />
       </div>
 
@@ -130,7 +130,7 @@ export function TrekRequestForm({ trekSlug }: { trekSlug: string }) {
           min={todayIsoDate()}
           value={preferredDate}
           onChange={(e) => setPreferredDate(e.target.value)}
-          className="w-full rounded border border-zinc-300 px-3 py-2"
+          className="form-input"
         />
       </div>
 
@@ -143,7 +143,7 @@ export function TrekRequestForm({ trekSlug }: { trekSlug: string }) {
           value={requirements}
           onChange={(e) => setRequirements(e.target.value)}
           rows={3}
-          className="w-full rounded border border-zinc-300 px-3 py-2"
+          className="form-input"
         />
       </div>
 
@@ -163,7 +163,7 @@ export function TrekRequestForm({ trekSlug }: { trekSlug: string }) {
       <button
         type="submit"
         disabled={submitting}
-        className="w-full rounded bg-emerald-800 px-4 py-2 text-white disabled:opacity-50"
+        className="btn bg-emerald-700 hover:bg-emerald-800"
       >
         {submitting ? "Sending..." : "Request Availability"}
       </button>
