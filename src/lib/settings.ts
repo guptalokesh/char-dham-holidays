@@ -10,6 +10,7 @@ export async function getWebsiteSettings() {
     where: { id: WEBSITE_SETTINGS_ID },
     update: {},
     create: { id: WEBSITE_SETTINGS_ID },
+    include: { logoMedia: true, faviconMedia: true },
   });
 }
 

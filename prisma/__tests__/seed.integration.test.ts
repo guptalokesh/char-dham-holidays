@@ -30,7 +30,20 @@ describe("seed script", () => {
     expect(await prisma.farmProperty.count()).toBe(1);
     expect(await prisma.room.count()).toBe(2);
     expect(await prisma.roomAvailability.count()).toBe(60);
-    expect(await prisma.media.count()).toBe(4);
+    expect(await prisma.media.count()).toBe(5);
+  });
+
+  it("links the seeded logo as the website's logo media", async () => {
+    await runSeed();
+
+    const settings = await prisma.websiteSettings.findUniqueOrThrow({
+      where: { id: (await prisma.websiteSettings.findFirstOrThrow()).id },
+    });
+    expect(settings.logoMediaId).not.toBeNull();
+    const logoMedia = await prisma.media.findUnique({
+      where: { id: settings.logoMediaId! },
+    });
+    expect(logoMedia?.url).toBe("/seed-images/logo.jpg");
   });
 
   it("seeds the two named treks as active by default", async () => {

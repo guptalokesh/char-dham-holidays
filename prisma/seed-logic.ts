@@ -69,6 +69,17 @@ async function seedWebsiteSettings() {
     update: {},
     create: { id: WEBSITE_SETTINGS_ID },
   });
+
+  const logo = await upsertMedia(
+    "media-logo",
+    "logo/IMG-20260927-WA0005.jpg",
+    "logo.jpg",
+    {}
+  );
+  await prisma.websiteSettings.update({
+    where: { id: WEBSITE_SETTINGS_ID },
+    data: { logoMediaId: logo.id },
+  });
 }
 
 async function seedChardham() {
