@@ -41,6 +41,7 @@ export function EnquiryStatusSelect({
   return (
     <div>
       <select
+        aria-label="Enquiry status"
         value={current}
         onChange={handleChange}
         className="rounded border border-zinc-300 px-2 py-1 text-sm"

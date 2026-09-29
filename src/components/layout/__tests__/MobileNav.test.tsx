@@ -34,4 +34,14 @@ describe("MobileNav", () => {
     expect(toggle).toHaveAttribute("aria-expanded", "false");
     expect(screen.queryByRole("link", { name: "Chardham" })).not.toBeInTheDocument();
   });
+
+  it("shows the primary CTA in the expanded panel when provided (mobile must not lose it)", async () => {
+    const user = userEvent.setup();
+    render(<MobileNav links={links} cta={{ href: "/contact", label: "Check Availability" }} />);
+
+    await user.click(screen.getByRole("button", { name: /menu/i }));
+
+    const cta = screen.getByRole("link", { name: "Check Availability" });
+    expect(cta).toHaveAttribute("href", "/contact");
+  });
 });

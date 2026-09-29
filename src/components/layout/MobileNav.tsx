@@ -3,7 +3,13 @@
 import { useState } from "react";
 import Link from "next/link";
 
-export function MobileNav({ links }: { links: { href: string; label: string }[] }) {
+export function MobileNav({
+  links,
+  cta,
+}: {
+  links: { href: string; label: string }[];
+  cta?: { href: string; label: string };
+}) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -33,6 +39,15 @@ export function MobileNav({ links }: { links: { href: string; label: string }[] 
               {link.label}
             </Link>
           ))}
+          {cta && (
+            <Link
+              href={cta.href}
+              onClick={() => setOpen(false)}
+              className="mt-1 rounded bg-zinc-900 px-2 py-2 text-center text-sm font-medium text-white hover:bg-zinc-800"
+            >
+              {cta.label}
+            </Link>
+          )}
         </nav>
       )}
     </div>

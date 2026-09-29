@@ -13,9 +13,10 @@ const NAV_LINKS = [
 
 export interface HeaderSettings {
   businessName: string;
-  contactCtaText: string | null;
   logoMedia: { url: string } | null;
 }
+
+const PRIMARY_CTA_LABEL = "Check Availability";
 
 export function Header({ settings }: { settings: HeaderSettings }) {
   return (
@@ -49,11 +50,14 @@ export function Header({ settings }: { settings: HeaderSettings }) {
             href="/contact"
             className="rounded bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-800"
           >
-            {settings.contactCtaText ?? "Check Availability"}
+            {PRIMARY_CTA_LABEL}
           </Link>
         </div>
 
-        <MobileNav links={NAV_LINKS} />
+        <MobileNav
+          links={NAV_LINKS}
+          cta={{ href: "/contact", label: PRIMARY_CTA_LABEL }}
+        />
       </div>
     </header>
   );
