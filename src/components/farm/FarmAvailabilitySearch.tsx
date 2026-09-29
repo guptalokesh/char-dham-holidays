@@ -187,7 +187,10 @@ export function FarmAvailabilitySearch() {
       )}
 
       {rooms && rooms.length > 0 && (
-        <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <div
+          data-testid="farm-search-results"
+          className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2"
+        >
           {rooms.map((room) => (
             <div key={room.id} className="rounded-lg border border-green-100 p-4">
               <h3 className="text-lg font-semibold">{room.name}</h3>

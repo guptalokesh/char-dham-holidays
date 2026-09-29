@@ -100,6 +100,7 @@ export function RoomAvailabilityGrid({ initial }: { initial: RoomRow[] }) {
                   <td key={day.date} className="px-1 py-1 text-center">
                     <button
                       type="button"
+                      aria-label={`${room.name}, ${day.date}, currently ${day.status.toLowerCase()}`}
                       onClick={() => handleCellClick(room.id, day.date, day.status)}
                       className={`w-16 rounded px-1 py-1 ${STATUS_STYLES[day.status]}`}
                     >

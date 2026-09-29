@@ -59,16 +59,22 @@ function RoomRow({ room, onUpdated }: { room: RoomData; onUpdated: (room: RoomDa
     <div className="rounded-lg border border-green-100 bg-white p-4">
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-4 sm:items-end">
         <div className="space-y-1">
-          <label className="block text-xs font-medium text-zinc-500">Name</label>
+          <label htmlFor={`room-name-${room.id}`} className="block text-xs font-medium text-zinc-500">
+            Name
+          </label>
           <input
+            id={`room-name-${room.id}`}
             value={name}
             onChange={(e) => setName(e.target.value)}
             className="w-full rounded border border-zinc-300 px-2 py-1"
           />
         </div>
         <div className="space-y-1">
-          <label className="block text-xs font-medium text-zinc-500">Price (₹/night)</label>
+          <label htmlFor={`room-price-${room.id}`} className="block text-xs font-medium text-zinc-500">
+            Price (₹/night)
+          </label>
           <input
+            id={`room-price-${room.id}`}
             type="number"
             value={price}
             onChange={(e) => setPrice(e.target.value)}
@@ -76,8 +82,11 @@ function RoomRow({ room, onUpdated }: { room: RoomData; onUpdated: (room: RoomDa
           />
         </div>
         <div className="space-y-1">
-          <label className="block text-xs font-medium text-zinc-500">Capacity</label>
+          <label htmlFor={`room-capacity-${room.id}`} className="block text-xs font-medium text-zinc-500">
+            Capacity
+          </label>
           <input
+            id={`room-capacity-${room.id}`}
             type="number"
             value={capacity}
             onChange={(e) => setCapacity(e.target.value)}

@@ -1,4 +1,4 @@
-import { defineConfig } from "vitest/config";
+import { configDefaults, defineConfig } from "vitest/config";
 import react from "@vitejs/plugin-react";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -15,6 +15,8 @@ export default defineConfig({
     // parallel causes cross-file data races (one file's cleanup deletes
     // another's fixtures mid-run).
     fileParallelism: false,
+    // e2e/ holds Playwright specs, run via `npm run test:e2e`, not Vitest.
+    exclude: [...configDefaults.exclude, "e2e/**"],
   },
   resolve: {
     alias: {

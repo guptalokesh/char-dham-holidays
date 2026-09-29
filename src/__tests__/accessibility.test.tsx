@@ -25,6 +25,7 @@ import { RoomAvailabilityGrid } from "@/components/admin/RoomAvailabilityGrid";
 import { ActiveToggle } from "@/components/admin/ActiveToggle";
 import { MediaUploader } from "@/components/admin/MediaUploader";
 import { FarmAvailabilitySearch } from "@/components/farm/FarmAvailabilitySearch";
+import { FarmAdminPanel } from "@/components/admin/FarmAdminPanel";
 
 const headerFooterSettings = {
   businessName: "Char Dham Holidays",
@@ -223,6 +224,32 @@ describe("accessibility (axe)", () => {
 
   it("FarmAvailabilitySearch has no violations", async () => {
     const { container } = render(<FarmAvailabilitySearch />);
+    expect(await axe(container)).toHaveNoViolations();
+  });
+
+  it("FarmAdminPanel (including the inline room-edit row) has no violations", async () => {
+    const { container } = render(
+      <FarmAdminPanel
+        initial={{
+          id: "farm-1",
+          description: "Peaceful farm stay.",
+          location: "Near Rishikesh",
+          mapLink: null,
+          active: true,
+          images: [],
+          rooms: [
+            {
+              id: "room-1",
+              name: "Deluxe Room",
+              price: 3500,
+              capacity: 2,
+              active: true,
+              images: [],
+            },
+          ],
+        }}
+      />
+    );
     expect(await axe(container)).toHaveNoViolations();
   });
 
