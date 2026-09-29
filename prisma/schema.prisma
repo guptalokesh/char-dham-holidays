@@ -96,10 +96,10 @@ model Media {
   purpose  MediaPurpose
 
   chardhamPackageId String?
-  chardhamPackage   ChardhamPackage? @relation(fields: [chardhamPackageId], references: [id], onDelete: Cascade)
+  chardhamPackage   ChardhamPackage? @relation("ChardhamGallery", fields: [chardhamPackageId], references: [id], onDelete: Cascade)
 
   trekId String?
-  trek   Trek?   @relation(fields: [trekId], references: [id], onDelete: Cascade)
+  trek   Trek?   @relation("TrekGallery", fields: [trekId], references: [id], onDelete: Cascade)
 
   farmPropertyId String?
   farmProperty   FarmProperty? @relation(fields: [farmPropertyId], references: [id], onDelete: Cascade)
@@ -107,8 +107,10 @@ model Media {
   roomId String?
   room   Room?   @relation(fields: [roomId], references: [id], onDelete: Cascade)
 
-  settingsLogo    WebsiteSettings? @relation("SettingsLogo")
-  settingsFavicon WebsiteSettings? @relation("SettingsFavicon")
+  settingsLogo      WebsiteSettings? @relation("SettingsLogo")
+  settingsFavicon   WebsiteSettings? @relation("SettingsFavicon")
+  chardhamItinerary ChardhamPackage? @relation("ChardhamItinerary")
+  trekItinerary     Trek?            @relation("TrekItinerary")
 
   createdAt DateTime @default(now())
 
@@ -129,10 +131,11 @@ model ChardhamPackage {
   travelPeriod     String?
   routeOverview    String?
   importantInfo    String?
-  itineraryMediaId String?
+  itineraryMediaId String?  @unique
+  itineraryMedia   Media?   @relation("ChardhamItinerary", fields: [itineraryMediaId], references: [id], onDelete: SetNull)
   active           Boolean  @default(true)
 
-  images Media[]
+  images Media[] @relation("ChardhamGallery")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -144,11 +147,12 @@ model Trek {
   name             String
   description      String
   price            Int?
-  itineraryMediaId String?
+  itineraryMediaId String? @unique
+  itineraryMedia   Media?  @relation("TrekItinerary", fields: [itineraryMediaId], references: [id], onDelete: SetNull)
   active           Boolean @default(true)
   order            Int     @default(0)
 
-  images    Media[]
+  images    Media[]   @relation("TrekGallery")
   enquiries Enquiry[]
 
   createdAt DateTime @default(now())

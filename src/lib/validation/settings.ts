@@ -1,11 +1,7 @@
 import { z } from "zod";
+import { PHONE_REGEX, emptyToNull } from "@/lib/validation/shared";
 
-const PHONE_REGEX = /^\+?[0-9 ()-]{7,20}$/;
 const HEX_COLOR_REGEX = /^#([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})$/;
-
-function emptyToNull(value: unknown) {
-  return value === "" ? null : value;
-}
 
 const plainText = (maxLength: number) =>
   z.preprocess(emptyToNull, z.string().trim().max(maxLength).nullable().optional());
