@@ -32,6 +32,7 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+!.env.example
 !.env.test
 
 # vercel
@@ -45,5 +46,5 @@ next-env.d.ts
 
 # seed-generated assets and local uploads
 /public/seed-images
-/uploads
-/uploads-test
+/public/uploads
+/public/uploads-test
