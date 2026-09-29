@@ -5,13 +5,24 @@ import { prisma } from "@/lib/db";
 import { uploadMedia } from "@/lib/media";
 import { UploadValidationError } from "@/lib/storage/validate-upload";
 import { mediaOwnerFields, mediaUploadFormSchema } from "@/lib/validation/media";
+import { getClientIp } from "@/lib/request-ip";
+import { RateLimiter } from "@/lib/rate-limit";
 
 const MAX_REQUEST_BYTES = 20 * 1024 * 1024; // generous ceiling; validateUpload enforces the real per-type limit
+const uploadRateLimiter = new RateLimiter(30, 15 * 60 * 1000);
 
 export async function POST(request: NextRequest) {
   const admin = await requireAdminSession(await cookies());
   if (!admin) {
     return NextResponse.json({ error: "Unauthorized." }, { status: 401 });
+  }
+
+  const rateLimit = uploadRateLimiter.consume(getClientIp(request));
+  if (!rateLimit.allowed) {
+    return NextResponse.json(
+      { error: "Too many uploads. Please try again later." },
+      { status: 429, headers: { "Retry-After": String(rateLimit.retryAfterSeconds) } }
+    );
   }
 
   let formData: FormData;
