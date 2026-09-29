@@ -11,6 +11,10 @@ export default defineConfig({
     environment: "jsdom",
     globals: true,
     setupFiles: ["./vitest.setup.ts"],
+    // Integration tests share one Postgres database; running test files in
+    // parallel causes cross-file data races (one file's cleanup deletes
+    // another's fixtures mid-run).
+    fileParallelism: false,
   },
   resolve: {
     alias: {
