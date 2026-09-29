@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/db";
+import { UserFacingError } from "@/lib/errors";
 import { getWebsiteSettings } from "@/lib/settings";
 import { buildTrekWhatsAppMessage, buildWhatsAppUrl } from "@/lib/whatsapp";
 import {
@@ -75,7 +76,7 @@ export async function setTrekItinerary(trekId: string, mediaId: string | null) {
   if (mediaId !== null) {
     const media = await prisma.media.findUnique({ where: { id: mediaId } });
     if (!media || media.purpose !== "PDF") {
-      throw new Error("Itinerary must reference an uploaded PDF.");
+      throw new UserFacingError("Itinerary must reference an uploaded PDF.");
     }
   }
 
@@ -98,7 +99,7 @@ export async function submitTrekRequest(
 
   const trek = await prisma.trek.findUnique({ where: { id: trekId } });
   if (!trek) {
-    throw new Error("Trek not found.");
+    throw new UserFacingError("Trek not found.");
   }
 
   await prisma.enquiry.create({

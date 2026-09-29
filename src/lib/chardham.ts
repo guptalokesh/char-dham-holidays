@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/db";
 import { CHARDHAM_PACKAGE_ID } from "@/lib/constants";
+import { UserFacingError } from "@/lib/errors";
 import { getWebsiteSettings } from "@/lib/settings";
 import { buildChardhamWhatsAppMessage, buildWhatsAppUrl } from "@/lib/whatsapp";
 import {
@@ -31,7 +32,7 @@ export async function setChardhamItinerary(mediaId: string | null) {
   if (mediaId !== null) {
     const media = await prisma.media.findUnique({ where: { id: mediaId } });
     if (!media || media.purpose !== "PDF") {
-      throw new Error("Itinerary must reference an uploaded PDF.");
+      throw new UserFacingError("Itinerary must reference an uploaded PDF.");
     }
   }
 

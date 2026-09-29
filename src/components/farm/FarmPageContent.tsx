@@ -38,7 +38,7 @@ export function FarmPageContent({ property }: FarmPageContentProps) {
 
       {property.images.length > 0 && (
         <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3">
-          {property.images.map((image) => (
+          {property.images.map((image, index) => (
             <div key={image.url} className="relative aspect-video overflow-hidden rounded-lg">
               <Image
                 src={image.url}
@@ -46,6 +46,7 @@ export function FarmPageContent({ property }: FarmPageContentProps) {
                 fill
                 sizes="(max-width: 640px) 50vw, 33vw"
                 className="object-cover"
+                priority={index === 0}
               />
             </div>
           ))}

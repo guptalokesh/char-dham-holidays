@@ -2,6 +2,7 @@ import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { requireAdminSession } from "@/lib/auth/guard";
+import { UserFacingError } from "@/lib/errors";
 import { setTrekItinerary } from "@/lib/trek";
 
 const itinerarySchema = z.object({ mediaId: z.string().nullable() });
@@ -33,7 +34,7 @@ export async function PATCH(
     const trek = await setTrekItinerary(id, parsed.data.mediaId);
     return NextResponse.json({ trek, message: "Itinerary updated successfully." });
   } catch (error) {
-    if (error instanceof Error) {
+    if (error instanceof UserFacingError) {
       return NextResponse.json({ error: error.message }, { status: 400 });
     }
     throw error;

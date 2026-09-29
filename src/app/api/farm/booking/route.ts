@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { submitFarmBookingRequest } from "@/lib/farm";
+import { UserFacingError } from "@/lib/errors";
 import { getClientIp } from "@/lib/request-ip";
 import { RateLimiter } from "@/lib/rate-limit";
 
@@ -32,7 +33,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    if (error instanceof Error) {
+    if (error instanceof UserFacingError) {
       return NextResponse.json({ error: error.message }, { status: 409 });
     }
     throw error;

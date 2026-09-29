@@ -10,9 +10,10 @@ export interface TrekCardProps {
     price: number | null;
     images: { url: string }[];
   };
+  priority?: boolean;
 }
 
-export function TrekCard({ trek }: TrekCardProps) {
+export function TrekCard({ trek, priority }: TrekCardProps) {
   return (
     <Link
       href={`/trekking/${trek.slug}`}
@@ -26,6 +27,7 @@ export function TrekCard({ trek }: TrekCardProps) {
             fill
             sizes="(max-width: 640px) 100vw, 33vw"
             className="object-cover"
+            priority={priority}
           />
         </div>
       )}

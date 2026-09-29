@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/db";
 import { FARM_PROPERTY_ID } from "@/lib/constants";
+import { UserFacingError } from "@/lib/errors";
 import { addDays, formatDateOnly, getNightsBetween, parseDateOnly, todayDateOnly } from "@/lib/date-utils";
 import { getWebsiteSettings } from "@/lib/settings";
 import { buildFarmHomeStayWhatsAppMessage, buildWhatsAppUrl } from "@/lib/whatsapp";
@@ -159,7 +160,7 @@ export async function submitFarmBookingRequest(
   });
   const room = availableRooms.find((r) => r.id === data.roomId);
   if (!room) {
-    throw new Error("This room is no longer available for the selected dates.");
+    throw new UserFacingError("This room is no longer available for the selected dates.");
   }
 
   await prisma.enquiry.create({

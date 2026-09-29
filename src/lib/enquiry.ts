@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/db";
+import { UserFacingError } from "@/lib/errors";
 import { getWebsiteSettings } from "@/lib/settings";
 import {
   buildEnquiryAcknowledgementEmail,
@@ -45,7 +46,7 @@ async function resolveServiceLabel(
   if (service === "TREKKING") {
     const trek = await prisma.trek.findUnique({ where: { id: trekId } });
     if (!trek) {
-      throw new Error("Selected trek was not found.");
+      throw new UserFacingError("Selected trek was not found.");
     }
     return trek.name;
   }

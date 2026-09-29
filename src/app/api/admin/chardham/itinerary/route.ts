@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { requireAdminSession } from "@/lib/auth/guard";
 import { setChardhamItinerary } from "@/lib/chardham";
+import { UserFacingError } from "@/lib/errors";
 
 const itinerarySchema = z.object({ mediaId: z.string().nullable() });
 
@@ -31,7 +32,7 @@ export async function PATCH(request: NextRequest) {
       message: "Itinerary updated successfully.",
     });
   } catch (error) {
-    if (error instanceof Error) {
+    if (error instanceof UserFacingError) {
       return NextResponse.json({ error: error.message }, { status: 400 });
     }
     throw error;
