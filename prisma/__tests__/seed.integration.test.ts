@@ -36,6 +36,17 @@ describe("seed script", () => {
     expect(await prisma.place.count()).toBe(2);
   });
 
+  it("seeds the single business phone and email, with no other contact details", async () => {
+    await runSeed();
+
+    const settings = await prisma.websiteSettings.findFirstOrThrow();
+    expect(settings.primaryPhone).toBe("+91 8958405555");
+    expect(settings.whatsappNumber).toBe("+91 8958405555");
+    expect(settings.primaryEmail).toBe("Sanjaythapliyal02@gmail.com");
+    expect(settings.enquiryEmail).toBe("Sanjaythapliyal02@gmail.com");
+    expect(settings.secondaryPhone).toBeNull();
+  });
+
   it("links the seeded logo as the website's logo media", async () => {
     await runSeed();
 

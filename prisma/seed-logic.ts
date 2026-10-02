@@ -9,6 +9,9 @@ import {
   WEBSITE_SETTINGS_ID,
 } from "../src/lib/constants";
 
+const BUSINESS_PHONE = "+91 8958405555";
+const BUSINESS_EMAIL = "Sanjaythapliyal02@gmail.com";
+
 const PROJECT_ROOT = path.resolve(__dirname, "..");
 const SOURCE_IMAGES_DIR = path.join(PROJECT_ROOT, "images");
 const SEED_IMAGES_DIR = path.join(PROJECT_ROOT, "public", "seed-images");
@@ -78,7 +81,13 @@ async function seedWebsiteSettings() {
   await prisma.websiteSettings.upsert({
     where: { id: WEBSITE_SETTINGS_ID },
     update: {},
-    create: { id: WEBSITE_SETTINGS_ID },
+    create: {
+      id: WEBSITE_SETTINGS_ID,
+      primaryPhone: BUSINESS_PHONE,
+      whatsappNumber: BUSINESS_PHONE,
+      primaryEmail: BUSINESS_EMAIL,
+      enquiryEmail: BUSINESS_EMAIL,
+    },
   });
 
   const logo = await upsertMedia(

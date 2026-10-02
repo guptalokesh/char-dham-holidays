@@ -74,4 +74,13 @@ describe("SettingsAdminForm", () => {
 
     expect(await screen.findByText(/invalid settings data/i)).toBeInTheDocument();
   });
+
+  it("offers one phone and one email, with no secondary phone or separate enquiry email", () => {
+    render(<SettingsAdminForm initial={initial} />);
+
+    expect(screen.getByLabelText("Primary phone")).toBeInTheDocument();
+    expect(screen.getByLabelText("Primary email")).toBeInTheDocument();
+    expect(screen.queryByLabelText("Secondary phone")).not.toBeInTheDocument();
+    expect(screen.queryByLabelText("Enquiry email")).not.toBeInTheDocument();
+  });
 });

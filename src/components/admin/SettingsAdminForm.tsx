@@ -128,15 +128,9 @@ export function SettingsAdminForm({ initial }: { initial: SettingsData }) {
 
       <fieldset className="space-y-4 rounded-lg border border-zinc-200 bg-white p-6">
         <legend className="px-1 font-semibold">Contact</legend>
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-          <TextField id="primaryPhone" label="Primary phone" value={field("primaryPhone")} onChange={(v) => setField("primaryPhone", v)} />
-          <TextField id="secondaryPhone" label="Secondary phone" value={field("secondaryPhone")} onChange={(v) => setField("secondaryPhone", v)} />
-        </div>
+        <TextField id="primaryPhone" label="Primary phone" value={field("primaryPhone")} onChange={(v) => setField("primaryPhone", v)} />
         <TextField id="whatsappNumber" label="WhatsApp number" value={field("whatsappNumber")} onChange={(v) => setField("whatsappNumber", v)} />
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-          <TextField id="primaryEmail" label="Primary email" value={field("primaryEmail")} onChange={(v) => setField("primaryEmail", v)} />
-          <TextField id="enquiryEmail" label="Enquiry email" value={field("enquiryEmail")} onChange={(v) => setField("enquiryEmail", v)} />
-        </div>
+        <TextField id="primaryEmail" label="Primary email" value={field("primaryEmail")} onChange={(v) => setField("primaryEmail", v)} />
       </fieldset>
 
       <fieldset className="space-y-4 rounded-lg border border-zinc-200 bg-white p-6">
