@@ -4,7 +4,7 @@ import { expect, test } from "@playwright/test";
 // these widths on the main public pages.
 const VIEWPORTS = [320, 375, 390, 430, 768, 1024, 1280, 1440];
 
-const PAGES = ["/", "/chardham", "/trekking", "/trekking/devrana-trek", "/farm-home-stay", "/contact", "/about"];
+const PAGES = ["/", "/chardham", "/trekking", "/trekking/devrana-trek", "/farm-home-stay", "/devrana-mandir", "/contact", "/about"];
 
 test.describe("responsive layout — no horizontal overflow at any breakpoint", () => {
   for (const width of VIEWPORTS) {

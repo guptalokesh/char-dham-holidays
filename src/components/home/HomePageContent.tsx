@@ -15,6 +15,7 @@ export interface HomePageContentProps {
   chardhamImageUrl?: string | null;
   trekImageUrl?: string | null;
   farmImageUrl?: string | null;
+  devrana?: { title: string; summary: string; imageUrl?: string | null } | null;
 }
 
 function OfferingCard({
@@ -83,6 +84,7 @@ export function HomePageContent({
   chardhamImageUrl,
   trekImageUrl,
   farmImageUrl,
+  devrana,
 }: HomePageContentProps) {
   return (
     <main>
@@ -172,6 +174,33 @@ export function HomePageContent({
           />
         </div>
       </section>
+
+      {devrana && (
+        <section className="mx-auto max-w-6xl px-6 pb-20">
+          <Link
+            href="/devrana-mandir"
+            className="group relative block h-72 overflow-hidden rounded-2xl bg-amber-950 shadow-sm sm:h-80"
+          >
+            {devrana.imageUrl && (
+              <Image
+                src={devrana.imageUrl}
+                alt={devrana.title}
+                fill
+                sizes="(max-width: 1152px) 100vw, 1152px"
+                className="object-cover opacity-80 transition-transform duration-500 group-hover:scale-105"
+              />
+            )}
+            <div className="absolute inset-0 bg-gradient-to-t from-amber-950/90 via-amber-950/30 to-transparent" />
+            <div className="absolute inset-x-0 bottom-0 p-6 sm:p-10">
+              <p className="text-sm font-semibold uppercase tracking-[0.2em] text-amber-300">
+                Discover
+              </p>
+              <h2 className="mt-2 text-2xl font-semibold text-white sm:text-3xl">{devrana.title}</h2>
+              <p className="mt-2 max-w-xl text-stone-200">{devrana.summary}</p>
+            </div>
+          </Link>
+        </section>
+      )}
 
       <section className="bg-gradient-to-br from-stone-900 to-stone-800 px-6 py-20 text-center text-white">
         <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">

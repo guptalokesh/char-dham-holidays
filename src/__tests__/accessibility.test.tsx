@@ -26,6 +26,7 @@ import { ActiveToggle } from "@/components/admin/ActiveToggle";
 import { MediaUploader } from "@/components/admin/MediaUploader";
 import { FarmAvailabilitySearch } from "@/components/farm/FarmAvailabilitySearch";
 import { FarmAdminPanel } from "@/components/admin/FarmAdminPanel";
+import { PlacesPageContent } from "@/components/place/PlacesPageContent";
 
 const headerFooterSettings = {
   businessName: "Char Dham Holidays",
@@ -118,6 +119,26 @@ describe("accessibility (axe)", () => {
           images: [{ url: "/seed-images/trek-devrana.jpg" }],
           itineraryMedia: null,
         }}
+      />
+    );
+    expect(await axe(container)).toHaveNoViolations();
+  });
+
+  it("PlacesPageContent has no violations", async () => {
+    const { container } = render(
+      <PlacesPageContent
+        places={[
+          {
+            id: "1",
+            slug: "devrana-mandir",
+            title: "Devrana Mandir & Mela",
+            summary: "The temple and its mela.",
+            body: "Pilgrims gather here.",
+            address: "Devrana, Tiyan, Uttarakhand 249171",
+            mapLink: "https://maps.example/devrana",
+            images: [{ url: "/seed-images/a.jpg" }, { url: "/seed-images/b.jpg" }],
+          },
+        ]}
       />
     );
     expect(await axe(container)).toHaveNoViolations();

@@ -73,4 +73,28 @@ describe("HomePageContent", () => {
     const text = document.body.textContent?.toLowerCase() ?? "";
     expect(text).not.toMatch(/testimonial|award|certified|5-star|customers served/);
   });
+
+  it("teases the Devrana mandir page with its photo when a place is provided", () => {
+    render(
+      <HomePageContent
+        {...baseProps}
+        devrana={{
+          title: "Devrana Mandir & Mela",
+          summary: "The temple and its mela.",
+          imageUrl: "/seed-images/devrana-mela-hero.jpg",
+        }}
+      />
+    );
+
+    const link = screen.getByRole("link", { name: /devrana mandir & mela/i });
+    expect(link).toHaveAttribute("href", "/devrana-mandir");
+    expect(screen.getByText("The temple and its mela.")).toBeInTheDocument();
+    expect(screen.getByRole("img", { name: "Devrana Mandir & Mela" })).toBeInTheDocument();
+  });
+
+  it("omits the Devrana teaser when no place is provided", () => {
+    render(<HomePageContent {...baseProps} />);
+
+    expect(screen.queryByRole("link", { name: /devrana/i })).not.toBeInTheDocument();
+  });
 });
