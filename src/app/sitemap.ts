@@ -9,6 +9,7 @@ const STATIC_PATHS = [
   "",
   "/chardham",
   "/trekking",
+  "/devrana-mandir",
   "/farm-home-stay",
   "/about",
   "/contact",

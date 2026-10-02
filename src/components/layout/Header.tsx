@@ -6,6 +6,7 @@ const NAV_LINKS = [
   { href: "/", label: "Home" },
   { href: "/chardham", label: "Chardham" },
   { href: "/trekking", label: "Trekking" },
+  { href: "/devrana-mandir", label: "Devrana" },
   { href: "/farm-home-stay", label: "Farm Home Stay" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
