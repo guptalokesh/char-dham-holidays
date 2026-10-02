@@ -61,6 +61,24 @@ describe("uploadMedia", () => {
     expect(stat.size).toBe(media.size);
   });
 
+  it("links an upload to a place", async () => {
+    await prisma.place.deleteMany();
+    const place = await prisma.place.create({
+      data: { slug: "p", title: "P", summary: "s", body: "b" },
+    });
+
+    const media = await uploadMedia({
+      buffer: await makePngBuffer(),
+      declaredMimeType: "image/png",
+      purpose: "IMAGE",
+      owner: { placeId: place.id },
+    });
+
+    expect(media.placeId).toBe(place.id);
+    await prisma.media.deleteMany();
+    await prisma.place.deleteMany();
+  });
+
   it("creates an un-owned Media row when no owner is given", async () => {
     const buffer = await makePngBuffer();
 

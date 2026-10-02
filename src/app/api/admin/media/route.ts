@@ -46,6 +46,7 @@ export async function POST(request: NextRequest) {
     trekId: formData.get("trekId") ?? undefined,
     farmPropertyId: formData.get("farmPropertyId") ?? undefined,
     roomId: formData.get("roomId") ?? undefined,
+    placeId: formData.get("placeId") ?? undefined,
   });
   if (!parsed.success) {
     return NextResponse.json(
@@ -96,6 +97,8 @@ async function ownerExists(field: string, id: string): Promise<boolean> {
       return (await prisma.farmProperty.count({ where: { id } })) > 0;
     case "roomId":
       return (await prisma.room.count({ where: { id } })) > 0;
+    case "placeId":
+      return (await prisma.place.count({ where: { id } })) > 0;
     default:
       return false;
   }

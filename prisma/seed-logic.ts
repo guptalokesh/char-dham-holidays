@@ -149,6 +149,45 @@ async function seedTreks() {
   );
 }
 
+async function seedPlaces() {
+  const mandir = await prisma.place.upsert({
+    where: { slug: "devrana-mandir" },
+    update: {},
+    create: {
+      slug: "devrana-mandir",
+      title: "Devrana Mandir & Mela",
+      summary: "Rudreshwar Mahadev Mandir at Devrana, and the village mela that gathers around it.",
+      body:
+        "Rudreshwar Mahadev Mandir stands among deodar forest at Devrana, above Tiyan village. Pilgrims and villagers gather here for the Devrana mela, and the temple is the destination of our Devrana Trek. Mela dates are announced locally — contact our team to plan your visit.",
+      address: "Rudreshwar Mahadev Mandir, Devrana, Tiyan, Uttarakhand 249171",
+      order: 1,
+    },
+  });
+  await upsertGallery(
+    "media-place-devrana",
+    ["devrana-mela-hero.jpg", "devrana-mandir-1.jpg", "devrana-mandir-snow.jpg", "devrana-ridges.jpg"],
+    { placeId: mandir.id }
+  );
+
+  const camp = await prisma.place.upsert({
+    where: { slug: "dhari-kalogi-basecamp" },
+    update: {},
+    create: {
+      slug: "dhari-kalogi-basecamp",
+      title: "Dhari–Kalogi Base Camp",
+      summary: "Our local base camp for the Devrana and Rupnyol Bugyal treks.",
+      body:
+        "Dhari–Kalogi is our local base camp, with terraced hillside villages and wide valley views. Treks to Devrana and Rupnyol Bugyal start from here. Contact our team for directions and arrival details.",
+      order: 2,
+    },
+  });
+  await upsertGallery(
+    "media-place-basecamp",
+    ["basecamp-aerial.jpg", "basecamp-village.jpg", "basecamp-slope.jpg"],
+    { placeId: camp.id }
+  );
+}
+
 async function seedFarmHomeStay() {
   await prisma.farmProperty.upsert({
     where: { id: FARM_PROPERTY_ID },
@@ -212,4 +251,5 @@ export async function runSeed() {
   await seedChardham();
   await seedTreks();
   await seedFarmHomeStay();
+  await seedPlaces();
 }

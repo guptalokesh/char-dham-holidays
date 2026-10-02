@@ -10,6 +10,7 @@ describe("seed script", () => {
     await prisma.room.deleteMany();
     await prisma.farmProperty.deleteMany();
     await prisma.media.deleteMany();
+    await prisma.place.deleteMany();
     await prisma.trek.deleteMany();
     await prisma.chardhamPackage.deleteMany();
     await prisma.websiteSettings.deleteMany();
@@ -31,7 +32,8 @@ describe("seed script", () => {
     expect(await prisma.farmProperty.count()).toBe(1);
     expect(await prisma.room.count()).toBe(2);
     expect(await prisma.roomAvailability.count()).toBe(60);
-    expect(await prisma.media.count()).toBe(14);
+    expect(await prisma.media.count()).toBe(21);
+    expect(await prisma.place.count()).toBe(2);
   });
 
   it("links the seeded logo as the website's logo media", async () => {
@@ -110,6 +112,27 @@ describe("seed script", () => {
       const trek = await prisma.trek.findUniqueOrThrow({ where: { slug: "devrana-trek" } });
 
       expect((await urls({ trekId: trek.id }))[0]).toBe("/seed-images/devrana-trek-hero.jpg");
+    });
+
+    it("seeds the Devrana mandir and base camp places with their photos", async () => {
+      await runSeed();
+
+      const mandir = await prisma.place.findUniqueOrThrow({ where: { slug: "devrana-mandir" } });
+      expect(mandir.title).toMatch(/Devrana/);
+      expect(mandir.address).toContain("Tiyan");
+      expect(await urls({ placeId: mandir.id })).toEqual([
+        "/seed-images/devrana-mela-hero.jpg",
+        "/seed-images/devrana-mandir-1.jpg",
+        "/seed-images/devrana-mandir-snow.jpg",
+        "/seed-images/devrana-ridges.jpg",
+      ]);
+
+      const camp = await prisma.place.findUniqueOrThrow({ where: { slug: "dhari-kalogi-basecamp" } });
+      expect(await urls({ placeId: camp.id })).toEqual([
+        "/seed-images/basecamp-aerial.jpg",
+        "/seed-images/basecamp-village.jpg",
+        "/seed-images/basecamp-slope.jpg",
+      ]);
     });
   });
 });

@@ -5,6 +5,7 @@ export const mediaOwnerFields = [
   "trekId",
   "farmPropertyId",
   "roomId",
+  "placeId",
 ] as const;
 
 export const mediaUploadFormSchema = z
@@ -14,6 +15,7 @@ export const mediaUploadFormSchema = z
     trekId: z.string().min(1).optional(),
     farmPropertyId: z.string().min(1).optional(),
     roomId: z.string().min(1).optional(),
+    placeId: z.string().min(1).optional(),
   })
   .refine(
     (data) => mediaOwnerFields.filter((field) => data[field] !== undefined).length <= 1,

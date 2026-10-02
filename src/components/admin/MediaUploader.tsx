@@ -7,6 +7,7 @@ interface MediaOwner {
   trekId?: string;
   farmPropertyId?: string;
   roomId?: string;
+  placeId?: string;
 }
 
 interface UploadedMedia {

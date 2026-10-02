@@ -7,6 +7,7 @@ export interface MediaOwner {
   trekId?: string;
   farmPropertyId?: string;
   roomId?: string;
+  placeId?: string;
 }
 
 export async function uploadMedia(params: {
@@ -37,6 +38,7 @@ export async function uploadMedia(params: {
       trekId: params.owner?.trekId,
       farmPropertyId: params.owner?.farmPropertyId,
       roomId: params.owner?.roomId,
+      placeId: params.owner?.placeId,
     },
   });
 }
