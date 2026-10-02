@@ -101,6 +101,9 @@ model Media {
   trekId String?
   trek   Trek?   @relation("TrekGallery", fields: [trekId], references: [id], onDelete: Cascade)
 
+  placeId String?
+  place   Place?  @relation(fields: [placeId], references: [id], onDelete: Cascade)
+
   farmPropertyId String?
   farmProperty   FarmProperty? @relation(fields: [farmPropertyId], references: [id], onDelete: Cascade)
 
@@ -232,4 +235,20 @@ model Enquiry {
   @@index([status])
   @@index([service])
   @@index([createdAt])
+}
+
+model Place {
+  id      String  @id @default(cuid())
+  slug    String  @unique
+  title   String
+  summary String
+  body    String
+  address String?
+  mapLink String?
+  active  Boolean @default(true)
+  order   Int     @default(0)
+  images  Media[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
