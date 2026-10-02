@@ -46,7 +46,7 @@ export async function createTrek(input: TrekCreateInput) {
 
 export async function updateTrek(id: string, input: TrekUpdateInput) {
   const data = trekUpdateSchema.parse(input);
-  return prisma.trek.update({ where: { id }, data, include: { images: true, itineraryMedia: true } });
+  return prisma.trek.update({ where: { id }, data, include: { images: { orderBy: { createdAt: "asc" } }, itineraryMedia: true } });
 }
 
 export async function listTreks(options?: { activeOnly?: boolean }) {
@@ -54,21 +54,21 @@ export async function listTreks(options?: { activeOnly?: boolean }) {
   return prisma.trek.findMany({
     where: activeOnly ? { active: true } : undefined,
     orderBy: { order: "asc" },
-    include: { images: true },
+    include: { images: { orderBy: { createdAt: "asc" } } },
   });
 }
 
 export async function getTrekBySlug(slug: string) {
   return prisma.trek.findUnique({
     where: { slug },
-    include: { images: true, itineraryMedia: true },
+    include: { images: { orderBy: { createdAt: "asc" } }, itineraryMedia: true },
   });
 }
 
 export async function getTrekById(id: string) {
   return prisma.trek.findUnique({
     where: { id },
-    include: { images: true, itineraryMedia: true },
+    include: { images: { orderBy: { createdAt: "asc" } }, itineraryMedia: true },
   });
 }
 
@@ -83,7 +83,7 @@ export async function setTrekItinerary(trekId: string, mediaId: string | null) {
   return prisma.trek.update({
     where: { id: trekId },
     data: { itineraryMediaId: mediaId },
-    include: { images: true, itineraryMedia: true },
+    include: { images: { orderBy: { createdAt: "asc" } }, itineraryMedia: true },
   });
 }
 

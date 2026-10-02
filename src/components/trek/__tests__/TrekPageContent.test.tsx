@@ -41,4 +41,28 @@ describe("TrekPageContent", () => {
       "/uploads/itinerary.pdf"
     );
   });
+
+  it("shows every photo after the hero in a gallery", () => {
+    render(
+      <TrekPageContent
+        trek={{
+          ...baseTrek,
+          images: [
+            { url: "/seed-images/hero.jpg" },
+            { url: "/seed-images/two.jpg" },
+            { url: "/seed-images/three.jpg" },
+          ],
+        }}
+      />
+    );
+
+    expect(screen.getByRole("img", { name: "Devrana Trek — photo 2" })).toBeInTheDocument();
+    expect(screen.getByRole("img", { name: "Devrana Trek — photo 3" })).toBeInTheDocument();
+  });
+
+  it("renders no gallery when there is only a hero image", () => {
+    render(<TrekPageContent trek={baseTrek} />);
+
+    expect(screen.queryByRole("img", { name: /photo 2/ })).not.toBeInTheDocument();
+  });
 });

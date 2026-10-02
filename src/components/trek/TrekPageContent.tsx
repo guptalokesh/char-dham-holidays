@@ -15,6 +15,8 @@ export interface TrekPageContentProps {
 }
 
 export function TrekPageContent({ trek }: TrekPageContentProps) {
+  const galleryImages = trek.images.slice(1);
+
   return (
     <article>
       <div className="relative h-[50vh] min-h-[360px] w-full overflow-hidden bg-emerald-950">
@@ -44,6 +46,22 @@ export function TrekPageContent({ trek }: TrekPageContentProps) {
 
       <div className="mx-auto max-w-3xl px-6 py-12">
         <p className="text-stone-700">{trek.description}</p>
+
+        {galleryImages.length > 0 && (
+          <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3">
+            {galleryImages.map((image, i) => (
+              <div key={image.url} className="relative aspect-[4/3] overflow-hidden rounded-xl">
+                <Image
+                  src={image.url}
+                  alt={`${trek.name} — photo ${i + 2}`}
+                  fill
+                  sizes="(max-width: 640px) 50vw, 240px"
+                  className="object-cover"
+                />
+              </div>
+            ))}
+          </div>
+        )}
 
         {trek.itineraryMedia && (
           <p className="mt-6">

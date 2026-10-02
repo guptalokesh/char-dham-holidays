@@ -85,6 +85,40 @@ describe("trek module", () => {
     });
   });
 
+  describe("image order", () => {
+    async function trekWithImagesInsertedOutOfOrder() {
+      const trek = await createTrek({ name: "Gallery Trek", description: "d" });
+      const base = Date.now();
+      for (const [name, offset] of [["third", 2], ["first", 0], ["second", 1]] as const) {
+        await prisma.media.create({
+          data: {
+            url: `/uploads/${name}.jpg`,
+            filename: `${name}.jpg`,
+            mimeType: "image/jpeg",
+            size: 1,
+            purpose: "IMAGE",
+            trekId: trek.id,
+            createdAt: new Date(base + offset * 1000),
+          },
+        });
+      }
+      return trek;
+    }
+
+    const expected = ["/uploads/first.jpg", "/uploads/second.jpg", "/uploads/third.jpg"];
+
+    it("returns images oldest-first from getTrekBySlug so the hero is stable", async () => {
+      const trek = await trekWithImagesInsertedOutOfOrder();
+      expect((await getTrekBySlug(trek.slug))?.images.map((i) => i.url)).toEqual(expected);
+    });
+
+    it("returns images oldest-first from getTrekById and listTreks", async () => {
+      const trek = await trekWithImagesInsertedOutOfOrder();
+      expect((await getTrekById(trek.id))?.images.map((i) => i.url)).toEqual(expected);
+      expect((await listTreks())[0].images.map((i) => i.url)).toEqual(expected);
+    });
+  });
+
   describe("getTrekById", () => {
     it("returns the trek by id", async () => {
       const trek = await createTrek({ name: "Devrana Trek", description: "d" });
