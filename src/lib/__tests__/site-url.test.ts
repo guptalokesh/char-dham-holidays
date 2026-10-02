@@ -15,4 +15,10 @@ describe("getSiteUrl", () => {
   it("falls back to localhost for local development", () => {
     expect(getSiteUrl({})).toBe("http://localhost:3000");
   });
+
+  it("uses the Vercel production domain when present", () => {
+    expect(getSiteUrl({ VERCEL_PROJECT_PRODUCTION_URL: "char-dham.vercel.app" })).toBe(
+      "https://char-dham.vercel.app"
+    );
+  });
 });

@@ -1,5 +1,5 @@
 [build]
-  command = "npm run build:netlify"
+  command = "npm run build:deploy"
 
 [build.environment]
   NODE_VERSION = "22"

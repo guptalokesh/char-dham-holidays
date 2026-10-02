@@ -4,6 +4,7 @@ import {
   type IronSession,
   type SessionOptions,
 } from "iron-session";
+import { resolveSessionSecret } from "@/lib/auth/session-secret";
 
 export interface AdminSessionData {
   adminUserId?: string;
@@ -14,20 +15,10 @@ export type { CookieStore };
 
 const DEFAULT_TTL_SECONDS = 60 * 60 * 8; // 8 hours
 
-function requireSessionSecret(): string {
-  const secret = process.env.SESSION_SECRET;
-  if (!secret || secret.length < 32) {
-    throw new Error(
-      "SESSION_SECRET must be set to a string of at least 32 characters"
-    );
-  }
-  return secret;
-}
-
 function buildSessionOptions(ttlSeconds: number): SessionOptions {
   return {
     cookieName: "chardham_admin_session",
-    password: requireSessionSecret(),
+    password: resolveSessionSecret(),
     ttl: ttlSeconds,
     cookieOptions: {
       secure: process.env.NODE_ENV === "production",

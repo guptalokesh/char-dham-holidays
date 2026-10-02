@@ -13,15 +13,13 @@ describe("findEnvProblems", () => {
     expect(findEnvProblems(good)).toEqual([]);
   });
 
-  it("reports every missing required variable", () => {
-    const problems = findEnvProblems({});
-    expect(problems).toHaveLength(3);
-    expect(problems.join(" ")).toMatch(/DATABASE_URL/);
-    expect(problems.join(" ")).toMatch(/SESSION_SECRET/);
-    expect(problems.join(" ")).toMatch(/ADMIN_PASSWORD/);
+  it("only requires a database URL — secret and admin password are optional", () => {
+    expect(findEnvProblems({ DATABASE_URL: good.DATABASE_URL })).toEqual([]);
+    expect(findEnvProblems({ DATABASE_URL_UNPOOLED: good.DATABASE_URL })).toEqual([]);
+    expect(findEnvProblems({}).join(" ")).toMatch(/DATABASE_URL/);
   });
 
-  it("rejects a session secret shorter than 32 characters", () => {
+  it("rejects a session secret that is set but shorter than 32 characters", () => {
     expect(findEnvProblems({ ...good, SESSION_SECRET: "short" }).join(" ")).toMatch(/SESSION_SECRET/);
   });
 

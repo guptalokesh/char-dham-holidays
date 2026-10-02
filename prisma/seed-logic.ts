@@ -2,6 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import bcrypt from "bcryptjs";
 import { prisma } from "../src/lib/db";
+import { resolveAdminCredentials } from "./admin-bootstrap";
 import { addDays, todayDateOnly } from "../src/lib/date-utils";
 import {
   CHARDHAM_PACKAGE_ID,
@@ -59,20 +60,22 @@ async function upsertGallery(
 }
 
 async function seedAdminUser() {
-  const email = process.env.ADMIN_EMAIL ?? "admin@chardhamholidays.example";
-  const password = process.env.ADMIN_PASSWORD ?? "ChangeMe123!";
-  const passwordHash = await bcrypt.hash(password, 12);
+  const { email, password, generated } = resolveAdminCredentials();
 
-  await prisma.adminUser.upsert({
-    where: { email },
-    update: {},
-    create: { email, passwordHash },
+  const existing = await prisma.adminUser.findUnique({ where: { email } });
+  if (existing) return;
+
+  await prisma.adminUser.create({
+    data: { email, passwordHash: await bcrypt.hash(password, 12) },
   });
 
-  if (!process.env.ADMIN_PASSWORD) {
+  if (generated) {
     console.warn(
-      `\n⚠ No ADMIN_PASSWORD set — seeded a dev-only admin login: ${email} / ${password}\n` +
-        `  Set ADMIN_EMAIL and ADMIN_PASSWORD before deploying to production.\n`
+      `\n=== ADMIN LOGIN (shown once — save it) ===\n  Email:    ${email}\n  Password: ${password}\n==========================================\n`
+    );
+  } else if (!process.env.ADMIN_PASSWORD) {
+    console.warn(
+      `\n⚠ No ADMIN_PASSWORD set — seeded a dev-only admin login: ${email} / ${password}\n`
     );
   }
 }
