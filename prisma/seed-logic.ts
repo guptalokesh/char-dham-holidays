@@ -44,6 +44,17 @@ async function upsertMedia(
   });
 }
 
+// Sequential on purpose: Media.createdAt decides gallery order, first image is the hero.
+async function upsertGallery(
+  idPrefix: string,
+  filenames: string[],
+  owner: Record<string, string>
+) {
+  for (const [i, filename] of filenames.entries()) {
+    await upsertMedia(`${idPrefix}-${i + 1}`, `curated/${filename}`, filename, owner);
+  }
+}
+
 async function seedAdminUser() {
   const email = process.env.ADMIN_EMAIL ?? "admin@chardhamholidays.example";
   const password = process.env.ADMIN_PASSWORD ?? "ChangeMe123!";
@@ -114,9 +125,11 @@ async function seedTreks() {
       order: 1,
     },
   });
-  await upsertMedia("media-devrana-trek", "trek-forest.jpg", "trek-devrana.jpg", {
-    trekId: devrana.id,
-  });
+  await upsertGallery(
+    "media-devrana-trek",
+    ["devrana-trek-hero.jpg", "devrana-mandir-1.jpg", "devrana-mela-hero.jpg"],
+    { trekId: devrana.id }
+  );
 
   const rupnyol = await prisma.trek.upsert({
     where: { slug: "rupnyol-bugyal-trek" },
@@ -129,9 +142,11 @@ async function seedTreks() {
       order: 2,
     },
   });
-  await upsertMedia("media-rupnyol-trek", "trek-bugyal.jpg", "trek-rupnyol.jpg", {
-    trekId: rupnyol.id,
-  });
+  await upsertGallery(
+    "media-rupnyol-trek",
+    ["bugyal-summit.jpg", "bugyal-horses.jpg", "bugyal-valley.jpg", "bugyal-tree.jpg"],
+    { trekId: rupnyol.id }
+  );
 }
 
 async function seedFarmHomeStay() {
@@ -143,7 +158,7 @@ async function seedFarmHomeStay() {
       description: "Nature-focused accommodation on our farm property.",
     },
   });
-  await upsertMedia("media-farm-hero", "homestay.jpg", "homestay.jpg", {
+  await upsertGallery("media-farm", ["hotel-exterior.jpg", "hotel-lounge.jpg"], {
     farmPropertyId: FARM_PROPERTY_ID,
   });
 
@@ -171,6 +186,11 @@ async function seedFarmHomeStay() {
       capacity: 4,
     },
   });
+
+  await upsertGallery("media-room-deluxe", ["room-deluxe-1.jpg", "room-deluxe-2.jpg"], {
+    roomId: deluxe.id,
+  });
+  await upsertGallery("media-room-cottage", ["room-twin.jpg"], { roomId: cottage.id });
 
   const today = todayDateOnly();
   const days = Array.from({ length: 30 }, (_, i) => addDays(today, i));

@@ -1,5 +1,6 @@
 import { afterAll, beforeEach, describe, expect, it } from "vitest";
 import { prisma } from "@/lib/db";
+import { FARM_PROPERTY_ID } from "@/lib/constants";
 import { runSeed } from "../seed-logic";
 
 describe("seed script", () => {
@@ -30,7 +31,7 @@ describe("seed script", () => {
     expect(await prisma.farmProperty.count()).toBe(1);
     expect(await prisma.room.count()).toBe(2);
     expect(await prisma.roomAvailability.count()).toBe(60);
-    expect(await prisma.media.count()).toBe(5);
+    expect(await prisma.media.count()).toBe(14);
   });
 
   it("links the seeded logo as the website's logo media", async () => {
@@ -56,5 +57,59 @@ describe("seed script", () => {
 
     const treks = await prisma.trek.findMany();
     expect(treks.every((t) => t.active)).toBe(true);
+  });
+
+  describe("gallery images", () => {
+    async function urls(where: Record<string, unknown>) {
+      const media = await prisma.media.findMany({ where, orderBy: { createdAt: "asc" } });
+      return media.map((m) => m.url);
+    }
+
+    it("gives Devrana Trek its hero first, then temple and mela photos", async () => {
+      await runSeed();
+      const trek = await prisma.trek.findUniqueOrThrow({ where: { slug: "devrana-trek" } });
+
+      expect(await urls({ trekId: trek.id })).toEqual([
+        "/seed-images/devrana-trek-hero.jpg",
+        "/seed-images/devrana-mandir-1.jpg",
+        "/seed-images/devrana-mela-hero.jpg",
+      ]);
+    });
+
+    it("gives Rupnyol Bugyal Trek its summit hero and three more views", async () => {
+      await runSeed();
+      const trek = await prisma.trek.findUniqueOrThrow({ where: { slug: "rupnyol-bugyal-trek" } });
+
+      expect(await urls({ trekId: trek.id })).toEqual([
+        "/seed-images/bugyal-summit.jpg",
+        "/seed-images/bugyal-horses.jpg",
+        "/seed-images/bugyal-valley.jpg",
+        "/seed-images/bugyal-tree.jpg",
+      ]);
+    });
+
+    it("gives the farm stay the hotel exterior and lounge, and rooms their own photos", async () => {
+      await runSeed();
+
+      expect(await urls({ farmPropertyId: FARM_PROPERTY_ID })).toEqual([
+        "/seed-images/hotel-exterior.jpg",
+        "/seed-images/hotel-lounge.jpg",
+      ]);
+      expect(await urls({ roomId: "singleton-room-deluxe" })).toEqual([
+        "/seed-images/room-deluxe-1.jpg",
+        "/seed-images/room-deluxe-2.jpg",
+      ]);
+      expect(await urls({ roomId: "singleton-room-cottage" })).toEqual([
+        "/seed-images/room-twin.jpg",
+      ]);
+    });
+
+    it("keeps gallery order stable when the seed is run again", async () => {
+      await runSeed();
+      await runSeed();
+      const trek = await prisma.trek.findUniqueOrThrow({ where: { slug: "devrana-trek" } });
+
+      expect((await urls({ trekId: trek.id }))[0]).toBe("/seed-images/devrana-trek-hero.jpg");
+    });
   });
 });
