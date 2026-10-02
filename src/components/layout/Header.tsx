@@ -28,9 +28,9 @@ export function Header({ settings }: { settings: HeaderSettings }) {
             <Image
               src={settings.logoMedia.url}
               alt={settings.businessName}
-              width={140}
-              height={48}
-              className="h-11 w-auto object-contain"
+              width={200}
+              height={84}
+              className="h-14 w-auto object-contain sm:h-16"
               priority
             />
           ) : (

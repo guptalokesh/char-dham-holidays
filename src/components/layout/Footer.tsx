@@ -48,9 +48,9 @@ export function Footer({ settings }: { settings: FooterSettings }) {
                 <Image
                   src={settings.logoMedia.url}
                   alt={settings.businessName}
-                  width={140}
-                  height={48}
-                  className="h-9 w-auto object-contain"
+                  width={200}
+                  height={84}
+                  className="h-14 w-auto object-contain"
                 />
               </div>
             ) : (
