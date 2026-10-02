@@ -65,4 +65,23 @@ describe("ChardhamPageContent", () => {
 
     expect(screen.queryByText(/may to june/i)).not.toBeInTheDocument();
   });
+
+  it("shows the Yamunotri and Gangotri helicopter handling section when set", () => {
+    render(
+      <ChardhamPageContent
+        pkg={{ ...basePkg, aircraftHandlingInfo: "Landing at Kharsali for Yamunotri and Harsil for Gangotri." }}
+      />
+    );
+
+    expect(
+      screen.getByRole("heading", { name: /yamunotri & gangotri helicopter handling/i })
+    ).toBeInTheDocument();
+    expect(screen.getByText(/landing at kharsali/i)).toBeInTheDocument();
+  });
+
+  it("omits the helicopter handling section when no text is set", () => {
+    render(<ChardhamPageContent pkg={{ ...basePkg, aircraftHandlingInfo: null }} />);
+
+    expect(screen.queryByText(/helicopter handling/i)).not.toBeInTheDocument();
+  });
 });

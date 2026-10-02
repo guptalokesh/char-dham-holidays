@@ -14,6 +14,7 @@ export const chardhamPackageUpdateSchema = z.object({
   travelPeriod: optionalText(300),
   routeOverview: optionalText(2000),
   importantInfo: optionalText(2000),
+  aircraftHandlingInfo: optionalText(2000),
   active: z.boolean().optional(),
 });
 

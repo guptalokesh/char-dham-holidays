@@ -13,6 +13,7 @@ export interface ChardhamPageContentProps {
     travelPeriod: string | null;
     routeOverview: string | null;
     importantInfo: string | null;
+    aircraftHandlingInfo?: string | null;
     active: boolean;
     images: { url: string }[];
     itineraryMedia: { url: string } | null;
@@ -112,6 +113,15 @@ export function ChardhamPageContent({ pkg }: ChardhamPageContentProps) {
           <section className="mt-10">
             <h2 className="text-lg font-semibold text-stone-900">Route overview</h2>
             <p className="mt-1 text-stone-700">{pkg.routeOverview}</p>
+          </section>
+        )}
+
+        {pkg.aircraftHandlingInfo && (
+          <section className="mt-10 rounded-xl border border-blue-100 bg-blue-50/60 p-6">
+            <h2 className="text-lg font-semibold text-stone-900">
+              Yamunotri &amp; Gangotri helicopter handling
+            </h2>
+            <p className="mt-2 text-stone-700">{pkg.aircraftHandlingInfo}</p>
           </section>
         )}
 

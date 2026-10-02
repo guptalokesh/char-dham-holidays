@@ -105,6 +105,8 @@ async function seedChardham() {
       stayInfo: "Included",
       foodInfo: "Included",
       travelInfo: "Included",
+      aircraftHandlingInfo:
+        "We handle helicopter ground and aircraft coordination for Yamunotri and Gangotri. Yamunotri flights land at the Kharsali helipad, a short walk from the temple; Gangotri flights land at the Harsil helipad, followed by a road transfer. Our team arranges landing, boarding and transfers. Flights depend on weather and operator schedules.",
     },
   });
 

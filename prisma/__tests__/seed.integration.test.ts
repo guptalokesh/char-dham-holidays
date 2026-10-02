@@ -61,6 +61,15 @@ describe("seed script", () => {
     expect(treks.every((t) => t.active)).toBe(true);
   });
 
+  it("seeds editable helicopter handling text for Yamunotri and Gangotri only", async () => {
+    await runSeed();
+
+    const pkg = await prisma.chardhamPackage.findFirstOrThrow();
+    expect(pkg.aircraftHandlingInfo).toMatch(/Yamunotri/);
+    expect(pkg.aircraftHandlingInfo).toMatch(/Gangotri/);
+    expect(pkg.aircraftHandlingInfo).not.toMatch(/Kedarnath|Badrinath/);
+  });
+
   describe("gallery images", () => {
     async function urls(where: Record<string, unknown>) {
       const media = await prisma.media.findMany({ where, orderBy: { createdAt: "asc" } });

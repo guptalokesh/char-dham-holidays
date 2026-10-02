@@ -96,4 +96,12 @@ describe("chardhamPackageUpdateSchema", () => {
       expect(result.data.importantInfo).toBeNull();
     }
   });
+
+  it("accepts aircraft handling info and turns an empty string into null", () => {
+    const set = chardhamPackageUpdateSchema.safeParse({ aircraftHandlingInfo: "  Kharsali helipad  " });
+    expect(set.success && set.data.aircraftHandlingInfo).toBe("Kharsali helipad");
+
+    const cleared = chardhamPackageUpdateSchema.safeParse({ aircraftHandlingInfo: "" });
+    expect(cleared.success && cleared.data.aircraftHandlingInfo).toBeNull();
+  });
 });

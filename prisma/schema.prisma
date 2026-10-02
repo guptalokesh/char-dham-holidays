@@ -124,19 +124,20 @@ model Media {
 }
 
 model ChardhamPackage {
-  id               String   @id @default(cuid())
-  name             String   @default("Chardham Yatra by Helicopter")
-  price            Int
-  destinations     String[]
-  stayInfo         String
-  foodInfo         String
-  travelInfo       String
-  travelPeriod     String?
-  routeOverview    String?
-  importantInfo    String?
-  itineraryMediaId String?  @unique
-  itineraryMedia   Media?   @relation("ChardhamItinerary", fields: [itineraryMediaId], references: [id], onDelete: SetNull)
-  active           Boolean  @default(true)
+  id                   String   @id @default(cuid())
+  name                 String   @default("Chardham Yatra by Helicopter")
+  price                Int
+  destinations         String[]
+  stayInfo             String
+  foodInfo             String
+  travelInfo           String
+  travelPeriod         String?
+  routeOverview        String?
+  importantInfo        String?
+  aircraftHandlingInfo String?
+  itineraryMediaId     String?  @unique
+  itineraryMedia       Media?   @relation("ChardhamItinerary", fields: [itineraryMediaId], references: [id], onDelete: SetNull)
+  active               Boolean  @default(true)
 
   images Media[] @relation("ChardhamGallery")
 

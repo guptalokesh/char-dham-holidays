@@ -14,6 +14,7 @@ interface ChardhamPackageData {
   travelPeriod: string | null;
   routeOverview: string | null;
   importantInfo: string | null;
+  aircraftHandlingInfo: string | null;
   active: boolean;
   images: { id: string; url: string }[];
   itineraryMedia: { id: string; url: string } | null;
@@ -49,6 +50,7 @@ export function ChardhamAdminForm({ initial }: { initial: ChardhamPackageData })
           travelPeriod: data.travelPeriod ?? "",
           routeOverview: data.routeOverview ?? "",
           importantInfo: data.importantInfo ?? "",
+          aircraftHandlingInfo: data.aircraftHandlingInfo ?? "",
           active: data.active,
         }),
       });
@@ -190,6 +192,19 @@ export function ChardhamAdminForm({ initial }: { initial: ChardhamPackageData })
             rows={3}
             value={data.importantInfo ?? ""}
             onChange={(e) => setData({ ...data, importantInfo: e.target.value })}
+            className="w-full rounded border border-zinc-300 px-3 py-2"
+          />
+        </div>
+
+        <div className="space-y-1">
+          <label htmlFor="aircraftHandlingInfo" className="block text-sm font-medium">
+            Yamunotri &amp; Gangotri helicopter handling (optional)
+          </label>
+          <textarea
+            id="aircraftHandlingInfo"
+            rows={4}
+            value={data.aircraftHandlingInfo ?? ""}
+            onChange={(e) => setData({ ...data, aircraftHandlingInfo: e.target.value })}
             className="w-full rounded border border-zinc-300 px-3 py-2"
           />
         </div>
