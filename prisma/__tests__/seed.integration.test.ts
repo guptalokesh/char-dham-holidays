@@ -128,7 +128,8 @@ describe("seed script", () => {
 
       const mandir = await prisma.place.findUniqueOrThrow({ where: { slug: "devrana-mandir" } });
       expect(mandir.title).toMatch(/Devrana/);
-      expect(mandir.address).toContain("Tiyan");
+      expect(mandir.address).toBe("Devrana, Tiyan area, Uttarakhand");
+      expect(`${mandir.address}${mandir.body}`).not.toMatch(/\d{6}/);
       expect(await urls({ placeId: mandir.id })).toEqual([
         "/seed-images/devrana-mela-hero.jpg",
         "/seed-images/devrana-mandir-1.jpg",

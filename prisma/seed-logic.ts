@@ -160,8 +160,8 @@ async function seedPlaces() {
       title: "Devrana Mandir & Mela",
       summary: "Rudreshwar Mahadev Mandir at Devrana, and the village mela that gathers around it.",
       body:
-        "Rudreshwar Mahadev Mandir stands among deodar forest at Devrana, above Tiyan village. Pilgrims and villagers gather here for the Devrana mela, and the temple is the destination of our Devrana Trek. Mela dates are announced locally — contact our team to plan your visit.",
-      address: "Rudreshwar Mahadev Mandir, Devrana, Tiyan, Uttarakhand 249171",
+        "Rudreshwar Mahadev Mandir stands among deodar forest at Devrana, in the Tiyan area. Pilgrims and villagers gather here for the Devrana mela, and the temple is the destination of our Devrana Trek. Mela dates are announced locally — contact our team to plan your visit.",
+      address: "Devrana, Tiyan area, Uttarakhand",
       order: 1,
     },
   });
