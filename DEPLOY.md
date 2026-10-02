@@ -10,17 +10,35 @@ The build command (`npm run build:deploy`, already set in `vercel.json` and `net
 3. loads the starter content and photos (text you edit in admin is never overwritten),
 4. builds the site.
 
-## Vercel (recommended)
-1. https://vercel.com/new → import `guptalokesh/char-dham-holidays`. Leave every build
-   setting as it is (Root `./`, preset Next.js, no environment variables needed).
-2. Before pressing Deploy, or right after: open the project → **Storage** → **Create
-   Database** → **Neon** (free plan) → connect it to the project. This adds
-   `DATABASE_URL` automatically. Then **Deployments → Redeploy**.
-3. Open the build log of that deployment. Near the end it prints a box
-   `ADMIN LOGIN (shown once — save it)` with the admin email and a generated password.
-   Save it. Admin is at `/admin/login`.
+## Vercel — step by step (recommended)
 
-That is all. Share the `https://<name>.vercel.app` link.
+**Step 1 — Import.** vercel.com → Add New → Project → pick `guptalokesh/char-dham-holidays` → Import.
+
+**Step 2 — Settings screen** (Root Directory / Application Preset / Build and Output Settings):
+- Root Directory: leave `./`
+- Application Preset: leave **Next.js**
+- **Build Command: click the pencil icon and type `npm run build:deploy`.**
+  (`vercel.json` already sets this; typing it here as well makes sure it is used.)
+- Output Directory and Install Command: leave as they are (greyed out).
+- Environment Variables: leave empty for now. Nothing is required here.
+
+**Step 3 — Click Deploy.** The first build will stop with the message
+`DATABASE_URL is missing`. That is expected — the database is added next.
+
+**Step 4 — Add the free database.** In the project: **Storage** tab → Create Database →
+**Neon** → free plan → Continue → connect it to this project (all environments).
+Vercel now adds `DATABASE_URL` by itself.
+
+**Step 5 — Redeploy.** Deployments tab → the failed one → ⋯ → **Redeploy**. This build creates
+the tables, loads the content and photos, and publishes the site.
+
+**Step 6 — Open the site.** Project page → **Visit**, or use the `https://<name>.vercel.app`
+link. Share that link with your tester.
+
+No admin login is needed to view the site. (The admin password is generated automatically and
+printed once in the build log — only look for it if you ever want `/admin/login`.)
+
+If a build fails, open it and read the last red lines; the message names the problem.
 
 ## Netlify
 Same idea: Import from Git, then add `DATABASE_URL` (a free Neon connection string with
