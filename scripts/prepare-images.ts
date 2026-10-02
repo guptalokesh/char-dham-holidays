@@ -67,10 +67,6 @@ export const MANIFEST: { dir: string; entries: ManifestEntry[] }[] = [
       { src: "IMG-20261002-WA0007.jpg", out: "bugyal-horses.jpg" },
       { src: "IMG-20261002-WA0012.jpg", out: "bugyal-valley.jpg" },
       { src: "IMG-20261002-WA0014.jpg", out: "bugyal-tree.jpg" },
-      { src: "IMG-20261002-WA0008.jpg", out: "bugyal-thumb-1.jpg" },
-      { src: "IMG-20261002-WA0010.jpg", out: "bugyal-thumb-2.jpg" },
-      { src: "IMG-20261002-WA0011.jpg", out: "bugyal-thumb-3.jpg" },
-      { src: "IMG-20261002-WA0013.jpg", out: "bugyal-thumb-4.jpg" },
     ],
   },
   {

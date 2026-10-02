@@ -55,3 +55,9 @@ next-env.d.ts
 /public/uploads
 /public/uploads-test
 /public/uploads-e2e
+
+# raw source photos — the cleaned copies in images/curated are what the site uses
+/images/bugyaal Trek/
+/images/devrana mela and mandir/
+/images/hotel and rooms/
+/images/local basecamp - dhari kalogi/
