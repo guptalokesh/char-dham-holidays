@@ -26,7 +26,7 @@ export async function getFarmProperty() {
     where: { id: FARM_PROPERTY_ID },
     update: {},
     create: { id: FARM_PROPERTY_ID, description: "" },
-    include: { images: true, rooms: { include: { images: true } } },
+    include: { images: { orderBy: { createdAt: "asc" } }, rooms: { include: { images: { orderBy: { createdAt: "asc" } } } } },
   });
 }
 
@@ -36,7 +36,7 @@ export async function updateFarmProperty(input: FarmPropertyUpdateInput) {
   return prisma.farmProperty.update({
     where: { id: FARM_PROPERTY_ID },
     data,
-    include: { images: true, rooms: { include: { images: true } } },
+    include: { images: { orderBy: { createdAt: "asc" } }, rooms: { include: { images: { orderBy: { createdAt: "asc" } } } } },
   });
 }
 
@@ -56,14 +56,14 @@ export async function createRoom(input: RoomCreateInput) {
 
 export async function updateRoom(id: string, input: RoomUpdateInput) {
   const data = roomUpdateSchema.parse(input);
-  return prisma.room.update({ where: { id }, data, include: { images: true } });
+  return prisma.room.update({ where: { id }, data, include: { images: { orderBy: { createdAt: "asc" } } } });
 }
 
 export async function listRooms(options?: { activeOnly?: boolean }) {
   const activeOnly = options?.activeOnly ?? false;
   return prisma.room.findMany({
     where: activeOnly ? { active: true } : undefined,
-    include: { images: true },
+    include: { images: { orderBy: { createdAt: "asc" } } },
     orderBy: { price: "asc" },
   });
 }
@@ -123,7 +123,7 @@ export async function searchAvailableRooms(input: FarmSearchInput) {
 
   const candidateRooms = await prisma.room.findMany({
     where: { active: true, capacity: { gte: data.guests } },
-    include: { images: true },
+    include: { images: { orderBy: { createdAt: "asc" } } },
     orderBy: { price: "asc" },
   });
 

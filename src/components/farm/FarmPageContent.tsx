@@ -60,11 +60,14 @@ export function FarmPageContent({ property }: FarmPageContentProps) {
 
         {galleryImages.length > 0 && (
           <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3">
-            {galleryImages.map((image) => (
-              <div key={image.url} className="relative aspect-video overflow-hidden rounded-xl">
+            {galleryImages.map((image, i) => (
+              <div
+                key={image.url}
+                className="relative aspect-video overflow-hidden rounded-xl"
+              >
                 <Image
                   src={image.url}
-                  alt="Farm Home Stay"
+                  alt={`Farm Home Stay — photo ${i + 2}`}
                   fill
                   sizes="(max-width: 640px) 50vw, 33vw"
                   className="object-cover"
@@ -77,31 +80,70 @@ export function FarmPageContent({ property }: FarmPageContentProps) {
         <section className="mt-10">
           <h2 className="text-lg font-semibold text-stone-900">Rooms</h2>
           {activeRooms.length === 0 ? (
-            <p className="mt-2 text-stone-500">Room details will be available soon.</p>
+            <p className="mt-2 text-stone-500">
+              Room details will be available soon.
+            </p>
           ) : (
             <div className="mt-4 grid grid-cols-1 gap-5 sm:grid-cols-2">
               {activeRooms.map((room) => (
                 <div
                   key={room.id}
-                  className="rounded-xl border border-green-100 bg-white p-5 shadow-sm transition-shadow hover:shadow-md"
+                  className="overflow-hidden rounded-xl border border-green-100 bg-white shadow-sm transition-shadow hover:shadow-md"
                 >
-                  <h3 className="font-semibold text-stone-900">{room.name}</h3>
-                  <p className="text-sm text-stone-600">Up to {room.capacity} guests</p>
-                  <p className="mt-1 font-medium text-green-800">
-                    {formatInr(room.price)} <span className="text-sm text-stone-500">/ night</span>
-                  </p>
-                  {Array.isArray(room.amenities) && room.amenities.length > 0 && (
-                    <ul className="mt-3 flex flex-wrap gap-1.5">
-                      {(room.amenities as string[]).map((amenity) => (
-                        <li
-                          key={amenity}
-                          className="rounded-full bg-green-50 px-2.5 py-0.5 text-xs font-medium text-green-800"
-                        >
-                          {amenity}
-                        </li>
-                      ))}
-                    </ul>
+                  {room.images[0] && (
+                    <div className="relative aspect-[4/3] w-full">
+                      <Image
+                        src={room.images[0].url}
+                        alt={room.name}
+                        fill
+                        sizes="(max-width: 640px) 100vw, 400px"
+                        className="object-cover"
+                      />
+                    </div>
                   )}
+                  <div className="p-5">
+                    <h3 className="font-semibold text-stone-900">
+                      {room.name}
+                    </h3>
+                    <p className="text-sm text-stone-600">
+                      Up to {room.capacity} guests
+                    </p>
+                    <p className="mt-1 font-medium text-green-800">
+                      {formatInr(room.price)}{" "}
+                      <span className="text-sm text-stone-500">/ night</span>
+                    </p>
+                    {Array.isArray(room.amenities) &&
+                      room.amenities.length > 0 && (
+                        <ul className="mt-3 flex flex-wrap gap-1.5">
+                          {(room.amenities as string[]).map((amenity) => (
+                            <li
+                              key={amenity}
+                              className="rounded-full bg-green-50 px-2.5 py-0.5 text-xs font-medium text-green-800"
+                            >
+                              {amenity}
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    {room.images.length > 1 && (
+                      <div className="mt-4 flex gap-2">
+                        {room.images.slice(1).map((image, i) => (
+                          <div
+                            key={image.url}
+                            className="relative h-16 w-20 overflow-hidden rounded-lg"
+                          >
+                            <Image
+                              src={image.url}
+                              alt={`${room.name} — photo ${i + 2}`}
+                              fill
+                              sizes="80px"
+                              className="object-cover"
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
                 </div>
               ))}
             </div>
@@ -109,15 +151,17 @@ export function FarmPageContent({ property }: FarmPageContentProps) {
         </section>
 
         <section className="mt-12 rounded-2xl border border-green-200 bg-gradient-to-br from-green-50 to-white p-6 shadow-sm sm:p-8">
-          <h2 className="text-lg font-semibold text-stone-900">Check availability</h2>
+          <h2 className="text-lg font-semibold text-stone-900">
+            Check availability
+          </h2>
           {property.active ? (
             <div className="mt-4">
               <FarmAvailabilitySearch />
             </div>
           ) : (
             <p className="mt-2 text-stone-600">
-              Farm Home Stay is currently unavailable for booking. Please check back
-              soon or contact us for more details.
+              Farm Home Stay is currently unavailable for booking. Please check
+              back soon or contact us for more details.
             </p>
           )}
         </section>

@@ -4,6 +4,7 @@ import {
   createRoom,
   getFarmProperty,
   getRoomAvailabilityGrid,
+  listRooms,
   searchAvailableRooms,
   setRoomAvailability,
   submitFarmBookingRequest,
@@ -51,6 +52,45 @@ describe("farm home stay module", () => {
   it("round-trips a property update", async () => {
     await updateFarmProperty({ description: "Peaceful farm stay in the hills." });
     expect((await getFarmProperty()).description).toBe("Peaceful farm stay in the hills.");
+  });
+
+  describe("image order", () => {
+    async function addImages(owner: Record<string, string>) {
+      const base = Date.now();
+      for (const [name, offset] of [["third", 2], ["first", 0], ["second", 1]] as const) {
+        await prisma.media.create({
+          data: {
+            url: `/uploads/${name}.jpg`,
+            filename: `${name}.jpg`,
+            mimeType: "image/jpeg",
+            size: 1,
+            purpose: "IMAGE",
+            createdAt: new Date(base + offset * 1000),
+            ...owner,
+          },
+        });
+      }
+    }
+
+    const expected = ["/uploads/first.jpg", "/uploads/second.jpg", "/uploads/third.jpg"];
+
+    it("returns property and room images oldest-first so heroes are stable", async () => {
+      const room = await makeRoom();
+      await getFarmProperty();
+      await addImages({ farmPropertyId: FARM_PROPERTY_ID });
+      await addImages({ roomId: room.id });
+
+      const property = await getFarmProperty();
+      expect(property.images.map((i) => i.url)).toEqual(expected);
+      expect(property.rooms[0].images.map((i) => i.url)).toEqual(expected);
+    });
+
+    it("returns room images oldest-first from listRooms", async () => {
+      const room = await makeRoom();
+      await addImages({ roomId: room.id });
+
+      expect((await listRooms())[0].images.map((i) => i.url)).toEqual(expected);
+    });
   });
 
   describe("searchAvailableRooms", () => {

@@ -61,4 +61,36 @@ describe("FarmPageContent", () => {
     expect(screen.getByText(/currently unavailable/i)).toBeInTheDocument();
     expect(screen.queryByLabelText(/check-in/i)).not.toBeInTheDocument();
   });
+
+  it("shows a room's photos on its card, cover first", () => {
+    render(
+      <FarmPageContent
+        property={{
+          ...baseProperty,
+          rooms: [
+            {
+              ...baseProperty.rooms[0],
+              images: [{ url: "/seed-images/a.jpg" }, { url: "/seed-images/b.jpg" }],
+            },
+          ],
+        }}
+      />
+    );
+
+    expect(screen.getByRole("img", { name: "Deluxe Room" })).toBeInTheDocument();
+    expect(screen.getByRole("img", { name: "Deluxe Room — photo 2" })).toBeInTheDocument();
+  });
+
+  it("gives each property gallery photo a distinct alt text", () => {
+    render(
+      <FarmPageContent
+        property={{
+          ...baseProperty,
+          images: [{ url: "/seed-images/h.jpg" }, { url: "/seed-images/g1.jpg" }],
+        }}
+      />
+    );
+
+    expect(screen.getByRole("img", { name: "Farm Home Stay — photo 2" })).toBeInTheDocument();
+  });
 });
