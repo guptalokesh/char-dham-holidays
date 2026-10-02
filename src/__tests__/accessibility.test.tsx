@@ -134,7 +134,7 @@ describe("accessibility (axe)", () => {
             title: "Devrana Mandir & Mela",
             summary: "The temple and its mela.",
             body: "Pilgrims gather here.",
-            address: "Devrana, Tiyan, Uttarakhand 249171",
+            address: "Devrana, Tiyan area, Uttarakhand",
             mapLink: "https://maps.example/devrana",
             images: [{ url: "/seed-images/a.jpg" }, { url: "/seed-images/b.jpg" }],
           },

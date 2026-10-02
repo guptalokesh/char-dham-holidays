@@ -64,13 +64,13 @@ describe("place module", () => {
       title: "  Devrana Mandir  ",
       summary: "New summary",
       body: "New body",
-      address: "Tiyan, Uttarakhand 249171",
+      address: "Tiyan area, Uttarakhand",
       mapLink: "",
       active: false,
     });
 
     expect(updated.title).toBe("Devrana Mandir");
-    expect(updated.address).toBe("Tiyan, Uttarakhand 249171");
+    expect(updated.address).toBe("Tiyan area, Uttarakhand");
     expect(updated.mapLink).toBeNull();
     expect(updated.active).toBe(false);
   });

@@ -9,7 +9,7 @@ const places = [
     title: "Devrana Mandir & Mela",
     summary: "The temple and its mela.",
     body: "Pilgrims gather here.",
-    address: "Devrana, Tiyan, Uttarakhand 249171",
+    address: "Devrana, Tiyan area, Uttarakhand",
     mapLink: "https://maps.example/devrana",
     images: [{ url: "/seed-images/a.jpg" }, { url: "/seed-images/b.jpg" }, { url: "/seed-images/c.jpg" }],
   },
@@ -39,7 +39,7 @@ describe("PlacesPageContent", () => {
     render(<PlacesPageContent places={places} />);
 
     const mandir = screen.getByRole("region", { name: "Devrana Mandir & Mela" });
-    expect(within(mandir).getByText(/Tiyan, Uttarakhand 249171/)).toBeInTheDocument();
+    expect(within(mandir).getByText(/Tiyan area, Uttarakhand/)).toBeInTheDocument();
     expect(within(mandir).getByRole("link", { name: /view on map/i })).toHaveAttribute(
       "href",
       "https://maps.example/devrana"
