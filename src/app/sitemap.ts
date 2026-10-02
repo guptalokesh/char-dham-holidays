@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { listTreks } from "@/lib/trek";
+import { getSiteUrl } from "@/lib/site-url";
 
 // Trek listings are admin-editable; the sitemap must reflect new/removed
 // treks without a rebuild.
@@ -18,7 +19,7 @@ const STATIC_PATHS = [
 ];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+  const siteUrl = getSiteUrl();
   const treks = await listTreks();
 
   const staticEntries: MetadataRoute.Sitemap = STATIC_PATHS.map((path) => ({

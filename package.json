@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:netlify": "tsx scripts/check-env.ts && prisma generate --config prisma7.config.ts && prisma migrate deploy --config prisma7.config.ts && tsx prisma/seed.ts && next build",
     "start": "next start",
     "lint": "eslint",
     "test": "vitest run",
