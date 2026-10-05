@@ -1,6 +1,13 @@
 import { afterAll, beforeEach, describe, expect, it } from "vitest";
 import { prisma } from "@/lib/db";
-import { getPackageById, getPackageBySlug, listPackages, parseSteps, updatePackage } from "@/lib/packages";
+import {
+  getPackageById,
+  getPackageBySlug,
+  listPackages,
+  parseSteps,
+  setPackageItinerary,
+  updatePackage,
+} from "@/lib/packages";
 
 async function makePackage(slug: string, order: number, overrides: Record<string, unknown> = {}) {
   return prisma.chardhamPackage.create({
@@ -111,5 +118,28 @@ describe("packages module", () => {
       expect(parseSteps("nope")).toEqual([]);
       expect(parseSteps([{ nothing: true }])).toEqual([]);
     });
+  });
+});
+
+describe("setPackageItinerary", () => {
+  beforeEach(async () => {
+    await prisma.enquiry.deleteMany();
+    await prisma.media.deleteMany();
+    await prisma.chardhamPackage.deleteMany();
+  });
+
+  it("links an uploaded PDF to the package, and rejects an image or an unknown package", async () => {
+    const pkg = await makePackage("char-dham", 1);
+    const pdf = await prisma.media.create({
+      data: { url: "/uploads/i.pdf", filename: "i.pdf", mimeType: "application/pdf", size: 1, purpose: "PDF" },
+    });
+    const image = await prisma.media.create({
+      data: { url: "/uploads/i.jpg", filename: "i.jpg", mimeType: "image/jpeg", size: 1, purpose: "IMAGE" },
+    });
+
+    expect((await setPackageItinerary(pkg.id, pdf.id)).itineraryMedia?.url).toBe("/uploads/i.pdf");
+    expect((await setPackageItinerary(pkg.id, null)).itineraryMediaId).toBeNull();
+    await expect(setPackageItinerary(pkg.id, image.id)).rejects.toThrow(/PDF/);
+    await expect(setPackageItinerary("missing", pdf.id)).rejects.toThrow();
   });
 });

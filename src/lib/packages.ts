@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/db";
+import { UserFacingError } from "@/lib/errors";
 import {
   chardhamPackageUpdateSchema,
   packageStepSchema,
@@ -41,4 +42,19 @@ export function parseSteps(value: unknown): PackageStep[] {
     if (parsed.success) steps.push(parsed.data);
   }
   return steps;
+}
+
+export async function setPackageItinerary(id: string, mediaId: string | null) {
+  if (mediaId !== null) {
+    const media = await prisma.media.findUnique({ where: { id: mediaId } });
+    if (!media || media.purpose !== "PDF") {
+      throw new UserFacingError("Itinerary must reference an uploaded PDF.");
+    }
+  }
+
+  return prisma.chardhamPackage.update({
+    where: { id },
+    data: { itineraryMediaId: mediaId },
+    include,
+  });
 }

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getChardhamPackage } from "@/lib/chardham";
+import { listPackages } from "@/lib/packages";
 import { listTreks } from "@/lib/trek";
 import { listRooms } from "@/lib/farm";
 import { listEnquiries } from "@/lib/enquiries-admin";
@@ -17,18 +17,18 @@ function SummaryCard({ label, value }: { label: string; value: number | string }
 }
 
 export default async function AdminDashboardPage() {
-  const [chardham, treks, rooms, allEnquiries] = await Promise.all([
-    getChardhamPackage(),
+  const [yatras, treks, rooms, allEnquiries] = await Promise.all([
+    listPackages({ activeOnly: false }),
     listTreks({ activeOnly: false }),
     listRooms(),
     listEnquiries(),
   ]);
 
   const activeListingsCount =
-    (chardham.active ? 1 : 0) + treks.filter((t) => t.active).length;
+    yatras.filter((y) => y.active).length + treks.filter((t) => t.active).length;
   const pendingEnquiries = allEnquiries.filter((e) => e.status === "NEW");
   const itineraryCount =
-    (chardham.itineraryMediaId ? 1 : 0) + treks.filter((t) => t.itineraryMediaId).length;
+    yatras.filter((y) => y.itineraryMediaId).length + treks.filter((t) => t.itineraryMediaId).length;
   const recentEnquiries = allEnquiries.slice(0, 10);
 
   return (
@@ -54,11 +54,13 @@ export default async function AdminDashboardPage() {
               </tr>
             </thead>
             <tbody className="divide-y divide-zinc-100">
-              <tr>
-                <td className="px-4 py-2">Chardham Yatra by Helicopter</td>
-                <td className="px-4 py-2">{formatPriceOrRequest(chardham.price)}</td>
-                <td className="px-4 py-2">{chardham.active ? "Active" : "Inactive"}</td>
-              </tr>
+              {yatras.map((yatra) => (
+                <tr key={yatra.id}>
+                  <td className="px-4 py-2">{yatra.name}</td>
+                  <td className="px-4 py-2">{formatPriceOrRequest(yatra.price)}</td>
+                  <td className="px-4 py-2">{yatra.active ? "Active" : "Inactive"}</td>
+                </tr>
+              ))}
               {treks.map((trek) => (
                 <tr key={trek.id}>
                   <td className="px-4 py-2">{trek.name}</td>
