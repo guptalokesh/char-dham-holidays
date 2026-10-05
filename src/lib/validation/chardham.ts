@@ -41,7 +41,11 @@ export type ChardhamPackageUpdateInput = z.infer<typeof chardhamPackageUpdateSch
 
 const MAX_TRAVELLERS = 50;
 
+export const DHAM_NAMES = ["Yamunotri", "Gangotri", "Kedarnath", "Badrinath"] as const;
+
 export const chardhamAvailabilityRequestSchema = z.object({
+  packageSlug: z.string().trim().min(1).default("char-dham"),
+  dhams: z.array(z.enum(DHAM_NAMES)).max(4).optional(),
   name: nameSchema,
   phone: phoneSchema,
   preferredDate: futureDateSchema,
@@ -52,6 +56,6 @@ export const chardhamAvailabilityRequestSchema = z.object({
     .max(MAX_TRAVELLERS, "For groups larger than 50, please contact us directly."),
 });
 
-export type ChardhamAvailabilityRequestInput = z.infer<
+export type ChardhamAvailabilityRequestInput = z.input<
   typeof chardhamAvailabilityRequestSchema
 >;

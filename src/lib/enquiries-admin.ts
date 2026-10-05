@@ -9,6 +9,7 @@ export async function listEnquiries(options?: { status?: EnquiryStatus }) {
     include: {
       trek: { select: { name: true } },
       room: { select: { name: true } },
+      chardhamPackage: { select: { name: true } },
     },
   });
 }

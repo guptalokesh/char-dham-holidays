@@ -8,11 +8,16 @@ export const generalEnquirySchema = z
     email: z.email("Enter a valid email address"),
     service: z.enum(["GENERAL", "CHARDHAM", "TREKKING", "FARM_HOME_STAY"]),
     trekId: z.string().optional(),
+    chardhamPackageId: z.string().optional(),
     message: z.string().trim().min(1, "Message is required").max(2000),
   })
   .refine((data) => data.service !== "TREKKING" || !!data.trekId, {
     message: "Please select a trek",
     path: ["trekId"],
+  })
+  .refine((data) => data.service !== "CHARDHAM" || !!data.chardhamPackageId, {
+    message: "Please select a yatra",
+    path: ["chardhamPackageId"],
   });
 
 export type GeneralEnquiryInput = z.infer<typeof generalEnquirySchema>;

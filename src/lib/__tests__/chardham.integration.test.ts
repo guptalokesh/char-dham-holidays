@@ -103,6 +103,10 @@ describe("chardham module", () => {
   });
 
   describe("submitChardhamAvailabilityRequest", () => {
+    beforeEach(async () => {
+      await getChardhamPackage();
+    });
+
     const validInput = {
       name: "Anita Rao",
       phone: "+91 98765 43210",
@@ -141,6 +145,60 @@ describe("chardham module", () => {
       ).rejects.toThrow();
 
       expect(await prisma.enquiry.count()).toBe(0);
+    });
+  });
+
+  describe("per-package availability requests", () => {
+    const base = {
+      name: "Anita Rao",
+      phone: "+91 98765 43210",
+      preferredDate: futureDate(15),
+      travellers: 2,
+    };
+
+    beforeEach(async () => {
+      await updateWebsiteSettings({ whatsappNumber: "+91 90000 00000" });
+      await prisma.chardhamPackage.create({
+        data: { slug: "any-dham", name: "Any Dham Yatra by Helicopter", order: 2, dhamChoice: true },
+      });
+    });
+
+    it("links the enquiry to the package and uses its name in the WhatsApp text", async () => {
+      const result = await submitChardhamAvailabilityRequest({
+        ...base,
+        packageSlug: "any-dham",
+        dhams: ["Kedarnath"],
+      });
+
+      const enquiry = await prisma.enquiry.findFirstOrThrow({ where: { service: "CHARDHAM" } });
+      const pkg = await prisma.chardhamPackage.findUniqueOrThrow({ where: { slug: "any-dham" } });
+      expect(enquiry.chardhamPackageId).toBe(pkg.id);
+      expect(enquiry.details).toMatchObject({
+        packageName: "Any Dham Yatra by Helicopter",
+        dhams: ["Kedarnath"],
+      });
+
+      const text = decodeURIComponent(result.whatsappUrl!.split("text=")[1]);
+      expect(text).toContain("Any Dham Yatra by Helicopter");
+      expect(text).toContain("Dhams: Kedarnath");
+    });
+
+    it("requires at least one dham for a package where the dhams are chosen", async () => {
+      await expect(
+        submitChardhamAvailabilityRequest({ ...base, packageSlug: "any-dham" })
+      ).rejects.toThrow(/dham/i);
+      expect(await prisma.enquiry.count()).toBe(0);
+    });
+
+    it("rejects an unknown or inactive package", async () => {
+      await expect(
+        submitChardhamAvailabilityRequest({ ...base, packageSlug: "nope" })
+      ).rejects.toThrow(/not found/i);
+
+      await prisma.chardhamPackage.update({ where: { slug: "any-dham" }, data: { active: false } });
+      await expect(
+        submitChardhamAvailabilityRequest({ ...base, packageSlug: "any-dham", dhams: ["Kedarnath"] })
+      ).rejects.toThrow(/not found/i);
     });
   });
 });

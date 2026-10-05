@@ -22,6 +22,7 @@ describe("submitGeneralEnquiry", () => {
   beforeEach(async () => {
     vi.clearAllMocks();
     await prisma.enquiry.deleteMany();
+    await prisma.chardhamPackage.deleteMany();
     await prisma.trek.deleteMany();
     await prisma.websiteSettings.deleteMany();
     await updateWebsiteSettings({
@@ -84,6 +85,30 @@ describe("submitGeneralEnquiry", () => {
     ).rejects.toThrow();
   });
 
+  it("links a Char Dham enquiry to the selected package and names it in the email", async () => {
+    const pkg = await prisma.chardhamPackage.create({
+      data: { slug: "any-dham", name: "Any Dham Yatra by Helicopter", order: 2 },
+    });
+
+    const result = await submitGeneralEnquiry({
+      ...valid,
+      service: "CHARDHAM",
+      chardhamPackageId: pkg.id,
+    });
+
+    const enquiry = await prisma.enquiry.findUniqueOrThrow({ where: { id: result.enquiryId } });
+    expect(enquiry.chardhamPackageId).toBe(pkg.id);
+    const subjects = (sendMail as ReturnType<typeof vi.fn>).mock.calls.map(([a]) => JSON.stringify(a));
+    expect(subjects.some((s) => s.includes("Any Dham Yatra by Helicopter"))).toBe(true);
+  });
+
+  it("requires a package for a Char Dham enquiry", async () => {
+    await expect(submitGeneralEnquiry({ ...valid, service: "CHARDHAM" })).rejects.toThrow();
+    await expect(
+      submitGeneralEnquiry({ ...valid, service: "CHARDHAM", chardhamPackageId: "nope" })
+    ).rejects.toThrow();
+  });
+
   it("rejects invalid input and saves nothing", async () => {
     await expect(submitGeneralEnquiry({ ...valid, email: "not-an-email" })).rejects.toThrow();
     expect(await prisma.enquiry.count()).toBe(0);
@@ -92,11 +117,27 @@ describe("submitGeneralEnquiry", () => {
 
 describe("getEnquiryServiceOptions", () => {
   beforeEach(async () => {
+    await prisma.enquiry.deleteMany();
+    await prisma.chardhamPackage.deleteMany();
     await prisma.trek.deleteMany();
   });
 
   afterAll(async () => {
     await prisma.$disconnect();
+  });
+
+  it("lists each active yatra package by name instead of one fixed Char Dham entry", async () => {
+    await prisma.chardhamPackage.create({ data: { slug: "char-dham", name: "Char Dham Yatra by Helicopter", order: 1 } });
+    await prisma.chardhamPackage.create({ data: { slug: "any-dham", name: "Any Dham Yatra by Helicopter", order: 2 } });
+    await prisma.chardhamPackage.create({ data: { slug: "off", name: "Hidden Yatra", order: 3, active: false } });
+
+    const options = (await getEnquiryServiceOptions()).filter((o) => o.service === "CHARDHAM");
+
+    expect(options.map((o) => o.label)).toEqual([
+      "Char Dham Yatra by Helicopter",
+      "Any Dham Yatra by Helicopter",
+    ]);
+    expect(options.every((o) => o.chardhamPackageId)).toBe(true);
   });
 
   it("includes the fixed services plus each active trek by name", async () => {
@@ -107,7 +148,6 @@ describe("getEnquiryServiceOptions", () => {
     const options = await getEnquiryServiceOptions();
     const labels = options.map((o) => o.label);
 
-    expect(labels).toContain("Chardham Yatra by Helicopter");
     expect(labels).toContain("Devrana Trek");
     expect(labels).toContain("Farm Home Stay");
     expect(labels).toContain("General Enquiry");

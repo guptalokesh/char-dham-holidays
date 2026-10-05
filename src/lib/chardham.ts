@@ -66,12 +66,30 @@ export async function submitChardhamAvailabilityRequest(
 ): Promise<AvailabilityRequestResult> {
   const data = chardhamAvailabilityRequestSchema.parse(input);
 
+  const pkg = await prisma.chardhamPackage.findFirst({
+    where: { slug: data.packageSlug, active: true },
+  });
+  if (!pkg) {
+    throw new UserFacingError("The selected yatra was not found.");
+  }
+
+  const dhams = data.dhams ?? [];
+  if (pkg.dhamChoice && dhams.length === 0) {
+    throw new UserFacingError("Please choose at least one dham.");
+  }
+
   await prisma.enquiry.create({
     data: {
       name: data.name,
       phone: data.phone,
       service: "CHARDHAM",
-      details: { preferredDate: data.preferredDate, travellers: data.travellers },
+      chardhamPackageId: pkg.id,
+      details: {
+        packageName: pkg.name,
+        preferredDate: data.preferredDate,
+        travellers: data.travellers,
+        ...(dhams.length > 0 && { dhams }),
+      },
     },
   });
 
@@ -81,6 +99,8 @@ export async function submitChardhamAvailabilityRequest(
   }
 
   const message = buildChardhamWhatsAppMessage({
+    packageName: pkg.name,
+    dhams,
     preferredDate: data.preferredDate,
     travellers: data.travellers,
   });

@@ -11,6 +11,7 @@ interface EnquiryRow {
   createdAt: string | Date;
   trek: { name: string } | null;
   room: { name: string } | null;
+  chardhamPackage?: { name: string } | null;
 }
 
 export function EnquiriesTable({ enquiries }: { enquiries: EnquiryRow[] }) {
@@ -39,7 +40,7 @@ export function EnquiriesTable({ enquiries }: { enquiries: EnquiryRow[] }) {
               <td className="px-4 py-2">{enquiry.phone}</td>
               <td className="px-4 py-2">{enquiry.email ?? "—"}</td>
               <td className="px-4 py-2">
-                {enquiry.trek?.name ?? enquiry.room?.name ?? enquiry.service.replace("_", " ")}
+                {enquiry.chardhamPackage?.name ?? enquiry.trek?.name ?? enquiry.room?.name ?? enquiry.service.replace("_", " ")}
               </td>
               <td className="max-w-xs truncate px-4 py-2">{enquiry.message ?? "—"}</td>
               <td className="px-4 py-2">{new Date(enquiry.createdAt).toLocaleString()}</td>

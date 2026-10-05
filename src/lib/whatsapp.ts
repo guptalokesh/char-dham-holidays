@@ -12,11 +12,15 @@ export function buildWhatsAppUrl(phone: string, message: string): string {
 }
 
 export function buildChardhamWhatsAppMessage(params: {
+  packageName: string;
   preferredDate: string;
   travellers: number;
+  dhams?: string[];
 }): string {
+  const dhamLine = params.dhams?.length ? `Dhams: ${params.dhams.join(", ")}\n` : "";
   return (
-    "Hello, I am interested in Chardham Yatra by Helicopter.\n\n" +
+    `Hello, I am interested in ${params.packageName}.\n\n` +
+    dhamLine +
     `Preferred date: ${params.preferredDate}\n` +
     `Number of travellers: ${params.travellers}\n\n` +
     "Please confirm availability and booking details."

@@ -4,7 +4,8 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import { GeneralEnquiryForm } from "@/components/enquiry/GeneralEnquiryForm";
 
 const serviceOptions = [
-  { service: "CHARDHAM" as const, label: "Chardham Yatra by Helicopter" },
+  { service: "CHARDHAM" as const, chardhamPackageId: "pkg-1", label: "Char Dham Yatra by Helicopter" },
+  { service: "CHARDHAM" as const, chardhamPackageId: "pkg-2", label: "Any Dham Yatra by Helicopter" },
   { service: "TREKKING" as const, trekId: "trek-1", label: "Devrana Trek" },
   { service: "FARM_HOME_STAY" as const, label: "Farm Home Stay" },
   { service: "GENERAL" as const, label: "General Enquiry" },
@@ -86,5 +87,20 @@ describe("GeneralEnquiryForm", () => {
     await user.click(screen.getByRole("button", { name: /send/i }));
 
     expect(await screen.findByText(/too many requests/i)).toBeInTheDocument();
+  });
+
+  it("submits the selected yatra's chardhamPackageId", async () => {
+    const fetchMock = vi.fn().mockResolvedValue({ ok: true, json: async () => ({ enquiryId: "enq-2" }) });
+    vi.stubGlobal("fetch", fetchMock);
+    const user = userEvent.setup();
+
+    render(<GeneralEnquiryForm serviceOptions={serviceOptions} />);
+    await fillCommonFields(user);
+    await user.selectOptions(screen.getByLabelText(/service/i), "Any Dham Yatra by Helicopter");
+    await user.click(screen.getByRole("button", { name: /send/i }));
+
+    await waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(1));
+    const body = JSON.parse(fetchMock.mock.calls[0][1].body);
+    expect(body).toMatchObject({ service: "CHARDHAM", chardhamPackageId: "pkg-2" });
   });
 });

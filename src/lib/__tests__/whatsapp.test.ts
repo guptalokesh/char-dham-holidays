@@ -20,18 +20,31 @@ describe("normalizePhoneForWhatsApp", () => {
 });
 
 describe("buildChardhamWhatsAppMessage", () => {
-  it("matches the exact format from the spec", () => {
+  it("names the package and lists the date and number of travellers", () => {
     const message = buildChardhamWhatsAppMessage({
+      packageName: "Char Dham Yatra by Helicopter",
       preferredDate: "2026-11-10",
       travellers: 4,
     });
 
     expect(message).toBe(
-      "Hello, I am interested in Chardham Yatra by Helicopter.\n\n" +
+      "Hello, I am interested in Char Dham Yatra by Helicopter.\n\n" +
         "Preferred date: 2026-11-10\n" +
         "Number of travellers: 4\n\n" +
         "Please confirm availability and booking details."
     );
+  });
+
+  it("lists the chosen dhams when there are any", () => {
+    const message = buildChardhamWhatsAppMessage({
+      packageName: "Any Dham Yatra by Helicopter",
+      preferredDate: "2026-11-10",
+      travellers: 2,
+      dhams: ["Kedarnath", "Badrinath"],
+    });
+
+    expect(message).toContain("Hello, I am interested in Any Dham Yatra by Helicopter.");
+    expect(message).toContain("Dhams: Kedarnath, Badrinath\n");
   });
 });
 

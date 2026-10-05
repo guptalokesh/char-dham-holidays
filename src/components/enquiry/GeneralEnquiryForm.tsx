@@ -5,6 +5,7 @@ import { useState } from "react";
 export interface EnquiryServiceOptionProp {
   service: "GENERAL" | "CHARDHAM" | "TREKKING" | "FARM_HOME_STAY";
   trekId?: string;
+  chardhamPackageId?: string;
   label: string;
 }
 
@@ -54,6 +55,7 @@ export function GeneralEnquiryForm({
           email,
           service: option.service,
           trekId: option.trekId,
+          chardhamPackageId: option.chardhamPackageId,
           message,
         }),
       });
@@ -128,7 +130,7 @@ export function GeneralEnquiryForm({
           className="form-input"
         >
           {serviceOptions.map((option, index) => (
-            <option key={`${option.service}-${option.trekId ?? index}`} value={index}>
+            <option key={`${option.service}-${option.trekId ?? option.chardhamPackageId ?? index}`} value={index}>
               {option.label}
             </option>
           ))}

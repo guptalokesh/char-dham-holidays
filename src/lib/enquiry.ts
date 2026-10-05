@@ -8,8 +8,7 @@ import {
 import { sendMail } from "@/lib/email/send";
 import { generalEnquirySchema, type GeneralEnquiryInput } from "@/lib/validation/enquiry";
 
-const FIXED_SERVICE_LABELS: Record<"CHARDHAM" | "FARM_HOME_STAY" | "GENERAL", string> = {
-  CHARDHAM: "Chardham Yatra by Helicopter",
+const FIXED_SERVICE_LABELS: Record<"FARM_HOME_STAY" | "GENERAL", string> = {
   FARM_HOME_STAY: "Farm Home Stay",
   GENERAL: "General Enquiry",
 };
@@ -17,6 +16,7 @@ const FIXED_SERVICE_LABELS: Record<"CHARDHAM" | "FARM_HOME_STAY" | "GENERAL", st
 export interface EnquiryServiceOption {
   service: "GENERAL" | "CHARDHAM" | "TREKKING" | "FARM_HOME_STAY";
   trekId?: string;
+  chardhamPackageId?: string;
   label: string;
 }
 
@@ -27,8 +27,18 @@ export async function getEnquiryServiceOptions(): Promise<EnquiryServiceOption[]
     select: { id: true, name: true },
   });
 
+  const activePackages = await prisma.chardhamPackage.findMany({
+    where: { active: true },
+    orderBy: { order: "asc" },
+    select: { id: true, name: true },
+  });
+
   return [
-    { service: "CHARDHAM", label: FIXED_SERVICE_LABELS.CHARDHAM },
+    ...activePackages.map((pkg) => ({
+      service: "CHARDHAM" as const,
+      chardhamPackageId: pkg.id,
+      label: pkg.name,
+    })),
     ...activeTreks.map((trek) => ({
       service: "TREKKING" as const,
       trekId: trek.id,
@@ -41,8 +51,16 @@ export async function getEnquiryServiceOptions(): Promise<EnquiryServiceOption[]
 
 async function resolveServiceLabel(
   service: GeneralEnquiryInput["service"],
-  trekId?: string
+  trekId?: string,
+  chardhamPackageId?: string
 ): Promise<string> {
+  if (service === "CHARDHAM") {
+    const pkg = await prisma.chardhamPackage.findUnique({ where: { id: chardhamPackageId } });
+    if (!pkg) {
+      throw new UserFacingError("Selected yatra was not found.");
+    }
+    return pkg.name;
+  }
   if (service === "TREKKING") {
     const trek = await prisma.trek.findUnique({ where: { id: trekId } });
     if (!trek) {
@@ -61,7 +79,7 @@ export async function submitGeneralEnquiry(
   input: GeneralEnquiryInput
 ): Promise<SubmitEnquiryResult> {
   const data = generalEnquirySchema.parse(input);
-  const serviceLabel = await resolveServiceLabel(data.service, data.trekId);
+  const serviceLabel = await resolveServiceLabel(data.service, data.trekId, data.chardhamPackageId);
 
   const enquiry = await prisma.enquiry.create({
     data: {
@@ -70,6 +88,7 @@ export async function submitGeneralEnquiry(
       email: data.email,
       service: data.service,
       trekId: data.service === "TREKKING" ? data.trekId : undefined,
+      chardhamPackageId: data.service === "CHARDHAM" ? data.chardhamPackageId : undefined,
       message: data.message,
     },
   });

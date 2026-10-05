@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { submitChardhamAvailabilityRequest } from "@/lib/chardham";
+import { UserFacingError } from "@/lib/errors";
 import { getClientIp } from "@/lib/request-ip";
 import { RateLimiter } from "@/lib/rate-limit";
 
@@ -31,6 +32,9 @@ export async function POST(request: NextRequest) {
         { error: "Please check the form and try again.", issues: error.issues },
         { status: 400 }
       );
+    }
+    if (error instanceof UserFacingError) {
+      return NextResponse.json({ error: error.message }, { status: 400 });
     }
     throw error;
   }

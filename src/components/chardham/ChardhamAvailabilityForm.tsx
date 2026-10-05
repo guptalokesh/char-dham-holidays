@@ -1,16 +1,24 @@
 "use client";
 
 import { useState } from "react";
+import { DHAM_NAMES } from "@/lib/validation/chardham";
 
 function todayIsoDate(): string {
   return new Date().toISOString().slice(0, 10);
 }
 
-export function ChardhamAvailabilityForm() {
+export function ChardhamAvailabilityForm({
+  packageSlug = "char-dham",
+  dhamChoice = false,
+}: {
+  packageSlug?: string;
+  dhamChoice?: boolean;
+}) {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [preferredDate, setPreferredDate] = useState("");
   const [travellers, setTravellers] = useState("1");
+  const [dhams, setDhams] = useState<string[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [confirmed, setConfirmed] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -18,6 +26,7 @@ export function ChardhamAvailabilityForm() {
   function validate(): string | null {
     if (!name.trim()) return "Name is required.";
     if (!phone.trim()) return "Phone number is required.";
+    if (dhamChoice && dhams.length === 0) return "Please choose at least one dham.";
     if (!preferredDate) return "Preferred date is required.";
     if (preferredDate < todayIsoDate()) {
       return "Preferred date cannot be in the past.";
@@ -46,6 +55,8 @@ export function ChardhamAvailabilityForm() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          packageSlug,
+          ...(dhamChoice && { dhams }),
           name,
           phone,
           preferredDate,
@@ -73,6 +84,30 @@ export function ChardhamAvailabilityForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4" noValidate>
+      {dhamChoice && (
+        <fieldset className="space-y-2">
+          <legend className="block text-sm font-medium">Which dham or dhams would you like to visit?</legend>
+          <div className="flex flex-wrap gap-x-5 gap-y-2">
+            {DHAM_NAMES.map((dham) => (
+              <label key={dham} className="flex items-center gap-2 text-sm">
+                <input
+                  type="checkbox"
+                  checked={dhams.includes(dham)}
+                  onChange={(e) =>
+                    setDhams((current) =>
+                      e.target.checked
+                        ? DHAM_NAMES.filter((d) => d === dham || current.includes(d))
+                        : current.filter((d) => d !== dham)
+                    )
+                  }
+                />
+                {dham}
+              </label>
+            ))}
+          </div>
+        </fieldset>
+      )}
+
       <div className="space-y-1">
         <label htmlFor="chardham-name" className="block text-sm font-medium">
           Name
@@ -145,7 +180,7 @@ export function ChardhamAvailabilityForm() {
       {confirmed && (
         <p className="text-sm text-green-700">
           We&apos;ve received your request and will contact you shortly to confirm
-          availability. Booking is subject to organiser confirmation.
+          availability. Booking is subject to confirmation by our team.
         </p>
       )}
 

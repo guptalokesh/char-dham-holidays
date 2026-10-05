@@ -103,4 +103,52 @@ describe("ChardhamAvailabilityForm", () => {
       await screen.findByText(/too many requests/i)
     ).toBeInTheDocument();
   });
+
+  it("sends the package slug with the request", async () => {
+    const fetchMock = vi.fn().mockResolvedValue({ ok: true, json: async () => ({ whatsappUrl: null }) });
+    vi.stubGlobal("fetch", fetchMock);
+    const user = userEvent.setup();
+
+    render(<ChardhamAvailabilityForm packageSlug="char-dham" />);
+    await fillValidForm(user);
+    await user.click(screen.getByRole("button", { name: /check availability/i }));
+
+    await waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(1));
+    const body = JSON.parse(fetchMock.mock.calls[0][1].body);
+    expect(body.packageSlug).toBe("char-dham");
+    expect(body.dhams).toBeUndefined();
+    expect(screen.queryByRole("checkbox")).not.toBeInTheDocument();
+  });
+
+  describe("when the dhams are chosen", () => {
+    it("asks which dhams and needs at least one before calling the API", async () => {
+      const fetchMock = vi.fn();
+      vi.stubGlobal("fetch", fetchMock);
+      const user = userEvent.setup();
+
+      render(<ChardhamAvailabilityForm packageSlug="any-dham" dhamChoice />);
+      expect(screen.getAllByRole("checkbox")).toHaveLength(4);
+      await fillValidForm(user);
+      await user.click(screen.getByRole("button", { name: /check availability/i }));
+
+      expect(await screen.findByRole("alert")).toHaveTextContent(/choose at least one dham/i);
+      expect(fetchMock).not.toHaveBeenCalled();
+    });
+
+    it("sends the chosen dhams", async () => {
+      const fetchMock = vi.fn().mockResolvedValue({ ok: true, json: async () => ({ whatsappUrl: null }) });
+      vi.stubGlobal("fetch", fetchMock);
+      const user = userEvent.setup();
+
+      render(<ChardhamAvailabilityForm packageSlug="any-dham" dhamChoice />);
+      await fillValidForm(user);
+      await user.click(screen.getByLabelText("Kedarnath"));
+      await user.click(screen.getByLabelText("Badrinath"));
+      await user.click(screen.getByRole("button", { name: /check availability/i }));
+
+      await waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(1));
+      const body = JSON.parse(fetchMock.mock.calls[0][1].body);
+      expect(body).toMatchObject({ packageSlug: "any-dham", dhams: ["Kedarnath", "Badrinath"] });
+    });
+  });
 });

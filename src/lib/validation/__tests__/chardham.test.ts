@@ -114,3 +114,24 @@ describe("chardhamPackageUpdateSchema", () => {
     expect(cleared.success && cleared.data.aircraftHandlingInfo).toBeNull();
   });
 });
+
+describe("chardhamAvailabilityRequestSchema packages and dhams", () => {
+  const base = {
+    name: "Anita Rao",
+    phone: "+91 98765 43210",
+    preferredDate: "2999-01-01",
+    travellers: 2,
+  };
+
+  it("defaults the package to char-dham", () => {
+    const result = chardhamAvailabilityRequestSchema.safeParse(base);
+    expect(result.success && result.data.packageSlug).toBe("char-dham");
+  });
+
+  it("accepts the four dham names and rejects anything else", () => {
+    expect(
+      chardhamAvailabilityRequestSchema.safeParse({ ...base, dhams: ["Kedarnath", "Gangotri"] }).success
+    ).toBe(true);
+    expect(chardhamAvailabilityRequestSchema.safeParse({ ...base, dhams: ["Mars"] }).success).toBe(false);
+  });
+});
