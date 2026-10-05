@@ -6,7 +6,7 @@ import { MediaUploader } from "@/components/admin/MediaUploader";
 interface ChardhamPackageData {
   id: string;
   name: string;
-  price: number;
+  price: number | null;
   destinations: string[];
   stayInfo: string;
   foodInfo: string;
@@ -39,7 +39,7 @@ export function ChardhamAdminForm({ initial }: { initial: ChardhamPackageData })
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name: data.name,
-          price: Number(data.price),
+          price: data.price === null ? null : Number(data.price),
           destinations: destinationsText
             .split(",")
             .map((d) => d.trim())
@@ -104,8 +104,10 @@ export function ChardhamAdminForm({ initial }: { initial: ChardhamPackageData })
           <input
             id="price"
             type="number"
-            value={data.price}
-            onChange={(e) => setData({ ...data, price: Number(e.target.value) })}
+            value={data.price ?? ""}
+            onChange={(e) =>
+              setData({ ...data, price: e.target.value === "" ? null : Number(e.target.value) })
+            }
             className="w-full rounded border border-zinc-300 px-3 py-2"
           />
         </div>

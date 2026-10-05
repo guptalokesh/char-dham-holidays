@@ -125,12 +125,20 @@ model Media {
 
 model ChardhamPackage {
   id                   String   @id @default(cuid())
-  name                 String   @default("Chardham Yatra by Helicopter")
-  price                Int
+  slug                 String   @unique
+  name                 String
+  order                Int      @default(0)
+  price                Int?
+  dhamChoice           Boolean  @default(false)
+  tagline              String?
+  startPoint           String?
+  howItStarts          String?
+  inclusions           String[]
+  steps                Json     @default("[]")
   destinations         String[]
-  stayInfo             String
-  foodInfo             String
-  travelInfo           String
+  stayInfo             String   @default("")
+  foodInfo             String   @default("")
+  travelInfo           String   @default("")
   travelPeriod         String?
   routeOverview        String?
   importantInfo        String?
@@ -139,7 +147,8 @@ model ChardhamPackage {
   itineraryMedia       Media?   @relation("ChardhamItinerary", fields: [itineraryMediaId], references: [id], onDelete: SetNull)
   active               Boolean  @default(true)
 
-  images Media[] @relation("ChardhamGallery")
+  images    Media[]   @relation("ChardhamGallery")
+  enquiries Enquiry[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -228,11 +237,15 @@ model Enquiry {
   roomId String?
   room   Room?   @relation(fields: [roomId], references: [id], onDelete: SetNull)
 
+  chardhamPackageId String?
+  chardhamPackage   ChardhamPackage? @relation(fields: [chardhamPackageId], references: [id], onDelete: SetNull)
+
   status EnquiryStatus @default(NEW)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  @@index([chardhamPackageId])
   @@index([status])
   @@index([service])
   @@index([createdAt])

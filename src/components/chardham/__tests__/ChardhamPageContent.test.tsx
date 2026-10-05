@@ -84,4 +84,11 @@ describe("ChardhamPageContent", () => {
 
     expect(screen.queryByText(/helicopter handling/i)).not.toBeInTheDocument();
   });
+
+  it("shows price on request when the package has no price", () => {
+    render(<ChardhamPageContent pkg={{ ...basePkg, price: null }} />);
+
+    expect(screen.getByText("Price on request")).toBeInTheDocument();
+    expect(screen.queryByText(/per person|\/ person/)).not.toBeInTheDocument();
+  });
 });

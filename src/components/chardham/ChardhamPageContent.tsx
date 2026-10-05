@@ -1,11 +1,11 @@
 import Image from "next/image";
-import { formatInr } from "@/lib/format";
+import { formatPriceOrRequest } from "@/lib/format";
 import { ChardhamAvailabilityForm } from "@/components/chardham/ChardhamAvailabilityForm";
 
 export interface ChardhamPageContentProps {
   pkg: {
     name: string;
-    price: number;
+    price: number | null;
     destinations: string[];
     stayInfo: string;
     foodInfo: string;
@@ -52,7 +52,8 @@ export function ChardhamPageContent({ pkg }: ChardhamPageContentProps) {
             {pkg.name}
           </h1>
           <p className="mt-3 text-2xl font-medium text-amber-300">
-            {formatInr(pkg.price)} <span className="text-base text-stone-200">/ person</span>
+            {formatPriceOrRequest(pkg.price)}
+            {pkg.price !== null && <span className="text-base text-stone-200"> / person</span>}
           </p>
         </div>
       </div>

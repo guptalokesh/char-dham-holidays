@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { formatInr } from "@/lib/format";
+import { formatInr, formatPriceOrRequest } from "@/lib/format";
 import { WhatsAppCta } from "@/components/layout/WhatsAppCta";
 
 export interface HomePageContentProps {
@@ -8,7 +8,7 @@ export interface HomePageContentProps {
   heroDescription: string;
   chardhamCtaLabel: string;
   trekkingCtaLabel: string;
-  chardhamPrice: number;
+  chardhamPrice: number | null;
   whatsappNumber: string | null;
   whatsappCtaText: string;
   contactCtaText: string;
@@ -145,7 +145,7 @@ export function HomePageContent({
             title="Chardham Yatra by Helicopter"
             titleClassName="text-stone-900"
             description="Stay, food and travel included."
-            priceLabel={`${formatInr(chardhamPrice)} / person`}
+            priceLabel={chardhamPrice === null ? formatPriceOrRequest(null) : `${formatInr(chardhamPrice)} / person`}
             priceClassName="text-amber-700"
           />
           <OfferingCard

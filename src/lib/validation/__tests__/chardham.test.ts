@@ -83,10 +83,19 @@ describe("chardhamPackageUpdateSchema", () => {
     expect(chardhamPackageUpdateSchema.safeParse({ price: -100 }).success).toBe(false);
   });
 
-  it("rejects an empty destinations array", () => {
+  it("allows an empty destinations array", () => {
+    expect(chardhamPackageUpdateSchema.safeParse({ destinations: [] }).success).toBe(true);
+  });
+
+  it("accepts null to mean price on request, but not zero", () => {
+    const result = chardhamPackageUpdateSchema.safeParse({ price: null });
+    expect(result.success && result.data.price).toBeNull();
+  });
+
+  it("allows empty stay, food and travel text", () => {
     expect(
-      chardhamPackageUpdateSchema.safeParse({ destinations: [] }).success
-    ).toBe(false);
+      chardhamPackageUpdateSchema.safeParse({ stayInfo: "", foodInfo: "", travelInfo: "" }).success
+    ).toBe(true);
   });
 
   it("treats an empty string as clearing an optional field", () => {

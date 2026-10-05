@@ -3,7 +3,7 @@ import { getChardhamPackage } from "@/lib/chardham";
 import { listTreks } from "@/lib/trek";
 import { listRooms } from "@/lib/farm";
 import { listEnquiries } from "@/lib/enquiries-admin";
-import { formatInr } from "@/lib/format";
+import { formatInr, formatPriceOrRequest } from "@/lib/format";
 
 export const dynamic = "force-dynamic";
 
@@ -56,7 +56,7 @@ export default async function AdminDashboardPage() {
             <tbody className="divide-y divide-zinc-100">
               <tr>
                 <td className="px-4 py-2">Chardham Yatra by Helicopter</td>
-                <td className="px-4 py-2">{formatInr(chardham.price)}</td>
+                <td className="px-4 py-2">{formatPriceOrRequest(chardham.price)}</td>
                 <td className="px-4 py-2">{chardham.active ? "Active" : "Inactive"}</td>
               </tr>
               {treks.map((trek) => (

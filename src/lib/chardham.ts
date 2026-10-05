@@ -16,7 +16,9 @@ export async function getChardhamPackage() {
     update: {},
     create: {
       id: CHARDHAM_PACKAGE_ID,
-      price: 0,
+      slug: "char-dham",
+      name: "Char Dham Yatra by Helicopter",
+      price: 21000,
       destinations: [],
       stayInfo: "",
       foodInfo: "",
