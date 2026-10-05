@@ -277,4 +277,49 @@ test.describe.serial("Char Dham Holidays — end-to-end acceptance flows (spec s
     await page.goto("/about");
     await expect(page.getByText(newAddress, { exact: false }).first()).toBeVisible();
   });
+
+  test("TEST 11 — Any Dham: choose dhams -> request -> WhatsApp message lists them", async ({ page }) => {
+    await interceptWhatsApp(page);
+    await page.goto("/yatra/any-dham");
+    await expect(page.getByRole("heading", { level: 1 })).toContainText("Any Dham Yatra by Helicopter");
+    await expect(page.getByText("Price on request").first()).toBeVisible();
+
+    await page.getByLabel("Name").fill("Ravi Kumar");
+    await page.getByLabel("Phone").fill("+91 98765 43210");
+    await page.getByLabel("Preferred date").fill(futureDate(25));
+    await page.getByLabel("Number of travellers").fill("2");
+
+    await page.getByRole("button", { name: "Check Availability" }).click();
+    await expect(page.getByText(/please choose at least one dham/i)).toBeVisible();
+
+    await page.getByLabel("Kedarnath").check();
+    await page.getByLabel("Badrinath").check();
+    await page.getByRole("button", { name: "Check Availability" }).click();
+    await expect(page.getByText(/we've received your request/i)).toBeVisible();
+
+    const calls = await getWhatsAppCalls(page);
+    expect(calls).toHaveLength(1);
+    const message = decodeURIComponent(new URL(calls[0]).searchParams.get("text") ?? "");
+    expect(message).toContain("Hello, I am interested in Any Dham Yatra by Helicopter.");
+    expect(message).toContain("Dhams: Kedarnath, Badrinath");
+  });
+
+  test("TEST 12 — Admin: set a yatra price -> shown on the public yatra page", async ({ page }) => {
+    await adminLogin(page);
+    await page.goto("/admin/listings/yatras");
+    await page
+      .locator("li", { hasText: "Any Dham Yatra by Helicopter" })
+      .getByRole("link", { name: "Edit" })
+      .click();
+
+    await page.getByLabel(/price/i).fill("30000");
+    const saved = page.waitForResponse(
+      (response) => response.url().includes("/api/admin/packages/") && response.request().method() === "PATCH"
+    );
+    await page.getByRole("button", { name: /save changes/i }).click();
+    expect((await saved).ok()).toBe(true);
+
+    await page.goto("/yatra/any-dham");
+    await expect(page.getByText(/₹30,000/).first()).toBeVisible();
+  });
 });

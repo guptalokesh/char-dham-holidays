@@ -4,7 +4,6 @@ import bcrypt from "bcryptjs";
 import { prisma } from "../src/lib/db";
 import { resolveAdminCredentials } from "./admin-bootstrap";
 import { HELICOPTER_YATRAS } from "./content/helicopter-yatras";
-import { parseSteps } from "../src/lib/packages";
 import { addDays, todayDateOnly } from "../src/lib/date-utils";
 import {
   CHARDHAM_PACKAGE_ID,
@@ -131,7 +130,7 @@ async function seedChardham() {
     const neverFilled =
       existing.startPoint === null &&
       existing.howItStarts === null &&
-      parseSteps(existing.steps).length === 0;
+      (!Array.isArray(existing.steps) || existing.steps.length === 0);
     if (neverFilled) {
       await prisma.chardhamPackage.update({ where: { id: existing.id }, data: content });
     }
