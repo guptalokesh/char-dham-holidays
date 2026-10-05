@@ -167,7 +167,7 @@ export function SettingsAdminForm({ initial }: { initial: SettingsData }) {
         <TextField id="heroHeading" label="Homepage hero heading" value={field("heroHeading")} onChange={(v) => setField("heroHeading", v)} />
         <TextField id="heroDescription" label="Homepage hero description" value={field("heroDescription")} onChange={(v) => setField("heroDescription", v)} />
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-          <TextField id="chardhamCtaLabel" label="Chardham CTA label" value={field("chardhamCtaLabel")} onChange={(v) => setField("chardhamCtaLabel", v)} />
+          <TextField id="chardhamCtaLabel" label="Char Dham CTA label" value={field("chardhamCtaLabel")} onChange={(v) => setField("chardhamCtaLabel", v)} />
           <TextField id="trekkingCtaLabel" label="Trekking CTA label" value={field("trekkingCtaLabel")} onChange={(v) => setField("trekkingCtaLabel", v)} />
         </div>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">

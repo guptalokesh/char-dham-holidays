@@ -3,6 +3,20 @@ import Link from "next/link";
 import { formatInr, formatPriceOrRequest } from "@/lib/format";
 import { WhatsAppCta } from "@/components/layout/WhatsAppCta";
 
+export interface HomeYatra {
+  slug: string;
+  name: string;
+  tagline: string | null;
+  price: number | null;
+  images: { url: string }[];
+}
+
+export interface HomeDham {
+  title: string;
+  description: string;
+  imageUrl?: string | null;
+}
+
 export interface HomePageContentProps {
   heroHeading: string;
   heroDescription: string;
@@ -12,7 +26,10 @@ export interface HomePageContentProps {
   whatsappNumber: string | null;
   whatsappCtaText: string;
   contactCtaText: string;
-  chardhamImageUrl?: string | null;
+  yatras?: HomeYatra[];
+  dhams?: HomeDham[];
+  journey?: string[];
+  inclusions?: string[];
   trekImageUrl?: string | null;
   farmImageUrl?: string | null;
   devrana?: { title: string; summary: string; imageUrl?: string | null } | null;
@@ -81,7 +98,10 @@ export function HomePageContent({
   whatsappNumber,
   whatsappCtaText,
   contactCtaText,
-  chardhamImageUrl,
+  yatras = [],
+  dhams = [],
+  journey = [],
+  inclusions = [],
   trekImageUrl,
   farmImageUrl,
   devrana,
@@ -100,7 +120,7 @@ export function HomePageContent({
         <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/70" />
         <div className="relative mx-auto max-w-4xl px-6 py-24 text-center">
           <p className="text-sm font-semibold uppercase tracking-[0.2em] text-amber-300">
-            Uttarakhand · Himalayas
+            Yamunotri · Gangotri · Kedarnath · Badrinath
           </p>
           <h1 className="mt-4 text-5xl font-semibold tracking-tight text-white drop-shadow-sm sm:text-6xl">
             {heroHeading}
@@ -108,46 +128,205 @@ export function HomePageContent({
           <p className="mx-auto mt-5 max-w-2xl text-lg text-stone-200">
             {heroDescription}
           </p>
+          {chardhamPrice !== null && (
+            <p className="mt-4 text-xl font-medium text-amber-300">
+              From {formatInr(chardhamPrice)} per person
+            </p>
+          )}
           <div className="mt-10 flex flex-wrap justify-center gap-4">
             <Link
-              href="/chardham"
+              href="/yatra/char-dham"
               className="rounded-full bg-amber-500 px-7 py-3.5 font-semibold text-stone-900 shadow-lg shadow-amber-900/30 transition-all hover:-translate-y-0.5 hover:bg-amber-400 hover:shadow-xl"
             >
               {chardhamCtaLabel}
             </Link>
             <Link
-              href="/trekking"
+              href="/yatra"
               className="rounded-full border-2 border-white/70 px-7 py-3.5 font-semibold text-white backdrop-blur-sm transition-all hover:-translate-y-0.5 hover:bg-white hover:text-stone-900"
             >
-              {trekkingCtaLabel}
+              See all yatras
             </Link>
           </div>
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-6 py-20">
+      {dhams.length > 0 && (
+        <section
+          aria-labelledby="home-dhams"
+          className="mx-auto max-w-6xl px-6 py-20"
+        >
+          <div className="text-center">
+            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-amber-700">
+              Sacred shrines
+            </p>
+            <h2
+              id="home-dhams"
+              className="mt-3 text-3xl font-semibold tracking-tight text-stone-900 sm:text-4xl"
+            >
+              The Four Dhams
+            </h2>
+          </div>
+          <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {dhams.map((dham) => (
+              <div
+                key={dham.title}
+                className="overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm"
+              >
+                <div className="relative aspect-[4/3] bg-gradient-to-br from-blue-900 via-stone-800 to-amber-700">
+                  {dham.imageUrl && (
+                    <Image
+                      src={dham.imageUrl}
+                      alt=""
+                      fill
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                      className="object-cover"
+                    />
+                  )}
+                </div>
+                <div className="p-5">
+                  <h3 className="text-xl font-semibold text-blue-900">
+                    {dham.title}
+                  </h3>
+                  <p className="mt-2 line-clamp-4 text-sm text-stone-600">
+                    {dham.description}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {yatras.length > 0 && (
+        <section
+          aria-labelledby="home-yatras"
+          className="bg-stone-100 px-6 py-20"
+        >
+          <div className="mx-auto max-w-6xl">
+            <div className="text-center">
+              <p className="text-sm font-semibold uppercase tracking-[0.2em] text-amber-700">
+                Helicopter Yatra
+              </p>
+              <h2
+                id="home-yatras"
+                className="mt-3 text-3xl font-semibold tracking-tight text-stone-900 sm:text-4xl"
+              >
+                Our Helicopter Yatras
+              </h2>
+            </div>
+            <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-3">
+              {yatras.map((yatra) => (
+                <Link
+                  key={yatra.slug}
+                  href={`/yatra/${yatra.slug}`}
+                  className="group overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+                >
+                  <div className="relative aspect-[4/3] bg-gradient-to-br from-blue-900 to-amber-700">
+                    {yatra.images[0] && (
+                      <Image
+                        src={yatra.images[0].url}
+                        alt=""
+                        fill
+                        sizes="(max-width: 768px) 100vw, 33vw"
+                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                    )}
+                  </div>
+                  <div className="p-6">
+                    <h3 className="text-xl font-semibold text-stone-900">
+                      {yatra.name}
+                    </h3>
+                    {yatra.tagline && (
+                      <p className="mt-2 text-sm text-stone-600">
+                        {yatra.tagline}
+                      </p>
+                    )}
+                    <p className="mt-4 font-medium text-amber-800">
+                      {formatPriceOrRequest(yatra.price)}
+                      {yatra.price !== null && (
+                        <span className="text-sm text-stone-500">
+                          {" "}
+                          per person
+                        </span>
+                      )}
+                    </p>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {journey.length > 0 && (
+        <section
+          aria-labelledby="home-how"
+          className="mx-auto max-w-4xl px-6 py-20"
+        >
+          <div className="text-center">
+            <h2
+              id="home-how"
+              className="text-3xl font-semibold tracking-tight text-stone-900 sm:text-4xl"
+            >
+              How Your Yatra Works
+            </h2>
+            <p className="mt-3 text-stone-600">
+              A simple sequence from your arrival to your return.
+            </p>
+          </div>
+          <ol className="mt-10 space-y-4">
+            {journey.map((title, index) => (
+              <li
+                key={`${title}-${index}`}
+                className="flex items-center gap-4 rounded-xl border border-stone-200 bg-white p-4"
+              >
+                <span
+                  aria-hidden="true"
+                  className="flex h-9 w-9 flex-none items-center justify-center rounded-full bg-amber-500 font-semibold text-white"
+                >
+                  {index + 1}
+                </span>
+                <span className="text-lg text-stone-800">{title}</span>
+              </li>
+            ))}
+          </ol>
+          {inclusions.length > 0 && (
+            <div className="mt-10">
+              <h3 className="text-lg font-semibold text-stone-900">
+                What&apos;s usually included
+              </h3>
+              <ul className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-2">
+                {inclusions.map((item) => (
+                  <li key={item} className="flex gap-2 text-stone-700">
+                    <span aria-hidden="true" className="text-green-700">
+                      ✓
+                    </span>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </section>
+      )}
+
+      <section
+        aria-labelledby="home-other"
+        className="mx-auto max-w-6xl px-6 py-20"
+      >
         <div className="text-center">
           <p className="text-sm font-semibold uppercase tracking-[0.2em] text-amber-700">
-            Three journeys, one destination
+            More to explore
           </p>
-          <h2 className="mt-3 text-3xl font-semibold tracking-tight text-stone-900 sm:text-4xl">
-            Three Ways to Experience Uttarakhand
+          <h2
+            id="home-other"
+            className="mt-3 text-3xl font-semibold tracking-tight text-stone-900 sm:text-4xl"
+          >
+            Other Experiences
           </h2>
         </div>
 
-        <div className="mt-12 grid grid-cols-1 gap-8 sm:grid-cols-3">
-          <OfferingCard
-            href="/chardham"
-            imageUrl={chardhamImageUrl}
-            imageAlt="Chardham Yatra by Helicopter"
-            eyebrow="Spiritual"
-            eyebrowClassName="bg-amber-500 text-stone-900"
-            title="Chardham Yatra by Helicopter"
-            titleClassName="text-stone-900"
-            description="Stay, food and travel included."
-            priceLabel={chardhamPrice === null ? formatPriceOrRequest(null) : `${formatInr(chardhamPrice)} / person`}
-            priceClassName="text-amber-700"
-          />
+        <div className="mt-12 grid grid-cols-1 gap-8 sm:grid-cols-2">
           <OfferingCard
             href="/trekking"
             imageUrl={trekImageUrl}
@@ -173,6 +352,14 @@ export function HomePageContent({
             priceClassName="text-green-800"
           />
         </div>
+        <p className="mt-8 text-center">
+          <Link
+            href="/trekking"
+            className="font-medium text-emerald-800 underline underline-offset-2"
+          >
+            {trekkingCtaLabel}
+          </Link>
+        </p>
       </section>
 
       {devrana && (
@@ -195,7 +382,9 @@ export function HomePageContent({
               <p className="text-sm font-semibold uppercase tracking-[0.2em] text-amber-300">
                 Discover
               </p>
-              <h2 className="mt-2 text-2xl font-semibold text-white sm:text-3xl">{devrana.title}</h2>
+              <h2 className="mt-2 text-2xl font-semibold text-white sm:text-3xl">
+                {devrana.title}
+              </h2>
               <p className="mt-2 max-w-xl text-stone-200">{devrana.summary}</p>
             </div>
           </Link>

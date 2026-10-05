@@ -27,6 +27,8 @@ import { MediaUploader } from "@/components/admin/MediaUploader";
 import { FarmAvailabilitySearch } from "@/components/farm/FarmAvailabilitySearch";
 import { FarmAdminPanel } from "@/components/admin/FarmAdminPanel";
 import { PlacesPageContent } from "@/components/place/PlacesPageContent";
+import { YatraPageContent } from "@/components/yatra/YatraPageContent";
+import { YatraHubContent } from "@/components/yatra/YatraHubContent";
 
 const headerFooterSettings = {
   businessName: "Char Dham Holidays",
@@ -67,11 +69,15 @@ describe("accessibility (axe)", () => {
   it("HomePageContent has no violations", async () => {
     const { container } = render(
       <HomePageContent
-        heroHeading="Explore Uttarakhand"
-        heroDescription="Spiritual journeys, mountain treks and peaceful stays."
-        chardhamCtaLabel="Explore Chardham"
+        heroHeading="Visit the Char Dham by Helicopter"
+        heroDescription="Fly to the four dhams."
+        chardhamCtaLabel="Explore Char Dham"
         trekkingCtaLabel="Explore Treks"
-        chardhamPrice={210000}
+        chardhamPrice={21000}
+        yatras={[{ slug: "char-dham", name: "Char Dham Yatra by Helicopter", tagline: "All four dhams", price: 21000, images: [] }]}
+        dhams={[{ title: "Kedarnath", description: "Abode of Lord Shiva." }]}
+        journey={["Arrive in Dehradun", "Return"]}
+        inclusions={["Helicopter flights"]}
         whatsappNumber="+91 98765 43210"
         whatsappCtaText="Chat on WhatsApp"
         contactCtaText="Send an Enquiry"
@@ -139,6 +145,43 @@ describe("accessibility (axe)", () => {
             images: [{ url: "/seed-images/a.jpg" }, { url: "/seed-images/b.jpg" }],
           },
         ]}
+      />
+    );
+    expect(await axe(container)).toHaveNoViolations();
+  });
+
+  it("YatraPageContent (Any Dham, with dham choice) has no violations", async () => {
+    const { container } = render(
+      <YatraPageContent
+        pkg={{
+          slug: "any-dham",
+          name: "Any Dham Yatra by Helicopter",
+          tagline: "Visit the dham you wish",
+          price: null,
+          dhamChoice: true,
+          active: true,
+          routeOverview: "Overview.",
+          startPoint: "Dehradun",
+          howItStarts: "We meet you.",
+          steps: [{ title: "Arrive", description: "Briefing.", featured: false }],
+          inclusions: ["Helicopter flights"],
+          importantInfo: "Weather note.",
+          stayInfo: "",
+          foodInfo: "",
+          travelInfo: "",
+          images: [],
+          itineraryMedia: null,
+        }}
+        dhamOptions={[{ title: "Kedarnath", description: "Darshan.", featured: true }]}
+      />
+    );
+    expect(await axe(container)).toHaveNoViolations();
+  });
+
+  it("YatraHubContent has no violations", async () => {
+    const { container } = render(
+      <YatraHubContent
+        yatras={[{ slug: "char-dham", name: "Char Dham Yatra by Helicopter", tagline: "All four dhams", price: 21000, images: [] }]}
       />
     );
     expect(await axe(container)).toHaveNoViolations();

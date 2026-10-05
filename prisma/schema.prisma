@@ -75,9 +75,9 @@ model WebsiteSettings {
   trekkingAccentColor String  @default("#2F6B3A")
 
   // Website content
-  heroHeading         String? @default("Explore Uttarakhand")
-  heroDescription     String? @default("Spiritual journeys, mountain treks and peaceful stays.")
-  chardhamCtaLabel    String? @default("Explore Chardham")
+  heroHeading         String? @default("Visit the Char Dham by Helicopter")
+  heroDescription     String? @default("Fly to Yamunotri, Gangotri, Kedarnath and Badrinath, and spend your time on darshan, not on the road.")
+  chardhamCtaLabel    String? @default("Explore Char Dham")
   trekkingCtaLabel    String? @default("Explore Treks")
   whatsappCtaText     String? @default("Chat on WhatsApp")
   contactCtaText      String? @default("Send an Enquiry")
