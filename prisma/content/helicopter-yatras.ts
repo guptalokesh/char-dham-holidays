@@ -31,7 +31,7 @@ export const YAMUNOTRI_STEP: PackageStep = {
   title: "Yamunotri",
   imageUrl: "/seed-images/dham-yamunotri.jpg",
   description:
-    "Fly from Sahastradhara Helipad in Dehradun to Kharsali (about 30 to 35 minutes). A short ride takes you to Jankichatti, where a 6.5 km walk, pony or palki ride leads to the Yamunotri Temple, the source of the Yamuna River, at about 10,800 feet. After darshan, return to Kharsali for the night.",
+    "Fly to the helipad nearest to Yamunotri, then continue to the temple by road and a short trek, with a pony or palki available if you need one. Have darshan at the shrine where the Yamuna River begins, then return for your stay.",
   featured: true,
 };
 
@@ -39,7 +39,7 @@ export const GANGOTRI_STEP: PackageStep = {
   title: "Gangotri",
   imageUrl: "/seed-images/dham-gangotri.jpg",
   description:
-    "Fly from Kharsali to Jhala Helipad, then drive about 25 km to the Gangotri Temple at about 10,200 feet, where the Ganga is worshipped at her place of origin. The road passes the Bhagirathi River and small mountain villages. After darshan, return to Jhala and on to your hotel.",
+    "Fly towards Gangotri and travel the last stretch by road, alongside the river and through mountain villages. Have darshan at the temple where the Ganga is worshipped at her place of origin, then return for your stay.",
   featured: true,
 };
 
@@ -47,7 +47,7 @@ export const KEDARNATH_STEP: PackageStep = {
   title: "Kedarnath",
   imageUrl: "/seed-images/dham-kedarnath.jpg",
   description:
-    "Fly to Phata, then take a short shuttle flight to Kedarnath Helipad. The shuttle runs in time slots allotted by UCADA, the Uttarakhand Civil Aviation Development Authority. From the helipad it is a walk of about 700 metres to the temple, which stands at about 11,755 feet. Porters and ponies are available on site for an extra charge.",
+    "Fly to the Kedarnath helipad, usually in short connecting flights. Flight slots are set by the aviation authorities. A walk from the helipad leads to the temple of Lord Shiva; porters and ponies are available locally for an extra charge.",
   featured: true,
 };
 
@@ -55,7 +55,7 @@ export const BADRINATH_STEP: PackageStep = {
   title: "Badrinath",
   imageUrl: "/seed-images/dham-badrinath.jpg",
   description:
-    "Fly from Phata to Badrinath (about 30 minutes, weather permitting). The temple is about 1 km from the helipad; a short drive and a walk of 150 to 200 metres bring you to the entrance, followed by about 25 stone steps. Nearby you can bathe at Tapt Kund and visit Mana village if time allows.",
+    "Fly to Badrinath, weather permitting. The temple of Lord Vishnu is a short drive and walk from the helipad. If time allows, visit the sacred sites nearby.",
   featured: true,
 };
 
@@ -69,14 +69,14 @@ const CHAR_DHAM: YatraContent = {
   tagline: "Yamunotri, Gangotri, Kedarnath and Badrinath by helicopter",
   routeOverview:
     "A guided helicopter pilgrimage to all four dhams. You fly between the shrines instead of travelling for days by road, so you spend your time on darshan, not on the journey.",
-  startPoint: "Sahastradhara Helipad, Dehradun",
+  startPoint: "Dehradun",
   howItStarts:
-    "Your yatra begins in Dehradun, the gateway to the Garhwal Himalayas. Our team meets you on arrival, takes you to your hotel and, in the evening, explains the route, the helicopter rules and the weather outlook. The flights begin the next morning from Sahastradhara Helipad.",
+    "Your yatra begins in Dehradun, the gateway to the Garhwal Himalayas. Our team meets you on arrival, explains the plan, the helicopter guidelines and the weather outlook, and confirms your departure details. The flights begin from the helipad our team confirms for your date.",
   steps: [
     {
       title: "Arrive in Dehradun",
       description:
-        "A driver meets you at Jolly Grant Airport or the railway station and takes you to your hotel. Rest, enjoy dinner and attend the briefing about the plan for the coming days.",
+        "Our team receives you on arrival and takes you to your stay. Rest and attend a short briefing about the plan for the coming days.",
       featured: false,
     },
     YAMUNOTRI_STEP,
@@ -86,15 +86,15 @@ const CHAR_DHAM: YatraContent = {
     {
       title: "Return to Dehradun",
       description:
-        "A helicopter flight of about one hour brings you back to Dehradun, and you are then taken to the airport or railway station, where the yatra ends.",
+        "Fly back to Dehradun and move on to your departure point, where the yatra ends.",
       featured: false,
     },
   ],
   inclusions: [
     "Helicopter flights between the dhams, as per the plan",
-    "Hotel stays during the yatra",
+    "Stay during the yatra",
     "Meals as per the plan",
-    "Pick-up and drop at Dehradun airport or railway station",
+    "Pick-up and drop at your arrival and departure point in Dehradun",
     "A briefing before the yatra begins",
     "Assistance and guidance at every dham",
   ],
@@ -103,7 +103,7 @@ const CHAR_DHAM: YatraContent = {
     BUFFER_NOTE,
     "Darshan at each dham is the main part of the yatra. Extra sightseeing depends on time and weather.",
     LOCAL_SERVICES_NOTE,
-    "Carry warm clothes; Kedarnath is at an altitude of about 11,500 feet.",
+    "Carry warm clothes; the dhams are at high altitude and it can be cold.",
   ].join("\n"),
   destinations: ["Yamunotri", "Gangotri", "Kedarnath", "Badrinath"],
   stayInfo: "Included",
@@ -121,9 +121,9 @@ const ANY_DHAM: YatraContent = {
   tagline: "Visit the dham or dhams you wish, by helicopter",
   routeOverview:
     "Not everyone wants to visit all four dhams. Tell us which dham or dhams you wish to visit, and we will plan the flights, the stay and the darshan around them. The price depends on the dhams, the number of pilgrims and the season.",
-  startPoint: "Sahastradhara Helipad, Dehradun",
+  startPoint: "Dehradun",
   howItStarts:
-    "Send us a request with the dham or dhams you want to visit and your preferred date. Our team confirms availability, the flight plan and the price, and then helps you with your arrival in Dehradun, where the yatra begins.",
+    "Send us a request with the dham or dhams you want to visit and your preferred date. Our team confirms availability, the flight plan and the price, and guides you on your arrival in Dehradun, where the yatra begins.",
   steps: [
     {
       title: "Tell us your dhams and dates",
@@ -165,7 +165,7 @@ const ANY_DHAM: YatraContent = {
   importantInfo: [
     WEATHER_NOTE,
     BUFFER_NOTE,
-    "Kedarnath and Badrinath can often be visited together in a single day from Dehradun when the weather and the shuttle slots allow.",
+    "Some dhams can often be combined in a single day when the weather and the flight slots allow.",
     LOCAL_SERVICES_NOTE,
   ].join("\n"),
   destinations: ["Yamunotri", "Gangotri", "Kedarnath", "Badrinath"],
@@ -184,7 +184,7 @@ const HANDLING: YatraContent = {
   tagline: "Ground support for your helicopter visit to Yamunotri and Gangotri",
   routeOverview:
     "A separate service for pilgrims who fly to Yamunotri and Gangotri. Our team looks after the ground side of your visit, from your arrival at the helipad to your return flight, so that you can focus on darshan.",
-  startPoint: "Kharsali Helipad (Yamunotri) and Jhala or Harsil Helipad (Gangotri)",
+  startPoint: "The helipad where your helicopter lands",
   howItStarts:
     "Share your flight details and dates with us. On the day, our representative meets you at the helipad where your helicopter lands and stays with you until you are back on board.",
   steps: [
@@ -197,19 +197,19 @@ const HANDLING: YatraContent = {
     {
       title: "Welcome at the helipad",
       description:
-        "Our representative receives you at Kharsali for Yamunotri, or at Jhala or Harsil for Gangotri, and explains the plan for the visit.",
+        "Our representative receives you at the helipad and explains the plan for the visit.",
       featured: false,
     },
     {
       title: "Yamunotri",
       description:
-        "From Kharsali, a short ride takes you to Jankichatti, where the 6.5 km walk to the temple begins. We help you arrange a pony, a palki or a porter if you need one (paid locally), and guide you through darshan at the temple of Goddess Yamuna.",
+        "From the helipad, we guide you on to the temple by road and a short trek. We help arrange a pony, a palki or a porter if you need one (paid locally), and guide you through darshan at the temple of Goddess Yamuna.",
       featured: false,
     },
     {
       title: "Gangotri",
       description:
-        "From the helipad, a road journey of about 25 km leads to the Gangotri Temple. We arrange the transfer and guide you through darshan at the place where the Ganga is worshipped at her source.",
+        "From the helipad, a road journey leads to the Gangotri Temple. We arrange the transfer and guide you through darshan at the place where the Ganga is worshipped at her source.",
       featured: false,
     },
     {
