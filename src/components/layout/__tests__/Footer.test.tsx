@@ -78,4 +78,25 @@ describe("Footer", () => {
     );
     expect(screen.getByRole("link", { name: /terms/i })).toHaveAttribute("href", "/terms");
   });
+
+  it("lists each yatra with a link to its page", () => {
+    render(
+      <Footer
+        settings={baseSettings}
+        yatras={[
+          { slug: "char-dham", name: "Char Dham Yatra by Helicopter" },
+          { slug: "any-dham", name: "Any Dham Yatra by Helicopter" },
+        ]}
+      />
+    );
+
+    expect(screen.getByRole("link", { name: "Char Dham Yatra by Helicopter" })).toHaveAttribute(
+      "href",
+      "/yatra/char-dham"
+    );
+    expect(screen.getByRole("link", { name: "Any Dham Yatra by Helicopter" })).toHaveAttribute(
+      "href",
+      "/yatra/any-dham"
+    );
+  });
 });

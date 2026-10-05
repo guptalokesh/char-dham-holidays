@@ -23,9 +23,9 @@ test.describe.serial("Char Dham Holidays — end-to-end acceptance flows (spec s
     await interceptWhatsApp(page);
     await page.goto("/");
     await page.getByRole("link", { name: "Explore Chardham" }).click();
-    await expect(page).toHaveURL(/\/chardham$/);
+    await expect(page).toHaveURL(/\/yatra\/char-dham$/);
     await expect(page.getByRole("heading", { level: 1 })).toContainText(
-      "Chardham Yatra by Helicopter"
+      "Char Dham Yatra by Helicopter"
     );
 
     await page.getByLabel("Name").fill("Anita Rao");
@@ -43,7 +43,7 @@ test.describe.serial("Char Dham Holidays — end-to-end acceptance flows (spec s
     expect(url.hostname).toBe("wa.me");
     const message = decodeURIComponent(url.searchParams.get("text") ?? "");
     expect(message).toBe(
-      "Hello, I am interested in Chardham Yatra by Helicopter.\n\n" +
+      "Hello, I am interested in Char Dham Yatra by Helicopter.\n\n" +
         `Preferred date: ${futureDate(20)}\n` +
         "Number of travellers: 3\n\n" +
         "Please confirm availability and booking details."

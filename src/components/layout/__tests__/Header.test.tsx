@@ -12,3 +12,13 @@ describe("Header logo", () => {
     expect(logo).toHaveClass("h-14", "sm:h-16");
   });
 });
+
+describe("Header navigation", () => {
+  it("links to the Helicopter Yatra hub instead of the old Chardham page", () => {
+    render(<Header settings={{ businessName: "Char Dham Holidays", logoMedia: null }} />);
+
+    const nav = screen.getAllByRole("link", { name: "Helicopter Yatra" });
+    expect(nav[0]).toHaveAttribute("href", "/yatra");
+    expect(screen.queryByRole("link", { name: "Chardham" })).not.toBeInTheDocument();
+  });
+});

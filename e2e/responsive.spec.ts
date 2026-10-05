@@ -4,7 +4,7 @@ import { expect, test } from "@playwright/test";
 // these widths on the main public pages.
 const VIEWPORTS = [320, 375, 390, 430, 768, 1024, 1280, 1440];
 
-const PAGES = ["/", "/chardham", "/trekking", "/trekking/devrana-trek", "/farm-home-stay", "/devrana-mandir", "/contact", "/about"];
+const PAGES = ["/", "/yatra", "/yatra/char-dham", "/yatra/any-dham", "/yatra/yamunotri-gangotri-handling", "/trekking", "/trekking/devrana-trek", "/farm-home-stay", "/devrana-mandir", "/contact", "/about"];
 
 test.describe("responsive layout — no horizontal overflow at any breakpoint", () => {
   for (const width of VIEWPORTS) {
@@ -32,13 +32,13 @@ test.describe("responsive layout — no horizontal overflow at any breakpoint", 
 
     // Scoped to the header: the footer's own nav (always visible, by
     // design — it's a simple stacked list, not the hamburger-toggled one)
-    // has an identical "Chardham" link that would otherwise make this
+    // has an identical "Helicopter Yatra" link that would otherwise make this
     // assertion pass regardless of the header's responsive behavior.
     const header = page.getByRole("banner");
     await expect(header.getByRole("button", { name: /menu/i })).toBeVisible();
-    await expect(header.getByRole("link", { name: "Chardham", exact: true })).not.toBeVisible();
+    await expect(header.getByRole("link", { name: "Helicopter Yatra", exact: true })).not.toBeVisible();
 
     await header.getByRole("button", { name: /menu/i }).click();
-    await expect(header.getByRole("link", { name: "Chardham", exact: true })).toBeVisible();
+    await expect(header.getByRole("link", { name: "Helicopter Yatra", exact: true })).toBeVisible();
   });
 });

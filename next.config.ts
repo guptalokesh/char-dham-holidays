@@ -43,6 +43,10 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: path.resolve(__dirname),
   },
+  async redirects() {
+    // Not permanent while the new /yatra pages settle (browsers cache 308s).
+    return [{ source: "/chardham", destination: "/yatra/char-dham", permanent: false }];
+  },
   async headers() {
     return [
       {

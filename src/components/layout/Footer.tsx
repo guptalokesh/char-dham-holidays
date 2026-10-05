@@ -27,14 +27,20 @@ const SOCIAL_LINKS: { key: keyof FooterSettings; label: string }[] = [
 
 const NAV_LINKS = [
   { href: "/", label: "Home" },
-  { href: "/chardham", label: "Chardham" },
+  { href: "/yatra", label: "Helicopter Yatra" },
   { href: "/trekking", label: "Trekking" },
   { href: "/farm-home-stay", label: "Farm Home Stay" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
 ];
 
-export function Footer({ settings }: { settings: FooterSettings }) {
+export function Footer({
+  settings,
+  yatras = [],
+}: {
+  settings: FooterSettings;
+  yatras?: { slug: string; name: string }[];
+}) {
   const year = new Date().getFullYear();
   const socialLinks = SOCIAL_LINKS.filter((link) => settings[link.key]);
 
@@ -72,6 +78,19 @@ export function Footer({ settings }: { settings: FooterSettings }) {
                 {link.label}
               </Link>
             ))}
+            {yatras.length > 0 && (
+              <div className="mt-3 flex flex-col gap-2 border-t border-stone-700 pt-3">
+                {yatras.map((yatra) => (
+                  <Link
+                    key={yatra.slug}
+                    href={`/yatra/${yatra.slug}`}
+                    className="w-fit text-stone-400 transition-colors hover:text-white"
+                  >
+                    {yatra.name}
+                  </Link>
+                ))}
+              </div>
+            )}
           </nav>
 
           <div className="min-w-0 space-y-1.5 text-sm text-stone-300 break-words">

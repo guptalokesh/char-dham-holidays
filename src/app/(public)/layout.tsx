@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import type { Metadata } from "next";
 import { getWebsiteSettings } from "@/lib/settings";
+import { listPackages } from "@/lib/packages";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 
@@ -17,13 +18,13 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function PublicLayout({ children }: { children: ReactNode }) {
-  const settings = await getWebsiteSettings();
+  const [settings, yatras] = await Promise.all([getWebsiteSettings(), listPackages()]);
 
   return (
     <>
       <Header settings={settings} />
       <div className="flex-1">{children}</div>
-      <Footer settings={settings} />
+      <Footer settings={settings} yatras={yatras.map(({ slug, name }) => ({ slug, name }))} />
     </>
   );
 }

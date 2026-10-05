@@ -4,7 +4,7 @@ import { MobileNav } from "@/components/layout/MobileNav";
 
 const NAV_LINKS = [
   { href: "/", label: "Home" },
-  { href: "/chardham", label: "Chardham" },
+  { href: "/yatra", label: "Helicopter Yatra" },
   { href: "/trekking", label: "Trekking" },
   { href: "/devrana-mandir", label: "Devrana" },
   { href: "/farm-home-stay", label: "Farm Home Stay" },
