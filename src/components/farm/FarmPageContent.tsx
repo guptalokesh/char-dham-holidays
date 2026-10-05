@@ -160,8 +160,8 @@ export function FarmPageContent({ property }: FarmPageContentProps) {
             </div>
           ) : (
             <p className="mt-2 text-stone-600">
-              Farm Home Stay is currently unavailable for booking. Please check
-              back soon or contact us for more details.
+              The Farm Home Stay is not taking bookings at the moment. Please
+              check back soon or contact us for details.
             </p>
           )}
         </section>

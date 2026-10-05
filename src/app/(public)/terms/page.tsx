@@ -20,12 +20,12 @@ export default async function TermsPage() {
       <section className="mt-8 space-y-4 text-stone-700">
         <h2 className="text-lg font-semibold">How booking works</h2>
         <p>
-          This website lets you discover our Chardham Yatra by Helicopter,
-          trekking and Farm Home Stay offerings, check availability, and send
-          a request. Submitting a form on this site (an availability check,
-          booking request or general enquiry) does not confirm a booking. Our
-          team personally confirms availability, itinerary details and
-          payment instructions with you directly, usually over WhatsApp.
+          This website lets you explore our helicopter yatras, treks and Farm
+          Home Stay, check availability and send us a request. Submitting a
+          form on this site (an availability check, a booking request or a
+          general enquiry) does not confirm a booking. Our team confirms
+          availability, itinerary details and payment instructions with you
+          directly, usually over WhatsApp.
         </p>
 
         <h2 className="text-lg font-semibold">Payments</h2>

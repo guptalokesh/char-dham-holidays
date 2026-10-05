@@ -156,7 +156,7 @@ export function TrekRequestForm({ trekSlug }: { trekSlug: string }) {
       {confirmed && (
         <p className="text-sm text-green-700">
           We&apos;ve received your request and will contact you shortly to discuss
-          availability and pricing. Booking is subject to organiser confirmation.
+          availability and pricing. Booking is subject to confirmation by our team.
         </p>
       )}
 

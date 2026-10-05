@@ -9,7 +9,7 @@ export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Contact Us | Char Dham Holidays",
   description:
-    "Send us an enquiry about Chardham Yatra by Helicopter, trekking or Farm Home Stay, or reach us directly by phone, email or WhatsApp.",
+    "Send us an enquiry about a helicopter yatra, a trek or the Farm Home Stay, or reach us directly by phone, email or WhatsApp.",
   alternates: { canonical: "/contact" },
 };
 

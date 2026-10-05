@@ -12,7 +12,6 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { MobileNav } from "@/components/layout/MobileNav";
 import { HomePageContent } from "@/components/home/HomePageContent";
-import { ChardhamPageContent } from "@/components/chardham/ChardhamPageContent";
 import { ChardhamAvailabilityForm } from "@/components/chardham/ChardhamAvailabilityForm";
 import { TrekPageContent } from "@/components/trek/TrekPageContent";
 import { TrekRequestForm } from "@/components/trek/TrekRequestForm";
@@ -60,7 +59,7 @@ describe("accessibility (axe)", () => {
 
   it("MobileNav (expanded) has no violations", async () => {
     const { container, getByRole } = render(
-      <MobileNav links={[{ href: "/chardham", label: "Chardham" }]} />
+      <MobileNav links={[{ href: "/yatra", label: "Helicopter Yatra" }]} />
     );
     getByRole("button", { name: /menu/i }).click();
     expect(await axe(container)).toHaveNoViolations();
@@ -81,28 +80,6 @@ describe("accessibility (axe)", () => {
         whatsappNumber="+91 98765 43210"
         whatsappCtaText="Chat on WhatsApp"
         contactCtaText="Send an Enquiry"
-      />
-    );
-    expect(await axe(container)).toHaveNoViolations();
-  });
-
-  it("ChardhamPageContent (active) has no violations", async () => {
-    const { container } = render(
-      <ChardhamPageContent
-        pkg={{
-          name: "Chardham Yatra by Helicopter",
-          price: 210000,
-          destinations: ["Yamunotri", "Gangotri", "Sri Kedarnath", "Badrinath"],
-          stayInfo: "Included",
-          foodInfo: "Included",
-          travelInfo: "Included",
-          travelPeriod: "May to June",
-          routeOverview: "Fly between all four dhams.",
-          importantInfo: "Subject to weather.",
-          active: true,
-          images: [{ url: "/seed-images/chardham.jpg" }],
-          itineraryMedia: null,
-        }}
       />
     );
     expect(await axe(container)).toHaveNoViolations();
@@ -237,7 +214,7 @@ describe("accessibility (axe)", () => {
     const { container } = render(
       <GeneralEnquiryForm
         serviceOptions={[
-          { service: "CHARDHAM", label: "Chardham Yatra by Helicopter" },
+          { service: "CHARDHAM", label: "Char Dham Yatra by Helicopter" },
           { service: "GENERAL", label: "General Enquiry" },
         ]}
       />

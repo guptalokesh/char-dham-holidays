@@ -84,8 +84,8 @@ export function TrekPageContent({ trek }: TrekPageContentProps) {
             </div>
           ) : (
             <p className="mt-2 text-stone-600">
-              This trek is currently unavailable. Please check back soon or contact us
-              for more details.
+              This trek is not available at the moment. Please check back soon or
+              contact us for details.
             </p>
           )}
         </section>

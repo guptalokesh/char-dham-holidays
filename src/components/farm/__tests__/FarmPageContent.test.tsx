@@ -58,7 +58,7 @@ describe("FarmPageContent", () => {
   it("shows an unavailable message instead of the search form when the property is inactive", () => {
     render(<FarmPageContent property={{ ...baseProperty, active: false }} />);
 
-    expect(screen.getByText(/currently unavailable/i)).toBeInTheDocument();
+    expect(screen.getByText(/not taking bookings/i)).toBeInTheDocument();
     expect(screen.queryByLabelText(/check-in/i)).not.toBeInTheDocument();
   });
 

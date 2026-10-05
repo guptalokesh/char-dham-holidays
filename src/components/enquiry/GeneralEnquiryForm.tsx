@@ -159,8 +159,8 @@ export function GeneralEnquiryForm({
 
       {confirmed && (
         <p className="text-sm text-green-700">
-          Thank you — we&apos;ve received your enquiry and will get back to you
-          shortly. A confirmation email has been sent to you.
+          We&apos;ve received your enquiry and will get back to you shortly. A
+          confirmation email has been sent to you.
         </p>
       )}
 

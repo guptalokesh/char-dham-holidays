@@ -17,12 +17,12 @@ function futureDate(daysFromNow: number): string {
 }
 
 test.describe.serial("Char Dham Holidays — end-to-end acceptance flows (spec section 56)", () => {
-  test("TEST 1 — Chardham: homepage -> chardham -> availability -> WhatsApp message", async ({
+  test("TEST 1 — Char Dham: homepage -> Char Dham yatra page -> availability -> WhatsApp message", async ({
     page,
   }) => {
     await interceptWhatsApp(page);
     await page.goto("/");
-    await page.getByRole("link", { name: "Explore Chardham" }).click();
+    await page.getByRole("link", { name: "Explore Char Dham" }).click();
     await expect(page).toHaveURL(/\/yatra\/char-dham$/);
     await expect(page.getByRole("heading", { level: 1 })).toContainText(
       "Char Dham Yatra by Helicopter"

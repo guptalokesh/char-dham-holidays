@@ -1,13 +1,7 @@
 import { afterAll, beforeEach, describe, expect, it } from "vitest";
 import { prisma } from "@/lib/db";
-import {
-  getChardhamPackage,
-  setChardhamItinerary,
-  submitChardhamAvailabilityRequest,
-  updateChardhamPackage,
-} from "@/lib/chardham";
+import { submitChardhamAvailabilityRequest } from "@/lib/chardham";
 import { updateWebsiteSettings } from "@/lib/settings";
-import { CHARDHAM_PACKAGE_ID } from "@/lib/constants";
 
 function futureDate(daysFromNow: number): string {
   const d = new Date();
@@ -27,84 +21,11 @@ describe("chardham module", () => {
     await prisma.$disconnect();
   });
 
-  it("creates the singleton row on first read", async () => {
-    const pkg = await getChardhamPackage();
-    expect(pkg.id).toBe(CHARDHAM_PACKAGE_ID);
-    expect(pkg.active).toBe(true);
-    expect(pkg.images).toEqual([]);
-  });
-
-  it("round-trips an update", async () => {
-    await updateChardhamPackage({
-      price: 210000,
-      destinations: ["Yamunotri", "Gangotri", "Sri Kedarnath", "Badrinath"],
-    });
-
-    const pkg = await getChardhamPackage();
-    expect(pkg.price).toBe(210000);
-    expect(pkg.destinations).toEqual([
-      "Yamunotri",
-      "Gangotri",
-      "Sri Kedarnath",
-      "Badrinath",
-    ]);
-  });
-
-  it("rejects an invalid update", async () => {
-    await expect(updateChardhamPackage({ price: -1 })).rejects.toThrow();
-  });
-
-  describe("setChardhamItinerary", () => {
-    it("links an uploaded PDF as the itinerary", async () => {
-      const media = await prisma.media.create({
-        data: {
-          url: "/uploads/itinerary.pdf",
-          filename: "itinerary.pdf",
-          mimeType: "application/pdf",
-          size: 1024,
-          purpose: "PDF",
-        },
-      });
-
-      const pkg = await setChardhamItinerary(media.id);
-      expect(pkg.itineraryMediaId).toBe(media.id);
-      expect(pkg.itineraryMedia?.url).toBe("/uploads/itinerary.pdf");
-    });
-
-    it("rejects a non-PDF media reference", async () => {
-      const media = await prisma.media.create({
-        data: {
-          url: "/uploads/photo.jpg",
-          filename: "photo.jpg",
-          mimeType: "image/jpeg",
-          size: 1024,
-          purpose: "IMAGE",
-        },
-      });
-
-      await expect(setChardhamItinerary(media.id)).rejects.toThrow();
-    });
-
-    it("clears the itinerary when given null", async () => {
-      const media = await prisma.media.create({
-        data: {
-          url: "/uploads/itinerary.pdf",
-          filename: "itinerary.pdf",
-          mimeType: "application/pdf",
-          size: 1024,
-          purpose: "PDF",
-        },
-      });
-      await setChardhamItinerary(media.id);
-
-      const pkg = await setChardhamItinerary(null);
-      expect(pkg.itineraryMediaId).toBeNull();
-    });
-  });
-
   describe("submitChardhamAvailabilityRequest", () => {
     beforeEach(async () => {
-      await getChardhamPackage();
+      await prisma.chardhamPackage.create({
+        data: { slug: "char-dham", name: "Char Dham Yatra by Helicopter", order: 1, price: 21000 },
+      });
     });
 
     const validInput = {

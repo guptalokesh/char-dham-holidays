@@ -5,7 +5,7 @@ export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "About Us",
-  description: "About Char Dham Holidays — Chardham Yatra, trekking and Farm Home Stay in Uttarakhand.",
+  description: "About Char Dham Holidays: helicopter yatras to the Char Dham, trekking and a Farm Home Stay in Uttarakhand.",
   alternates: { canonical: "/about" },
 };
 
@@ -27,15 +27,15 @@ export default async function AboutPage() {
 
       <section className="mt-8 space-y-4 text-stone-700">
         <p>
-          {settings.businessName} helps travellers discover Uttarakhand through three
-          experiences: the Chardham Yatra by Helicopter, customised Himalayan
-          treks, and a peaceful Farm Home Stay.
+          {settings.businessName} helps pilgrims and travellers experience
+          Uttarakhand: helicopter yatras to the Char Dham, customised Himalayan
+          treks and a peaceful Farm Home Stay.
         </p>
         <p>
-          We help you discover our services, check availability and get in touch.
-          Our team personally confirms availability, itinerary details and
-          payment instructions directly with you over WhatsApp before any
-          booking is finalised.
+          Use this website to learn about our services, check availability and
+          get in touch. Before any booking is final, our team confirms
+          availability, itinerary details and payment instructions with you
+          directly, usually over WhatsApp.
         </p>
       </section>
 

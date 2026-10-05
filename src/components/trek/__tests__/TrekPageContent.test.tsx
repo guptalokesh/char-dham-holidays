@@ -23,7 +23,7 @@ describe("TrekPageContent", () => {
   it("shows an unavailable message instead of the form when inactive", () => {
     render(<TrekPageContent trek={{ ...baseTrek, active: false }} />);
 
-    expect(screen.getByText(/currently unavailable/i)).toBeInTheDocument();
+    expect(screen.getByText(/not available at the moment/i)).toBeInTheDocument();
     expect(screen.queryByRole("button", { name: /request/i })).not.toBeInTheDocument();
   });
 
