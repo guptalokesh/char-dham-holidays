@@ -1,3 +1,5 @@
+import { existsSync } from "node:fs";
+import path from "node:path";
 import { afterAll, beforeEach, describe, expect, it } from "vitest";
 import { prisma } from "@/lib/db";
 import { FARM_PROPERTY_ID } from "@/lib/constants";
@@ -33,7 +35,7 @@ describe("seed script", () => {
     expect(await prisma.farmProperty.count()).toBe(1);
     expect(await prisma.room.count()).toBe(2);
     expect(await prisma.roomAvailability.count()).toBe(60);
-    expect(await prisma.media.count()).toBe(21);
+    expect(await prisma.media.count()).toBe(24);
     expect(await prisma.place.count()).toBe(2);
   });
 
@@ -104,6 +106,22 @@ describe("seed script", () => {
       const pkg = await prisma.chardhamPackage.findUniqueOrThrow({ where: { slug: "char-dham" } });
       const featured = parseSteps(pkg.steps).filter((s) => s.featured).map((s) => s.title);
       expect(featured).toEqual(["Yamunotri", "Gangotri", "Kedarnath", "Badrinath"]);
+    });
+
+    it("gives each dham step a photo that exists in public/seed-images", async () => {
+      await runSeed();
+
+      const pkg = await prisma.chardhamPackage.findUniqueOrThrow({ where: { slug: "char-dham" } });
+      const images = parseSteps(pkg.steps).filter((s) => s.featured).map((s) => s.imageUrl);
+      expect(images).toEqual([
+        "/seed-images/dham-yamunotri.jpg",
+        "/seed-images/dham-gangotri.jpg",
+        "/seed-images/dham-kedarnath.jpg",
+        "/seed-images/dham-badrinath.jpg",
+      ]);
+      for (const url of images) {
+        expect(existsSync(path.join(process.cwd(), "public", url!)), url).toBe(true);
+      }
     });
 
     it("keeps the Yamunotri and Gangotri handling service free of Kedarnath and Badrinath", async () => {

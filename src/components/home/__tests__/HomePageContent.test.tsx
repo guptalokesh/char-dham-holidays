@@ -131,4 +131,16 @@ describe("HomePageContent", () => {
 
     expect(screen.queryByRole("link", { name: /devrana/i })).not.toBeInTheDocument();
   });
+
+  it("credits the openly licensed dham photos", () => {
+    render(
+      <HomePageContent
+        {...baseProps}
+        dhams={[{ title: "Badrinath", description: "Seat of Lord Vishnu.", imageUrl: "/seed-images/dham-badrinath.jpg" }]}
+      />
+    );
+
+    expect(screen.getByText(/photo credits/i)).toBeInTheDocument();
+    expect(screen.getByText(/Vishwanath Negi/)).toBeInTheDocument();
+  });
 });

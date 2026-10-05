@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { formatInr, formatPriceOrRequest } from "@/lib/format";
 import { WhatsAppCta } from "@/components/layout/WhatsAppCta";
+import { PhotoCredits } from "@/components/yatra/PhotoCredits";
 
 export interface HomeYatra {
   slug: string;
@@ -193,6 +194,9 @@ export function HomePageContent({
                 </div>
               </div>
             ))}
+          </div>
+          <div className="mt-6 text-center">
+            <PhotoCredits urls={dhams.map((d) => d.imageUrl)} />
           </div>
         </section>
       )}

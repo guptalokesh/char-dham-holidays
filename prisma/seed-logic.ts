@@ -107,6 +107,13 @@ async function seedWebsiteSettings() {
   });
 }
 
+const STEP_IMAGES = [
+  "dham-yamunotri.jpg",
+  "dham-gangotri.jpg",
+  "dham-kedarnath.jpg",
+  "dham-badrinath.jpg",
+];
+
 async function seedChardham() {
   for (const yatra of HELICOPTER_YATRAS) {
     const { id, name, price, order, dhamChoice, ...content } = yatra;
@@ -130,8 +137,19 @@ async function seedChardham() {
     }
   }
 
+  // Step photos are referenced by URL, so the files must always be in place.
+  for (const filename of STEP_IMAGES) {
+    copySeedImage(`curated/${filename}`, filename);
+  }
+
   await upsertMedia("media-chardham-hero", "chardham.jpg", "chardham.jpg", {
     chardhamPackageId: CHARDHAM_PACKAGE_ID,
+  });
+  await upsertGallery("media-any-dham", ["yatra-helicopter.jpg"], {
+    chardhamPackageId: "singleton-package-any-dham",
+  });
+  await upsertGallery("media-handling", ["dham-yamunotri.jpg", "dham-gangotri.jpg"], {
+    chardhamPackageId: "singleton-package-handling",
   });
 }
 

@@ -131,4 +131,22 @@ describe("YatraPageContent", () => {
     );
     expect(screen.getByRole("link", { name: /itinerary/i })).toHaveAttribute("href", "/uploads/i.pdf");
   });
+
+  it("credits openly licensed photos used on the page", () => {
+    render(
+      <YatraPageContent
+        pkg={{ ...charDham, steps: [{ title: "Kedarnath", description: "x", featured: true, imageUrl: "/seed-images/dham-kedarnath.jpg" }] }}
+        dhamOptions={[]}
+      />
+    );
+
+    expect(screen.getByText(/photo credits/i)).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /kedarnath temple/i })).toBeInTheDocument();
+  });
+
+  it("shows no credits line when the photos are the owner's own", () => {
+    render(<YatraPageContent pkg={charDham} dhamOptions={[]} />);
+
+    expect(screen.queryByText(/photo credits/i)).not.toBeInTheDocument();
+  });
 });

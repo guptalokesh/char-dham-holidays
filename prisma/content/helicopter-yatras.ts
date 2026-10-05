@@ -29,6 +29,7 @@ const LOCAL_SERVICES_NOTE =
 
 export const YAMUNOTRI_STEP: PackageStep = {
   title: "Yamunotri",
+  imageUrl: "/seed-images/dham-yamunotri.jpg",
   description:
     "Fly from Sahastradhara Helipad in Dehradun to Kharsali (about 30 to 35 minutes). A short ride takes you to Jankichatti, where a 6.5 km walk, pony or palki ride leads to the Yamunotri Temple, the source of the Yamuna River, at about 10,800 feet. After darshan, return to Kharsali for the night.",
   featured: true,
@@ -36,6 +37,7 @@ export const YAMUNOTRI_STEP: PackageStep = {
 
 export const GANGOTRI_STEP: PackageStep = {
   title: "Gangotri",
+  imageUrl: "/seed-images/dham-gangotri.jpg",
   description:
     "Fly from Kharsali to Jhala Helipad, then drive about 25 km to the Gangotri Temple at about 10,200 feet, where the Ganga is worshipped at her place of origin. The road passes the Bhagirathi River and small mountain villages. After darshan, return to Jhala and on to your hotel.",
   featured: true,
@@ -43,6 +45,7 @@ export const GANGOTRI_STEP: PackageStep = {
 
 export const KEDARNATH_STEP: PackageStep = {
   title: "Kedarnath",
+  imageUrl: "/seed-images/dham-kedarnath.jpg",
   description:
     "Fly to Phata, then take a short shuttle flight to Kedarnath Helipad. The shuttle runs in time slots allotted by UCADA, the Uttarakhand Civil Aviation Development Authority. From the helipad it is a walk of about 700 metres to the temple, which stands at about 11,755 feet. Porters and ponies are available on site for an extra charge.",
   featured: true,
@@ -50,6 +53,7 @@ export const KEDARNATH_STEP: PackageStep = {
 
 export const BADRINATH_STEP: PackageStep = {
   title: "Badrinath",
+  imageUrl: "/seed-images/dham-badrinath.jpg",
   description:
     "Fly from Phata to Badrinath (about 30 minutes, weather permitting). The temple is about 1 km from the helipad; a short drive and a walk of 150 to 200 metres bring you to the entrance, followed by about 25 stone steps. Nearby you can bathe at Tapt Kund and visit Mana village if time allows.",
   featured: true,

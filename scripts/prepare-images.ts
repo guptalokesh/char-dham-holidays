@@ -80,6 +80,16 @@ export const MANIFEST: { dir: string; entries: ManifestEntry[] }[] = [
     ],
   },
   {
+    dir: "stock",
+    entries: [
+      { src: "yamunotri.jpg", out: "dham-yamunotri.jpg" },
+      { src: "gangotri.jpg", out: "dham-gangotri.jpg", cropBottomPct: 33 },
+      { src: "kedarnath.jpg", out: "dham-kedarnath.jpg" },
+      { src: "badrinath.jpg", out: "dham-badrinath.jpg" },
+      { src: "helicopter.jpg", out: "yatra-helicopter.jpg" },
+    ],
+  },
+  {
     dir: "local basecamp - dhari kalogi",
     entries: [{ src: "49459.jpg", out: "basecamp-aerial.jpg", cropBottomPct: 8 }],
   },
