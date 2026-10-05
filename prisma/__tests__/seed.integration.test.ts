@@ -1,6 +1,7 @@
 import { afterAll, beforeEach, describe, expect, it } from "vitest";
 import { prisma } from "@/lib/db";
 import { FARM_PROPERTY_ID } from "@/lib/constants";
+import { parseSteps } from "@/lib/packages";
 import { runSeed } from "../seed-logic";
 
 describe("seed script", () => {
@@ -27,7 +28,7 @@ describe("seed script", () => {
 
     expect(await prisma.adminUser.count()).toBe(1);
     expect(await prisma.websiteSettings.count()).toBe(1);
-    expect(await prisma.chardhamPackage.count()).toBe(1);
+    expect(await prisma.chardhamPackage.count()).toBe(3);
     expect(await prisma.trek.count()).toBe(2);
     expect(await prisma.farmProperty.count()).toBe(1);
     expect(await prisma.room.count()).toBe(2);
@@ -72,13 +73,76 @@ describe("seed script", () => {
     expect(treks.every((t) => t.active)).toBe(true);
   });
 
-  it("seeds editable helicopter handling text for Yamunotri and Gangotri only", async () => {
-    await runSeed();
+  describe("helicopter yatra packages", () => {
+    it("seeds Char Dham at 21,000, Any Dham and Handling on request, in display order", async () => {
+      await runSeed();
 
-    const pkg = await prisma.chardhamPackage.findFirstOrThrow();
-    expect(pkg.aircraftHandlingInfo).toMatch(/Yamunotri/);
-    expect(pkg.aircraftHandlingInfo).toMatch(/Gangotri/);
-    expect(pkg.aircraftHandlingInfo).not.toMatch(/Kedarnath|Badrinath/);
+      const pkgs = await prisma.chardhamPackage.findMany({ orderBy: { order: "asc" } });
+      expect(pkgs.map((p) => [p.slug, p.price, p.dhamChoice])).toEqual([
+        ["char-dham", 21000, false],
+        ["any-dham", null, true],
+        ["yamunotri-gangotri-handling", null, false],
+      ]);
+      expect(pkgs[0].name).toBe("Char Dham Yatra by Helicopter");
+    });
+
+    it("gives every package a start point, an ordered sequence and inclusions", async () => {
+      await runSeed();
+
+      for (const pkg of await prisma.chardhamPackage.findMany()) {
+        const steps = parseSteps(pkg.steps);
+        expect(pkg.startPoint, pkg.slug).toBeTruthy();
+        expect(pkg.howItStarts, pkg.slug).toBeTruthy();
+        expect(steps.length, pkg.slug).toBeGreaterThanOrEqual(4);
+        expect(pkg.inclusions.length, pkg.slug).toBeGreaterThanOrEqual(3);
+      }
+    });
+
+    it("marks the four dhams as featured steps of Char Dham, in pilgrimage order", async () => {
+      await runSeed();
+
+      const pkg = await prisma.chardhamPackage.findUniqueOrThrow({ where: { slug: "char-dham" } });
+      const featured = parseSteps(pkg.steps).filter((s) => s.featured).map((s) => s.title);
+      expect(featured).toEqual(["Yamunotri", "Gangotri", "Kedarnath", "Badrinath"]);
+    });
+
+    it("keeps the Yamunotri and Gangotri handling service free of Kedarnath and Badrinath", async () => {
+      await runSeed();
+
+      const pkg = await prisma.chardhamPackage.findUniqueOrThrow({
+        where: { slug: "yamunotri-gangotri-handling" },
+      });
+      const text = JSON.stringify([pkg.name, pkg.routeOverview, pkg.steps, pkg.inclusions]);
+      expect(text).toMatch(/Yamunotri/);
+      expect(text).toMatch(/Gangotri/);
+      expect(text).not.toMatch(/Kedarnath|Badrinath/);
+    });
+
+    it("does not bring back steps an admin removed when the seed runs again", async () => {
+      await runSeed();
+      await prisma.chardhamPackage.update({ where: { slug: "any-dham" }, data: { steps: [] } });
+      await prisma.chardhamPackage.update({ where: { slug: "char-dham" }, data: { tagline: "Edited" } });
+
+      await runSeed();
+
+      const any = await prisma.chardhamPackage.findUniqueOrThrow({ where: { slug: "any-dham" } });
+      const char = await prisma.chardhamPackage.findUniqueOrThrow({ where: { slug: "char-dham" } });
+      expect(parseSteps(any.steps)).toEqual([]);
+      expect(char.tagline).toBe("Edited");
+    });
+
+    it("fills the content of an existing, empty Char Dham row without changing its price", async () => {
+      await prisma.chardhamPackage.create({
+        data: { id: "singleton-chardham-package", slug: "char-dham", name: "Char Dham Yatra by Helicopter", price: 25000 },
+      });
+
+      await runSeed();
+
+      const pkg = await prisma.chardhamPackage.findUniqueOrThrow({ where: { slug: "char-dham" } });
+      expect(pkg.price).toBe(25000);
+      expect(parseSteps(pkg.steps).length).toBeGreaterThan(0);
+      expect(pkg.startPoint).toBeTruthy();
+    });
   });
 
   describe("gallery images", () => {

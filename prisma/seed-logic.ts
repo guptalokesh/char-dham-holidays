@@ -3,6 +3,8 @@ import path from "node:path";
 import bcrypt from "bcryptjs";
 import { prisma } from "../src/lib/db";
 import { resolveAdminCredentials } from "./admin-bootstrap";
+import { HELICOPTER_YATRAS } from "./content/helicopter-yatras";
+import { parseSteps } from "../src/lib/packages";
 import { addDays, todayDateOnly } from "../src/lib/date-utils";
 import {
   CHARDHAM_PACKAGE_ID,
@@ -106,23 +108,27 @@ async function seedWebsiteSettings() {
 }
 
 async function seedChardham() {
-  await prisma.chardhamPackage.upsert({
-    where: { id: CHARDHAM_PACKAGE_ID },
-    update: {},
-    create: {
-      id: CHARDHAM_PACKAGE_ID,
-      slug: "char-dham",
-      name: "Char Dham Yatra by Helicopter",
-      order: 1,
-      price: 21000,
-      destinations: ["Yamunotri", "Gangotri", "Kedarnath", "Badrinath"],
-      stayInfo: "Included",
-      foodInfo: "Included",
-      travelInfo: "Included",
-      aircraftHandlingInfo:
-        "We handle helicopter ground and aircraft coordination for Yamunotri and Gangotri. Yamunotri flights land at the Kharsali helipad, a short walk from the temple; Gangotri flights land at the Harsil helipad, followed by a road transfer. Our team arranges landing, boarding and transfers. Flights depend on weather and operator schedules.",
-    },
-  });
+  for (const yatra of HELICOPTER_YATRAS) {
+    const { id, name, price, order, dhamChoice, ...content } = yatra;
+    const existing = await prisma.chardhamPackage.findUnique({ where: { slug: yatra.slug } });
+
+    if (!existing) {
+      await prisma.chardhamPackage.create({
+        data: { id, name, price, order, dhamChoice, ...content },
+      });
+      continue;
+    }
+
+    // Fill the content block only if it was never filled; later admin edits
+    // (including removed steps) are left alone.
+    const neverFilled =
+      existing.startPoint === null &&
+      existing.howItStarts === null &&
+      parseSteps(existing.steps).length === 0;
+    if (neverFilled) {
+      await prisma.chardhamPackage.update({ where: { id: existing.id }, data: content });
+    }
+  }
 
   await upsertMedia("media-chardham-hero", "chardham.jpg", "chardham.jpg", {
     chardhamPackageId: CHARDHAM_PACKAGE_ID,
