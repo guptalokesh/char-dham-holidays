@@ -42,9 +42,9 @@ describe("Header navigation", () => {
     expect(screen.getByRole("link", { name: "About Us & Contact" })).toHaveAttribute("href", "/contact");
   });
 
-  it("uses a coloured gradient bar", () => {
+  it("uses a light warm bar so the logo sits on its own background", () => {
     render(<Header settings={settings} />);
 
-    expect(screen.getByRole("banner")).toHaveClass("bg-gradient-to-r");
+    expect(screen.getByRole("banner")).toHaveClass("bg-[#fdfbf7]");
   });
 });
