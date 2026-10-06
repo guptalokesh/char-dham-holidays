@@ -30,8 +30,7 @@ const NAV_LINKS = [
   { href: "/yatra", label: "Char Dham Yatra" },
   { href: "/trekking", label: "Trekking" },
   { href: "/farm-home-stay", label: "Farm Stay / Wellness Centre" },
-  { href: "/about", label: "About Us" },
-  { href: "/contact", label: "Contact" },
+  { href: "/contact", label: "About Us & Contact" },
 ];
 
 export function Footer({

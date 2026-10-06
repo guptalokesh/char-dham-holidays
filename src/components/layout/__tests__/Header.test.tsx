@@ -26,8 +26,7 @@ describe("Header navigation", () => {
       "Aircraft Handling Service",
       "Trekking",
       "Farm Stay / Wellness Centre",
-      "About Us",
-      "Contact",
+      "About Us & Contact",
     ]);
     expect(screen.queryByRole("link", { name: "Devrana" })).not.toBeInTheDocument();
   });
@@ -40,6 +39,7 @@ describe("Header navigation", () => {
       "href",
       "/yatra/yamunotri-gangotri-handling"
     );
+    expect(screen.getByRole("link", { name: "About Us & Contact" })).toHaveAttribute("href", "/contact");
   });
 
   it("uses a coloured gradient bar", () => {

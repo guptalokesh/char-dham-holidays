@@ -12,7 +12,6 @@ const STATIC_PATHS = [
   "/yatra",
   "/trekking",
   "/farm-home-stay",
-  "/about",
   "/contact",
   "/privacy-policy",
   "/terms",

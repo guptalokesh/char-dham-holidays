@@ -22,4 +22,14 @@ describe("next.config redirects", () => {
       permanent: false,
     });
   });
+
+  it("sends the old About page to the About section of the merged Contact page", async () => {
+    const redirects = await nextConfig.redirects!();
+
+    expect(redirects).toContainEqual({
+      source: "/about",
+      destination: "/contact#about",
+      permanent: false,
+    });
+  });
 });

@@ -3,21 +3,20 @@ import Image from "next/image";
 import { MobileNav } from "@/components/layout/MobileNav";
 
 const NAV_LINKS = [
-  { href: "/", label: "Home", tone: "bg-blue-700 hover:bg-blue-600" },
+  { href: "/", label: "Home", tone: "bg-blue-800 hover:bg-blue-700" },
   { href: "/yatra", label: "Char Dham Yatra", tone: "bg-amber-700 hover:bg-amber-600" },
   {
     href: "/yatra/yamunotri-gangotri-handling",
     label: "Aircraft Handling Service",
-    tone: "bg-sky-700 hover:bg-sky-600",
+    tone: "bg-sky-800 hover:bg-sky-700",
   },
-  { href: "/trekking", label: "Trekking", tone: "bg-emerald-700 hover:bg-emerald-600" },
+  { href: "/trekking", label: "Trekking", tone: "bg-teal-800 hover:bg-teal-700" },
   {
     href: "/farm-home-stay",
     label: "Farm Stay / Wellness Centre",
-    tone: "bg-teal-700 hover:bg-teal-600",
+    tone: "bg-emerald-800 hover:bg-emerald-700",
   },
-  { href: "/about", label: "About Us", tone: "bg-violet-700 hover:bg-violet-600" },
-  { href: "/contact", label: "Contact", tone: "bg-rose-700 hover:bg-rose-600" },
+  { href: "/contact", label: "About Us & Contact", tone: "bg-indigo-700 hover:bg-indigo-600" },
 ];
 
 export interface HeaderSettings {
@@ -29,7 +28,7 @@ const PRIMARY_CTA_LABEL = "Check Availability";
 
 export function Header({ settings }: { settings: HeaderSettings }) {
   return (
-    <header className="sticky top-0 z-40 border-b border-white/10 bg-gradient-to-r from-blue-950 via-indigo-900 to-rose-900 shadow-md">
+    <header className="sticky top-0 z-40 border-b border-white/10 bg-gradient-to-r from-blue-950 via-blue-900 to-indigo-950 shadow-md">
       <div className="relative mx-auto flex max-w-6xl items-center justify-between gap-4 px-6 py-3.5">
         <Link href="/" className="flex items-center gap-2.5 rounded-lg bg-white/95 px-2 py-0.5">
           {settings.logoMedia ? (

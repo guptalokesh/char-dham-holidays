@@ -48,6 +48,7 @@ const nextConfig: NextConfig = {
     return [
       { source: "/chardham", destination: "/yatra/char-dham", permanent: false },
       { source: "/devrana-mandir", destination: "/trekking#devrana-mandir", permanent: false },
+      { source: "/about", destination: "/contact#about", permanent: false },
     ];
   },
   async headers() {

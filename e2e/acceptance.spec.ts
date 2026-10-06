@@ -274,7 +274,7 @@ test.describe.serial("Char Dham Holidays — end-to-end acceptance flows (spec s
     await expect(page.getByText(newPhone)).toBeVisible();
     await expect(page.getByText(newEmail)).toBeVisible();
 
-    await page.goto("/about");
+    await page.goto("/contact");
     await expect(page.getByText(newAddress, { exact: false }).first()).toBeVisible();
   });
 
