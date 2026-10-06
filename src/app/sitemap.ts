@@ -11,7 +11,6 @@ const STATIC_PATHS = [
   "",
   "/yatra",
   "/trekking",
-  "/devrana-mandir",
   "/farm-home-stay",
   "/about",
   "/contact",

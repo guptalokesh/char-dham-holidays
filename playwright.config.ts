@@ -27,7 +27,7 @@ export default defineConfig({
       port: PORT,
       reuseExistingServer: false,
       timeout: 60_000,
-      env: { ...e2eEnv, PORT: String(PORT) },
+      env: { ...e2eEnv, PORT: String(PORT), OFFER_POPUP: "off" },
     },
     {
       command: "npx tsx e2e/fake-smtp-server.ts",

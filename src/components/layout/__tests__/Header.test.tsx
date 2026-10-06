@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, within } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import { Header } from "@/components/layout/Header";
 
@@ -14,11 +14,37 @@ describe("Header logo", () => {
 });
 
 describe("Header navigation", () => {
-  it("links to the Helicopter Yatra hub instead of the old Chardham page", () => {
-    render(<Header settings={{ businessName: "Char Dham Holidays", logoMedia: null }} />);
+  const settings = { businessName: "Char Dham Holidays", logoMedia: null };
 
-    const nav = screen.getAllByRole("link", { name: "Helicopter Yatra" });
-    expect(nav[0]).toHaveAttribute("href", "/yatra");
-    expect(screen.queryByRole("link", { name: "Chardham" })).not.toBeInTheDocument();
+  it("lists the menu in order, with Devrana covered under Trekking", () => {
+    render(<Header settings={settings} />);
+
+    const labels = within(screen.getByRole("navigation")).getAllByRole("link").map((a) => a.textContent);
+    expect(labels).toEqual([
+      "Home",
+      "Char Dham Yatra",
+      "Aircraft Handling Service",
+      "Trekking",
+      "Farm Stay / Wellness Centre",
+      "About Us",
+      "Contact",
+    ]);
+    expect(screen.queryByRole("link", { name: "Devrana" })).not.toBeInTheDocument();
+  });
+
+  it("points the yatra and handling items at their pages", () => {
+    render(<Header settings={settings} />);
+
+    expect(screen.getByRole("link", { name: "Char Dham Yatra" })).toHaveAttribute("href", "/yatra");
+    expect(screen.getByRole("link", { name: "Aircraft Handling Service" })).toHaveAttribute(
+      "href",
+      "/yatra/yamunotri-gangotri-handling"
+    );
+  });
+
+  it("uses a coloured gradient bar", () => {
+    render(<Header settings={settings} />);
+
+    expect(screen.getByRole("banner")).toHaveClass("bg-gradient-to-r");
   });
 });

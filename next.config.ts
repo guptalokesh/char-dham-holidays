@@ -45,7 +45,10 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     // Not permanent while the new /yatra pages settle (browsers cache 308s).
-    return [{ source: "/chardham", destination: "/yatra/char-dham", permanent: false }];
+    return [
+      { source: "/chardham", destination: "/yatra/char-dham", permanent: false },
+      { source: "/devrana-mandir", destination: "/trekking#devrana-mandir", permanent: false },
+    ];
   },
   async headers() {
     return [

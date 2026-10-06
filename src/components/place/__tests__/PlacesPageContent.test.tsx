@@ -60,10 +60,12 @@ describe("PlacesPageContent", () => {
     expect(alts).toContain("Devrana Mandir & Mela — photo 3");
   });
 
-  it("offers a way to plan a visit", () => {
-    render(<PlacesPageContent places={places} />);
+  it("is a section of the Trekking page, headed by an h2 and anchored for the Devrana link", () => {
+    const { container } = render(<PlacesPageContent places={places} />);
 
-    expect(screen.getByRole("link", { name: /plan your visit/i })).toHaveAttribute("href", "/contact");
+    expect(screen.getByRole("heading", { level: 2, name: "Devrana Mandir & Base Camp" })).toBeInTheDocument();
+    expect(screen.queryByRole("heading", { level: 1 })).not.toBeInTheDocument();
+    expect(container.querySelector("section#devrana-mandir")).not.toBeNull();
   });
 
   it("shows a friendly message when there are no places", () => {

@@ -37,6 +37,17 @@ describe("HomePageContent", () => {
     expect(screen.getByRole("link", { name: "See all yatras" })).toHaveAttribute("href", "/yatra");
   });
 
+  it("keeps the season offer on the page permanently, with both prices and booking links", () => {
+    render(<HomePageContent {...baseProps} />);
+
+    const offer = screen.getByRole("region", { name: /helicopter yatra season is open/i });
+    expect(offer).toHaveTextContent(/April – June & September – October/);
+    expect(offer).toHaveTextContent("₹21,000");
+    expect(offer).toHaveTextContent("Price on request");
+    expect(within(offer).getByRole("link", { name: "Book now" })).toHaveAttribute("href", "/yatra/char-dham");
+    expect(within(offer).getByRole("link", { name: "View packages" })).toHaveAttribute("href", "/yatra");
+  });
+
   it("omits the from-price when Char Dham has no price", () => {
     render(<HomePageContent {...baseProps} chardhamPrice={null} />);
 
@@ -121,7 +132,7 @@ describe("HomePageContent", () => {
     );
 
     const link = screen.getByRole("link", { name: /devrana mandir & mela/i });
-    expect(link).toHaveAttribute("href", "/devrana-mandir");
+    expect(link).toHaveAttribute("href", "/trekking#devrana-mandir");
     expect(screen.getByText("The temple and its mela.")).toBeInTheDocument();
     expect(screen.getByRole("img", { name: "Devrana Mandir & Mela" })).toBeInTheDocument();
   });

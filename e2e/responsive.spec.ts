@@ -4,7 +4,7 @@ import { expect, test } from "@playwright/test";
 // these widths on the main public pages.
 const VIEWPORTS = [320, 375, 390, 430, 768, 1024, 1280, 1440];
 
-const PAGES = ["/", "/yatra", "/yatra/char-dham", "/yatra/any-dham", "/yatra/yamunotri-gangotri-handling", "/trekking", "/trekking/devrana-trek", "/farm-home-stay", "/devrana-mandir", "/contact", "/about"];
+const PAGES = ["/", "/yatra", "/yatra/char-dham", "/yatra/any-dham", "/yatra/yamunotri-gangotri-handling", "/trekking", "/trekking/devrana-trek", "/farm-home-stay", "/contact", "/about"];
 
 test.describe("responsive layout — no horizontal overflow at any breakpoint", () => {
   for (const width of VIEWPORTS) {
@@ -26,19 +26,19 @@ test.describe("responsive layout — no horizontal overflow at any breakpoint", 
     }
   }
 
-  test("mobile nav toggle is visible and the desktop nav is hidden below 640px", async ({ page }) => {
+  test("mobile nav toggle is visible and the desktop nav is hidden below 1280px", async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 800 });
     await page.goto("/");
 
     // Scoped to the header: the footer's own nav (always visible, by
     // design — it's a simple stacked list, not the hamburger-toggled one)
-    // has an identical "Helicopter Yatra" link that would otherwise make this
+    // has an identical "Char Dham Yatra" link that would otherwise make this
     // assertion pass regardless of the header's responsive behavior.
     const header = page.getByRole("banner");
     await expect(header.getByRole("button", { name: /menu/i })).toBeVisible();
-    await expect(header.getByRole("link", { name: "Helicopter Yatra", exact: true })).not.toBeVisible();
+    await expect(header.getByRole("link", { name: "Char Dham Yatra", exact: true })).not.toBeVisible();
 
     await header.getByRole("button", { name: /menu/i }).click();
-    await expect(header.getByRole("link", { name: "Helicopter Yatra", exact: true })).toBeVisible();
+    await expect(header.getByRole("link", { name: "Char Dham Yatra", exact: true })).toBeVisible();
   });
 });

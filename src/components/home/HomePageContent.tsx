@@ -1,3 +1,4 @@
+import { OfferCard } from "@/components/layout/OfferCard";
 import Image from "next/image";
 import Link from "next/link";
 import { formatInr, formatPriceOrRequest } from "@/lib/format";
@@ -148,6 +149,19 @@ export function HomePageContent({
               See all yatras
             </Link>
           </div>
+        </div>
+      </section>
+
+      <section
+        aria-labelledby="home-offer"
+        className="mx-auto -mt-10 max-w-2xl px-6 sm:-mt-14"
+      >
+        <div className="relative rounded-2xl border border-amber-200 bg-[#fdfbf7] p-6 shadow-xl">
+          <OfferCard
+            charDhamPrice={yatras.find((y) => y.slug === "char-dham")?.price ?? null}
+            anyDhamPrice={yatras.find((y) => y.slug === "any-dham")?.price ?? null}
+            titleId="home-offer"
+          />
         </div>
       </section>
 
@@ -369,7 +383,7 @@ export function HomePageContent({
       {devrana && (
         <section className="mx-auto max-w-6xl px-6 pb-20">
           <Link
-            href="/devrana-mandir"
+            href="/trekking#devrana-mandir"
             className="group relative block h-72 overflow-hidden rounded-2xl bg-amber-950 shadow-sm sm:h-80"
           >
             {devrana.imageUrl && (

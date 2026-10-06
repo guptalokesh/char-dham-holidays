@@ -12,4 +12,14 @@ describe("next.config redirects", () => {
       permanent: false,
     });
   });
+
+  it("sends the old Devrana page to the Devrana section on the Trekking page", async () => {
+    const redirects = await nextConfig.redirects!();
+
+    expect(redirects).toContainEqual({
+      source: "/devrana-mandir",
+      destination: "/trekking#devrana-mandir",
+      permanent: false,
+    });
+  });
 });

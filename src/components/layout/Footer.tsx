@@ -27,10 +27,10 @@ const SOCIAL_LINKS: { key: keyof FooterSettings; label: string }[] = [
 
 const NAV_LINKS = [
   { href: "/", label: "Home" },
-  { href: "/yatra", label: "Helicopter Yatra" },
+  { href: "/yatra", label: "Char Dham Yatra" },
   { href: "/trekking", label: "Trekking" },
-  { href: "/farm-home-stay", label: "Farm Home Stay" },
-  { href: "/about", label: "About" },
+  { href: "/farm-home-stay", label: "Farm Stay / Wellness Centre" },
+  { href: "/about", label: "About Us" },
   { href: "/contact", label: "Contact" },
 ];
 

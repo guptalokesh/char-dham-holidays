@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { listTreks } from "@/lib/trek";
+import { listPlaces } from "@/lib/place";
+import { PlacesPageContent } from "@/components/place/PlacesPageContent";
 import { TrekCard } from "@/components/trek/TrekCard";
 
 // Listings are admin-editable and must always reflect the latest database
@@ -14,7 +16,7 @@ export const metadata: Metadata = {
 };
 
 export default async function TrekkingPage() {
-  const treks = await listTreks();
+  const [treks, places] = await Promise.all([listTreks(), listPlaces()]);
 
   return (
     <main className="bg-gradient-to-b from-emerald-50/60 to-transparent">
@@ -41,6 +43,7 @@ export default async function TrekkingPage() {
         </div>
       )}
       </div>
+      <PlacesPageContent places={places} />
     </main>
   );
 }
