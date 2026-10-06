@@ -48,6 +48,17 @@ describe("submitGeneralEnquiry", () => {
     expect(calls.some(([args]) => args.to === "meera@example.com")).toBe(true);
   });
 
+  it("keeps a different WhatsApp number with the message, and skips it when it matches the phone", async () => {
+    const different = await submitGeneralEnquiry({ ...valid, whatsapp: "+91 90000 11111" });
+    const same = await submitGeneralEnquiry({ ...valid, whatsapp: valid.phone });
+
+    const a = await prisma.enquiry.findUniqueOrThrow({ where: { id: different.enquiryId } });
+    const b = await prisma.enquiry.findUniqueOrThrow({ where: { id: same.enquiryId } });
+    expect(a.message).toContain("WhatsApp number: +91 90000 11111");
+    expect(a.message).toContain(valid.message);
+    expect(b.message).toBe(valid.message);
+  });
+
   it("falls back to primaryEmail when enquiryEmail is not set", async () => {
     await prisma.websiteSettings.deleteMany();
     await updateWebsiteSettings({ primaryEmail: "primary@chardhamholidays.example" });

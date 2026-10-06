@@ -5,6 +5,7 @@ export const generalEnquirySchema = z
   .object({
     name: nameSchema,
     phone: phoneSchema,
+    whatsapp: z.union([z.literal(""), phoneSchema]).optional(),
     email: z.email("Enter a valid email address"),
     service: z.enum(["GENERAL", "CHARDHAM", "TREKKING", "FARM_HOME_STAY"]),
     trekId: z.string().optional(),

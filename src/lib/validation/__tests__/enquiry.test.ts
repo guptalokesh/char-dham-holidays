@@ -43,4 +43,13 @@ describe("generalEnquirySchema", () => {
       generalEnquirySchema.safeParse({ ...valid, service: "NOT_A_SERVICE" }).success
     ).toBe(false);
   });
+
+  it("accepts an enquiry with or without a WhatsApp number", () => {
+    expect(generalEnquirySchema.safeParse({ ...valid, whatsapp: "+91 98765 43211" }).success).toBe(true);
+    expect(generalEnquirySchema.safeParse({ ...valid, whatsapp: "" }).success).toBe(true);
+  });
+
+  it("rejects a malformed WhatsApp number", () => {
+    expect(generalEnquirySchema.safeParse({ ...valid, whatsapp: "abc" }).success).toBe(false);
+  });
 });

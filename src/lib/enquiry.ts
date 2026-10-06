@@ -81,6 +81,12 @@ export async function submitGeneralEnquiry(
   const data = generalEnquirySchema.parse(input);
   const serviceLabel = await resolveServiceLabel(data.service, data.trekId, data.chardhamPackageId);
 
+  const digits = (value: string) => value.replace(/\D/g, "");
+  const message =
+    data.whatsapp && digits(data.whatsapp) !== digits(data.phone)
+      ? `${data.message}\n\nWhatsApp number: ${data.whatsapp}`
+      : data.message;
+
   const enquiry = await prisma.enquiry.create({
     data: {
       name: data.name,
@@ -89,7 +95,7 @@ export async function submitGeneralEnquiry(
       service: data.service,
       trekId: data.service === "TREKKING" ? data.trekId : undefined,
       chardhamPackageId: data.service === "CHARDHAM" ? data.chardhamPackageId : undefined,
-      message: data.message,
+      message,
     },
   });
 
@@ -103,7 +109,7 @@ export async function submitGeneralEnquiry(
         phone: data.phone,
         email: data.email,
         service: serviceLabel,
-        message: data.message,
+        message,
         businessName: settings.businessName,
       });
       await sendMail({ to: notifyTo, ...notification, replyTo: data.email });
@@ -118,7 +124,7 @@ export async function submitGeneralEnquiry(
       phone: data.phone,
       email: data.email,
       service: serviceLabel,
-      message: data.message,
+      message,
       businessName: settings.businessName,
     });
     await sendMail({ to: data.email, ...acknowledgement });

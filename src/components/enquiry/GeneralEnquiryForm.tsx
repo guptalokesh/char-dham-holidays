@@ -16,6 +16,7 @@ export function GeneralEnquiryForm({
 }) {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
+  const [whatsapp, setWhatsapp] = useState("");
   const [email, setEmail] = useState("");
   const [serviceIndex, setServiceIndex] = useState("0");
   const [message, setMessage] = useState("");
@@ -52,6 +53,7 @@ export function GeneralEnquiryForm({
         body: JSON.stringify({
           name,
           phone,
+          whatsapp: whatsapp.trim() || undefined,
           email,
           service: option.service,
           trekId: option.trekId,
@@ -101,6 +103,19 @@ export function GeneralEnquiryForm({
           required
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
+          className="form-input"
+        />
+      </div>
+
+      <div className="space-y-1">
+        <label htmlFor="enquiry-whatsapp" className="block text-sm font-medium">
+          WhatsApp number <span className="font-normal text-stone-500">(if different)</span>
+        </label>
+        <input
+          id="enquiry-whatsapp"
+          type="tel"
+          value={whatsapp}
+          onChange={(e) => setWhatsapp(e.target.value)}
           className="form-input"
         />
       </div>

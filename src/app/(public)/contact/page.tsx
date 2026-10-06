@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { getEnquiryServiceOptions } from "@/lib/enquiry";
 import { getWebsiteSettings } from "@/lib/settings";
+import { ContactActions } from "@/components/contact/ContactActions";
 import { GeneralEnquiryForm } from "@/components/enquiry/GeneralEnquiryForm";
 
 // Service options (active treks) and contact details are admin-editable.
@@ -26,24 +27,26 @@ export default async function ContactPage() {
           Get in touch
         </p>
         <h1 className="mt-3 text-3xl font-semibold tracking-tight text-stone-900 sm:text-4xl">
-          Contact Us
+          Plan your journey with us
         </h1>
         <p className="mt-3 text-stone-600">
-          Send us an enquiry and our team will get back to you directly to discuss
-          details.
+          Reach our team in the way that suits you, or send an enquiry below and we
+          will get back to you directly.
         </p>
 
-        {(settings.primaryPhone || settings.primaryEmail || settings.addressLine) && (
-          <div className="mt-6 space-y-1 break-words rounded-xl border border-stone-200 bg-white p-5 text-sm text-stone-600">
-            {settings.primaryPhone && <p>Phone: {settings.primaryPhone}</p>}
-            {settings.primaryEmail && <p>Email: {settings.primaryEmail}</p>}
-            {settings.addressLine && (
-              <p>
-                {settings.addressLine}
-                {settings.city ? `, ${settings.city}` : ""}
-              </p>
-            )}
-          </div>
+        <div className="mt-6">
+          <ContactActions
+            phone={settings.primaryPhone}
+            whatsappNumber={settings.whatsappNumber}
+            email={settings.primaryEmail}
+          />
+        </div>
+
+        {settings.addressLine && (
+          <p className="mt-4 break-words text-sm text-stone-600">
+            {settings.addressLine}
+            {settings.city ? `, ${settings.city}` : ""}
+          </p>
         )}
 
         <div className="mt-8 rounded-2xl border border-stone-200 bg-white p-6 shadow-sm sm:p-8">

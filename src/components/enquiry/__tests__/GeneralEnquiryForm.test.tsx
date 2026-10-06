@@ -43,6 +43,21 @@ describe("GeneralEnquiryForm", () => {
     expect(body).toMatchObject({ service: "TREKKING", trekId: "trek-1" });
   });
 
+  it("sends the WhatsApp number when one is entered", async () => {
+    const fetchMock = vi.fn().mockResolvedValue({ ok: true, json: async () => ({ enquiryId: "enq-1" }) });
+    vi.stubGlobal("fetch", fetchMock);
+    const user = userEvent.setup();
+
+    render(<GeneralEnquiryForm serviceOptions={serviceOptions} />);
+    await fillCommonFields(user);
+    await user.type(screen.getByLabelText(/whatsapp number/i), "+91 90000 11111");
+    await user.click(screen.getByRole("button", { name: /send/i }));
+
+    await waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(1));
+    const body = JSON.parse(fetchMock.mock.calls[0][1].body);
+    expect(body.whatsapp).toBe("+91 90000 11111");
+  });
+
   it("shows a success message and does not claim the booking is confirmed", async () => {
     const fetchMock = vi.fn().mockResolvedValue({
       ok: true,
