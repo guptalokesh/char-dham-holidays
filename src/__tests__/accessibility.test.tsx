@@ -6,6 +6,7 @@ import { describe, expect, it, vi } from "vitest";
 // these are plain component-render tests, not full Next.js app router tests.
 vi.mock("next/navigation", () => ({
   useRouter: () => ({ push: vi.fn(), refresh: vi.fn() }),
+  usePathname: () => "/",
 }));
 
 import { Header } from "@/components/layout/Header";

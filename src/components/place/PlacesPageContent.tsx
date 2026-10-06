@@ -16,7 +16,7 @@ export function PlacesPageContent({ places }: { places: PlaceView[] }) {
     <section
       id="devrana-mandir"
       aria-labelledby="devrana-heading"
-      className="mx-auto max-w-4xl scroll-mt-24 px-6 py-16"
+      className="mx-auto max-w-5xl scroll-mt-24 px-6 py-16"
     >
       <p className="text-sm font-semibold uppercase tracking-[0.2em] text-amber-700">
         Uttarakhand

@@ -2,12 +2,13 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { NavLinks, type NavLink } from "@/components/layout/NavLinks";
 
 export function MobileNav({
   links,
   cta,
 }: {
-  links: { href: string; label: string; tone?: string }[];
+  links: NavLink[];
   cta?: { href: string; label: string };
 }) {
   const [open, setOpen] = useState(false);
@@ -28,17 +29,8 @@ export function MobileNav({
       </button>
 
       {open && (
-        <nav className="absolute inset-x-4 top-full z-50 mt-2 flex flex-col gap-1.5 rounded-xl border border-white/10 bg-blue-950 p-3 shadow-xl">
-          {links.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              onClick={() => setOpen(false)}
-              className={`rounded-lg px-3 py-2 text-sm font-medium text-white ${link.tone ?? "bg-white/10 hover:bg-white/20"}`}
-            >
-              {link.label}
-            </Link>
-          ))}
+        <nav className="absolute inset-x-4 top-full z-50 mt-2 flex flex-col gap-1 rounded-xl border border-white/10 bg-blue-950 p-3 shadow-xl">
+          <NavLinks links={links} onNavigate={() => setOpen(false)} />
           {cta && (
             <Link
               href={cta.href}

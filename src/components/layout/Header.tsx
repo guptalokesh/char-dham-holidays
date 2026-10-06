@@ -1,22 +1,15 @@
 import Link from "next/link";
 import Image from "next/image";
+import { NavLinks } from "@/components/layout/NavLinks";
 import { MobileNav } from "@/components/layout/MobileNav";
 
 const NAV_LINKS = [
-  { href: "/", label: "Home", tone: "bg-blue-800 hover:bg-blue-700" },
-  { href: "/yatra", label: "Char Dham Yatra", tone: "bg-amber-700 hover:bg-amber-600" },
-  {
-    href: "/yatra/yamunotri-gangotri-handling",
-    label: "Aircraft Handling Service",
-    tone: "bg-sky-800 hover:bg-sky-700",
-  },
-  { href: "/trekking", label: "Trekking", tone: "bg-teal-800 hover:bg-teal-700" },
-  {
-    href: "/farm-home-stay",
-    label: "Farm Stay / Wellness Centre",
-    tone: "bg-emerald-800 hover:bg-emerald-700",
-  },
-  { href: "/contact", label: "About Us & Contact", tone: "bg-indigo-700 hover:bg-indigo-600" },
+  { href: "/", label: "Home" },
+  { href: "/yatra", label: "Char Dham Yatra", accent: true },
+  { href: "/yatra/yamunotri-gangotri-handling", label: "Aircraft Handling Service" },
+  { href: "/trekking", label: "Trekking" },
+  { href: "/farm-home-stay", label: "Farm Stay / Wellness Centre" },
+  { href: "/contact", label: "About Us & Contact" },
 ];
 
 export interface HeaderSettings {
@@ -47,16 +40,8 @@ export function Header({ settings }: { settings: HeaderSettings }) {
           )}
         </Link>
 
-        <nav className="hidden flex-wrap justify-end gap-1.5 text-sm font-medium text-white xl:flex">
-          {NAV_LINKS.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className={`rounded-full px-3.5 py-1.5 shadow-sm transition-colors ${link.tone}`}
-            >
-              {link.label}
-            </Link>
-          ))}
+        <nav className="hidden flex-wrap justify-end gap-1 xl:flex">
+          <NavLinks links={NAV_LINKS} />
         </nav>
 
         <div className="hidden 2xl:block">
