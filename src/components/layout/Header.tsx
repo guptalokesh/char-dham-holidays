@@ -21,7 +21,7 @@ const PRIMARY_CTA_LABEL = "Check Availability";
 
 export function Header({ settings }: { settings: HeaderSettings }) {
   return (
-    <header className="sticky top-0 z-40 border-b border-white/10 bg-gradient-to-r from-blue-950 via-blue-900 to-indigo-950 shadow-md">
+    <header className="sticky top-0 z-40 border-b border-white/10 bg-gradient-to-r from-stone-950 via-stone-900 to-stone-800 shadow-md">
       <div className="relative mx-auto flex max-w-6xl items-center justify-between gap-4 px-6 py-3.5">
         <Link href="/" className="flex items-center gap-2.5 rounded-lg bg-white/95 px-2 py-0.5">
           {settings.logoMedia ? (

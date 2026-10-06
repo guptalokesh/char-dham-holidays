@@ -23,7 +23,7 @@ export function NavLinks({ links, onNavigate }: { links: NavLink[]; onNavigate?:
         const tone = link.accent
           ? "bg-amber-500 text-stone-950 hover:bg-amber-400"
           : isCurrent
-            ? "bg-white text-blue-950"
+            ? "bg-white text-stone-900"
             : "text-white/85 hover:bg-white/10 hover:text-white";
         return (
           <Link
