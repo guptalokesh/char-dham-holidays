@@ -62,6 +62,17 @@ describe("prepareImages", () => {
     expect([meta.width, meta.height]).toEqual([1200, 1472]);
   });
 
+  it("cuts out a rectangle, to drop the black bars around a phone screenshot", async () => {
+    await makeJpg(path.join(src, "shot.jpg"), 720, 1600, "#336699");
+
+    await prepareImages(src, out, [
+      { src: "shot.jpg", out: "shot.jpg", crop: { top: 520, height: 540 } },
+    ]);
+
+    const meta = await sharp(path.join(out, "shot.jpg")).metadata();
+    expect([meta.width, meta.height]).toEqual([720, 540]);
+  });
+
   it("skips a later entry whose bytes duplicate an earlier one", async () => {
     await makeJpg(path.join(src, "one.jpg"), 800, 600, "#336699");
     copyFileSync(path.join(src, "one.jpg"), path.join(src, "copy.jpg"));

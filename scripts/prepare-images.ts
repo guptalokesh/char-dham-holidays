@@ -10,6 +10,7 @@ export type ManifestEntry = {
   out: string;
   rotate?: number;
   cropBottomPct?: number;
+  crop?: { top: number; height: number };
 };
 
 export async function prepareImages(
@@ -29,6 +30,10 @@ export async function prepareImages(
 
     let img = sharp(bytes);
     if (entry.rotate) img = sharp(await img.rotate(entry.rotate).toBuffer());
+    if (entry.crop) {
+      const { width = 0 } = await img.metadata();
+      img = sharp(await img.extract({ left: 0, width, ...entry.crop }).toBuffer());
+    }
     if (entry.cropBottomPct) {
       const { width = 0, height = 0 } = await img.metadata();
       const keep = Math.round(height * (1 - entry.cropBottomPct / 100));
@@ -87,6 +92,15 @@ export const MANIFEST: { dir: string; entries: ManifestEntry[] }[] = [
       { src: "kedarnath.jpg", out: "dham-kedarnath.jpg" },
       { src: "badrinath.jpg", out: "dham-badrinath.jpg" },
       { src: "helicopter.jpg", out: "yatra-helicopter.jpg" },
+    ],
+  },
+  {
+    dir: "owner photos oct",
+    entries: [
+      { src: "14.jpg", out: "devrana-mandir-winter.jpg", crop: { top: 522, height: 538 } },
+      { src: "18.jpg", out: "devrana-mela-crowd.jpg", crop: { top: 32, height: 808 } },
+      { src: "16.jpg", out: "farm-view-mountains.jpg" },
+      { src: "17.jpg", out: "farm-view-hillside.jpg" },
     ],
   },
   {

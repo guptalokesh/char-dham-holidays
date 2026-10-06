@@ -49,6 +49,8 @@ async function upsertMedia(
   });
 }
 
+const FARM_VIEWS = ["farm-view-mountains.jpg", "farm-view-hillside.jpg"];
+
 // Sequential on purpose: Media.createdAt decides gallery order, first image is the hero.
 async function upsertGallery(
   idPrefix: string,
@@ -204,7 +206,14 @@ async function seedPlaces() {
   });
   await upsertGallery(
     "media-place-devrana",
-    ["devrana-mela-hero.jpg", "devrana-mandir-1.jpg", "devrana-mandir-snow.jpg", "devrana-ridges.jpg"],
+    [
+      "devrana-mela-hero.jpg",
+      "devrana-mandir-1.jpg",
+      "devrana-mandir-snow.jpg",
+      "devrana-ridges.jpg",
+      "devrana-mandir-winter.jpg",
+      "devrana-mela-crowd.jpg",
+    ],
     { placeId: mandir.id }
   );
 
@@ -236,7 +245,7 @@ async function seedFarmHomeStay() {
       description: "Nature-focused accommodation on our farm property.",
     },
   });
-  await upsertGallery("media-farm", ["hotel-exterior.jpg", "hotel-lounge.jpg"], {
+  await upsertGallery("media-farm", ["hotel-exterior.jpg", "hotel-lounge.jpg", ...FARM_VIEWS], {
     farmPropertyId: FARM_PROPERTY_ID,
   });
 
@@ -268,7 +277,7 @@ async function seedFarmHomeStay() {
   await upsertGallery("media-room-deluxe", ["room-deluxe-1.jpg", "room-deluxe-2.jpg"], {
     roomId: deluxe.id,
   });
-  await upsertGallery("media-room-cottage", ["room-twin.jpg"], { roomId: cottage.id });
+  await upsertGallery("media-room-cottage", ["room-twin.jpg", ...FARM_VIEWS], { roomId: cottage.id });
 
   const today = todayDateOnly();
   const days = Array.from({ length: 30 }, (_, i) => addDays(today, i));

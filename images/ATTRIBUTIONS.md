@@ -13,3 +13,9 @@ shown on the pages (see `src/lib/photo-credits.ts`). Files in `images/stock/` ar
 | `stock/helicopter.jpg` | A helicopter taking pilgrims to Kedarnath | Asdelhi95 | CC BY-SA 4.0 | https://commons.wikimedia.org/wiki/File:A_helicopter_taking_pilgrims_to_kedarnath.jpg |
 
 Licences: CC BY 4.0 https://creativecommons.org/licenses/by/4.0 · CC BY-SA 4.0 https://creativecommons.org/licenses/by-sa/4.0 · CC BY-SA 3.0 https://creativecommons.org/licenses/by-sa/3.0
+
+## Owner-supplied photos
+
+The Devrana mandir in snow, the Devrana mela crowd and the two farm stay views (`curated/devrana-mandir-winter.jpg`,
+`curated/devrana-mela-crowd.jpg`, `curated/farm-view-mountains.jpg`, `curated/farm-view-hillside.jpg`) were supplied by the
+owner. No credit line is shown on the site.

@@ -35,7 +35,7 @@ describe("seed script", () => {
     expect(await prisma.farmProperty.count()).toBe(1);
     expect(await prisma.room.count()).toBe(2);
     expect(await prisma.roomAvailability.count()).toBe(60);
-    expect(await prisma.media.count()).toBe(24);
+    expect(await prisma.media.count()).toBe(30);
     expect(await prisma.place.count()).toBe(2);
   });
 
@@ -76,12 +76,12 @@ describe("seed script", () => {
   });
 
   describe("helicopter yatra packages", () => {
-    it("seeds Char Dham at 21,000, Any Dham and Handling on request, in display order", async () => {
+    it("seeds Char Dham at 2,10,000, Any Dham and Handling on request, in display order", async () => {
       await runSeed();
 
       const pkgs = await prisma.chardhamPackage.findMany({ orderBy: { order: "asc" } });
       expect(pkgs.map((p) => [p.slug, p.price, p.dhamChoice])).toEqual([
-        ["char-dham", 21000, false],
+        ["char-dham", 210000, false],
         ["any-dham", null, true],
         ["yamunotri-gangotri-handling", null, false],
       ]);
@@ -198,6 +198,8 @@ describe("seed script", () => {
       expect(await urls({ farmPropertyId: FARM_PROPERTY_ID })).toEqual([
         "/seed-images/hotel-exterior.jpg",
         "/seed-images/hotel-lounge.jpg",
+        "/seed-images/farm-view-mountains.jpg",
+        "/seed-images/farm-view-hillside.jpg",
       ]);
       expect(await urls({ roomId: "singleton-room-deluxe" })).toEqual([
         "/seed-images/room-deluxe-1.jpg",
@@ -205,6 +207,8 @@ describe("seed script", () => {
       ]);
       expect(await urls({ roomId: "singleton-room-cottage" })).toEqual([
         "/seed-images/room-twin.jpg",
+        "/seed-images/farm-view-mountains.jpg",
+        "/seed-images/farm-view-hillside.jpg",
       ]);
     });
 
@@ -228,6 +232,8 @@ describe("seed script", () => {
         "/seed-images/devrana-mandir-1.jpg",
         "/seed-images/devrana-mandir-snow.jpg",
         "/seed-images/devrana-ridges.jpg",
+        "/seed-images/devrana-mandir-winter.jpg",
+        "/seed-images/devrana-mela-crowd.jpg",
       ]);
 
       const camp = await prisma.place.findUniqueOrThrow({ where: { slug: "dhari-kalogi-basecamp" } });

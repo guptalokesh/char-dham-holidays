@@ -64,7 +64,7 @@ const CHAR_DHAM: YatraContent = {
   slug: "char-dham",
   name: "Char Dham Yatra by Helicopter",
   order: 1,
-  price: 21000,
+  price: 210000,
   dhamChoice: false,
   tagline: "Yamunotri, Gangotri, Kedarnath and Badrinath by helicopter",
   routeOverview:
