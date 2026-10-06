@@ -23,8 +23,8 @@ export function NavLinks({ links, onNavigate }: { links: NavLink[]; onNavigate?:
         const tone = link.accent
           ? "bg-amber-500 text-stone-950 hover:bg-amber-400"
           : isCurrent
-            ? "bg-stone-900 text-white"
-            : "text-stone-700 hover:bg-stone-200/70 hover:text-stone-950";
+            ? "bg-white text-red-950"
+            : "text-white/90 hover:bg-white/15 hover:text-white";
         return (
           <Link
             key={link.href}
@@ -32,7 +32,7 @@ export function NavLinks({ links, onNavigate }: { links: NavLink[]; onNavigate?:
             onClick={onNavigate}
             aria-current={isCurrent ? "page" : undefined}
             className={`rounded-full px-3.5 py-1.5 text-sm font-medium transition-colors ${tone} ${
-              link.accent && isCurrent ? "ring-2 ring-stone-900" : ""
+              link.accent && isCurrent ? "ring-2 ring-white" : ""
             }`}
           >
             {link.label}

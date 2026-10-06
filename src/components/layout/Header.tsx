@@ -21,9 +21,9 @@ const PRIMARY_CTA_LABEL = "Check Availability";
 
 export function Header({ settings }: { settings: HeaderSettings }) {
   return (
-    <header className="sticky top-0 z-40 border-b-2 border-amber-500 bg-[#fdfbf7] shadow-sm">
+    <header className="sticky top-0 z-40 border-b-2 border-amber-400 bg-gradient-to-r from-red-950 via-red-900 to-red-950 shadow-md">
       <div className="relative mx-auto flex max-w-6xl items-center justify-between gap-4 px-6 py-3.5">
-        <Link href="/" className="flex items-center gap-2.5">
+        <Link href="/" className="flex items-center gap-2.5 rounded-lg bg-white px-2 py-0.5">
           {settings.logoMedia ? (
             <Image
               src={settings.logoMedia.url}
@@ -47,7 +47,7 @@ export function Header({ settings }: { settings: HeaderSettings }) {
         <div className="hidden 2xl:block">
           <Link
             href="/contact"
-            className="rounded-full bg-stone-900 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-all hover:bg-stone-800 hover:shadow-md"
+            className="rounded-full bg-amber-400 px-5 py-2.5 text-sm font-semibold text-stone-950 shadow-sm transition-all hover:bg-amber-300 hover:shadow-md"
           >
             {PRIMARY_CTA_LABEL}
           </Link>
