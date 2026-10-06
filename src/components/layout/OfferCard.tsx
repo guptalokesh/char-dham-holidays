@@ -28,17 +28,18 @@ export function OfferCard({
       </div>
 
       <p className="mt-3 text-stone-700">
-        Visit Yamunotri, Gangotri, Kedarnath and Badrinath by helicopter, with our team
-        looking after your stay and darshan.
+        Experience the sacred journey to Yamunotri, Gangotri, Kedarnath and Badrinath by
+        helicopter. Stay, meals, pick-up in Dehradun and help with darshan are included in
+        the Char Dham yatra.
       </p>
 
       <div className="mt-5 grid grid-cols-2 gap-3 text-center">
         <div className="rounded-xl bg-amber-50 p-3">
-          <p className="text-sm text-stone-600">Char Dham</p>
+          <p className="text-sm text-stone-600">Char Dham Yatra</p>
           <p className="mt-1 font-semibold text-amber-800">{formatPriceOrRequest(charDhamPrice)}</p>
         </div>
         <div className="rounded-xl bg-sky-50 p-3">
-          <p className="text-sm text-stone-600">Any Dham</p>
+          <p className="text-sm text-stone-600">Any Dham Yatra</p>
           <p className="mt-1 font-semibold text-sky-800">{formatPriceOrRequest(anyDhamPrice)}</p>
         </div>
       </div>

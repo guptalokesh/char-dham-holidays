@@ -30,9 +30,10 @@ describe("OfferPopup", () => {
     const dialog = screen.getByRole("dialog");
     expect(dialog).toHaveAttribute("aria-modal", "true");
     expect(dialog).toHaveTextContent(/April – June & September – October/);
-    expect(dialog).toHaveTextContent("Char Dham");
+    expect(dialog).toHaveTextContent(/pick-up in Dehradun/);
+    expect(dialog).toHaveTextContent("Char Dham Yatra");
     expect(dialog).toHaveTextContent("₹2,10,000");
-    expect(dialog).toHaveTextContent("Any Dham");
+    expect(dialog).toHaveTextContent("Any Dham Yatra");
     expect(dialog).toHaveTextContent("Price on request");
   });
 
